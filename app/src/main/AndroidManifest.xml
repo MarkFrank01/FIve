@@ -85,7 +85,7 @@
              android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         -->
 
-        <activity android:name=".mvp.BaseHomeActivity">
+        <activity android:name=".mvp.home.BaseHomeActivity">
         </activity>
     </application>
 

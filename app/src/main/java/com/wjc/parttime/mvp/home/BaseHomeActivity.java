@@ -1,13 +1,14 @@
-package com.wjc.parttime.mvp;
+package com.wjc.parttime.mvp.home;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.wjc.parttime.R;
-import com.wjc.parttime.account.login.LoginActivity;
+import com.wjc.parttime.util.ActivityUtils;
 import com.wjc.parttime.widget.rotate_button.OnRotateItemClickListener;
 import com.wjc.parttime.widget.rotate_button.RotateMenuItem;
 import com.wjc.parttime.widget.rotate_button.RotateMenuView;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 
 public class BaseHomeActivity extends AppCompatActivity {
 
+    private long exitTime = 0;
 
     @BindView(R.id.rotate_button)
     RotateMenuView mRotateMenuView;
@@ -76,4 +78,23 @@ public class BaseHomeActivity extends AppCompatActivity {
         Intent intent = new Intent(context, BaseHomeActivity.class);
         context.startActivity(intent);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
+                //判断2次点击事件的时间
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    Toast.makeText(BaseHomeActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    ActivityUtils.finishAll();
+                }
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

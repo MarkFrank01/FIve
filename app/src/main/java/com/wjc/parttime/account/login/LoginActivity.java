@@ -19,7 +19,7 @@ import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.account.reset.ResetStepOneActivity;
-import com.wjc.parttime.mvp.BaseHomeActivity;
+import com.wjc.parttime.mvp.home.BaseHomeActivity;
 import com.wjc.parttime.util.LogUtil;
 
 import org.litepal.crud.DataSupport;
