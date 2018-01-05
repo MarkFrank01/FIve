@@ -26,6 +26,8 @@ import com.wjc.parttime.bean.UsersBean;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -169,12 +171,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 Gson gson = new Gson();
 
                                 UsersBean user = gson.fromJson(s, UsersBean.class);
+                                LogUtil.e("orderuser", user+"");
                                 Boolean success = user.isSuccess();
                                 //注册成功
                                 if (success) {
                                     //保存数据库
                                     UserHelperDB person = new UserHelperDB();
-                                    person.setCreateTime(user.getResult().getUser().getCreateTime());
+                                    //String sdate=();
+                                    String ss=user.getResult().getUser().getcreateDate();
+                                    LogUtil.e("ordertime", ss+"");
+                                    person.setcreateDate(user.getResult().getUser().getcreateDate());
+                                  //  person.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").format(user.getResult().getUser().getCreateTime()));
                                     person.setToken(user.getResult().getToken());
                                     person.setUserId(user.getResult().getUser().getUserid());
                                     person.setTelePhone(user.getResult().getUser().getTelephone());

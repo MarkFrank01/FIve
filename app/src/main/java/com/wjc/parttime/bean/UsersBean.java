@@ -107,19 +107,19 @@ public class UsersBean {
              * studentid : 7
              */
 
-            private Date createTime;
+            private String createDate;
             private int userid;
             private String telephone;
             private String password;
             private int usertype;
             private int studentid;
 
-            public Date getCreateTime() {
-                return createTime;
+            public String getcreateDate() {
+                return createDate;
             }
 
-            public void setCreateTime(Date createTime) {
-                this.createTime = createTime;
+            public void setcreateDate(String createDate) {
+                this.createDate = createDate;
             }
 
             public int getUserid() {

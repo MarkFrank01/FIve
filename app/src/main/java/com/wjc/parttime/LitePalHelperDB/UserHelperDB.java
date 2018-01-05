@@ -12,7 +12,7 @@ public class UserHelperDB extends DataSupport {
 
 
 
-    private Date createTime;
+    private String createDate;
 
 
     private String telePhone;
@@ -32,12 +32,12 @@ public class UserHelperDB extends DataSupport {
 
     private int studentId;
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getcreateDate() {
+        return createDate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setcreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     public String getTelePhone() {
