@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/lay_login_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/bg_login"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/DIMEN_48PX">
+
+        <!--<include-->
+        <!--android:id="@+id/ly_retrieve_bar"-->
+        <!--layout="@layout/activity_main_login_navigation_bar" />-->
+
+        <ImageView
+            android:id="@+id/iv_login_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@null"
+            android:paddingTop="@dimen/DIMEN_144PX"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/five"/>
+
+        <LinearLayout
+            android:id="@+id/ll_login_username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_168PX"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_96PX"
+            android:background="@drawable/bg_login_input_ok"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_login_username_icon"
+                android:layout_width="@dimen/DIMEN_72PX"
+                android:layout_height="@dimen/DIMEN_72PX"
+                android:layout_marginLeft="@dimen/DIMEN_42PX"
+                android:layout_marginRight="@dimen/DIMEN_42PX"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_singup_mobile"/>
+
+            <EditText
+                android:id="@+id/et_login_username"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/DIMEN_48PX"
+                android:layout_marginRight="@dimen/DIMEN_48PX"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="15"
+                android:focusable="true"
+                android:hint="@string/register_phone_hint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="@dimen/DIMEN_12PX"
+                android:paddingRight="@dimen/DIMEN_12PX"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/app_hint_gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/text_size_48"/>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="@dimen/DIMEN_66PX"
+                android:background="@color/colorBlack"/>
+
+            <ImageView
+                android:id="@+id/iv_login_username_del"
+                android:layout_width="@dimen/DIMEN_60PX"
+                android:layout_height="@dimen/DIMEN_60PX"
+                android:layout_marginLeft="@dimen/DIMEN_48PX"
+                android:layout_marginRight="@dimen/DIMEN_48PX"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:srcCompat="@mipmap/ic_clear"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_login_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_168PX"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_48PX"
+            android:background="@drawable/bg_login_input_ok"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_login_pwd_icon"
+                android:layout_width="@dimen/DIMEN_72PX"
+                android:layout_height="@dimen/DIMEN_72PX"
+                android:layout_marginLeft="@dimen/DIMEN_42PX"
+                android:layout_marginRight="@dimen/DIMEN_42PX"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_login_password"/>
+
+            <View
+                android:visibility="gone"
+                android:layout_width="@dimen/DIMEN_1PX"
+                android:layout_height="@dimen/DIMEN_66PX"
+                android:background="@color/colorBlack"/>
+
+            <EditText
+                android:id="@+id/et_login_pwd"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/DIMEN_48PX"
+                android:layout_marginRight="@dimen/DIMEN_48PX"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/register_password_hint"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="@dimen/DIMEN_12PX"
+                android:paddingRight="@dimen/DIMEN_12PX"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/app_hint_gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/text_size_48"/>
+
+            <ImageView
+                android:id="@+id/iv_login_pwd_del"
+                android:layout_width="@dimen/DIMEN_60PX"
+                android:layout_height="@dimen/DIMEN_60PX"
+                android:layout_marginLeft="@dimen/DIMEN_48PX"
+                android:layout_marginRight="@dimen/DIMEN_48PX"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:srcCompat="@mipmap/ic_clear"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/bt_login_submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_144PX"
+            android:layout_marginLeft="@dimen/DIMEN_144PX"
+            android:layout_marginRight="@dimen/DIMEN_144PX"
+            android:layout_marginTop="@dimen/DIMEN_120PX"
+            android:background="@drawable/bg_login_submit"
+            android:elevation="0dp"
+            android:text="@string/login_submit"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_54"
+            tools:targetApi="lollipop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_90PX"
+            >
+
+            <TextView
+                android:id="@+id/tv_login_other_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/DIMEN_12PX"
+                android:paddingTop="@dimen/DIMEN_12PX"
+                android:text="@string/login_other_way"
+                android:textColor="@color/login_input_active"
+                android:textSize="@dimen/text_size_48"
+                tools:ignore="RtlSymmetry"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_144PX"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_30PX"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_login_wx"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/DIMEN_9PX"
+                android:layout_marginEnd="@dimen/DIMEN_72PX"
+                android:layout_marginTop="@dimen/DIMEN_6PX"
+                android:layout_weight="1"
+                android:background="@drawable/bg_login_register"
+                android:elevation="0dp"
+                android:text="@string/login_by_wx"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_54"
+                android:translationZ="0dp"
+                tools:targetApi="lollipop"/>
+
+            <Button
+                android:id="@+id/bt_login_xl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/DIMEN_9PX"
+                android:layout_marginStart="@dimen/DIMEN_72PX"
+                android:layout_marginTop="@dimen/DIMEN_9PX"
+                android:layout_weight="1"
+                android:background="@drawable/bg_login_register"
+                android:elevation="0dp"
+                android:text="@string/login_by_xl"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_54"
+                android:translationZ="0dp"
+                tools:targetApi="lollipop"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_3PX"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_90PX"
+            android:background="@color/app_line_gray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_30PX"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_login_no_account"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/DIMEN_9PX"
+                android:layout_marginLeft="@dimen/DIMEN_9PX"
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/login_no_account"
+                android:textColor="@color/login_input_active"
+                android:textSize="@dimen/text_size_48"
+                tools:ignore="RtlSymmetry"/>
+
+            <TextView
+                android:id="@+id/tv_login_forget_pwd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/DIMEN_9PX"
+                android:layout_marginRight="@dimen/DIMEN_9PX"
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="@string/login_forget_pwd"
+                android:textColor="@color/login_input_active"
+                android:textSize="@dimen/text_size_48"
+                tools:ignore="RtlSymmetry"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

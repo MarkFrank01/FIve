@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorHalfTransparent">#3f000000</color>
+
+    <color name="colorTextNormal">#292929</color>
+    <color name="colorTextGary">#999999</color>
+    <color name="colorBackground">#f0f0f0</color>
+    <color name="colorDialogNormal">#0079FF</color>
+    <color name="colorDialogDeep">#FF4744</color>
+
+    <color name="windowBackground">@android:color/white</color>
+
+    <!--分割线-->
+    <color name="colorDividedLine">#FFE0E0E0</color>
+
+    <color name="colorImageDefault">#dddddd</color>
+
+    <color name="transparent_black">#33000000</color>
+
+    <!--GuidePage底部指示是否选中 -->
+    <color name="indicator_selected">@android:color/white</color>
+    <color name="indicator_unselected">#4D000000</color>
+
+
+    <!-- 新版登录模块-->
+    <color name="login_line_color">#dededf</color>
+    <color name="login_input_active">#CC00fff9</color>
+    <color name="login_other_color">#cacaca</color>
+    <color name="account_input_bg_color">#33ffffff</color>
+    <color name="account_lock_bg">#ff43815c</color>
+    <color name="account_lock_font_color">#FF68997C</color>
+    <color name="account_input_color">#c9c9c9</color>
+    <color name="account_pressed_true">#CC00fff9</color>
+
+    <color name="bg_press">#ebebeb</color>
+    <color name="bg_press_material">#d4d4d4</color>
+
+    <color name="list_item_background_pressed">#FCFCFC</color>
+
+    <color name="black_alpha_128">#80000000</color>
+    <color name="white_alpha_128">#80FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="green">#47ff00</color>
+
+    <!--全局黄色主色调-->
+    <color name="app_main_yellow">#FCE13C</color>
+    <!--全局背景颜色-->
+    <color name="app_main_background">#F2F2F2</color>
+    <!--全局editText hint字体颜色-->
+    <color name="app_hint_gray">#CCCCCC</color>
+    <!--全局蓝色字体-->
+    <color name="app_text_blue">#0066FF</color>
+    <!--全局线条颜色-->
+    <color name="app_line_gray">#F2F2F2</color>
+
+</resources>
