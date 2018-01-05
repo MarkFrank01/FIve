@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"/>
+
+    <include
+        android:id="@+id/buttonLayout"
+        layout="@layout/layout_main_bottom"/>
+
+    <com.wjc.parttime.widget.rotate_button.RotateMenuView
+        android:id="@+id/rotate_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/buttonLayout"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="6dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:back_ground_color="@color/transparent"
+        app:center_add_src="@drawable/grounding"
+        app:center_rotate="225"
+        app:horizontal_margin="30dp"
+        app:item_rotate="360"
+        app:vertical_margin="50dp"/>
+
+</android.support.design.widget.CoordinatorLayout>

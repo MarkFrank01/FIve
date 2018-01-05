@@ -1,106 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-    android:layout_height="64dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="64dp"
+    android:layout_gravity="bottom">
 
     <LinearLayout
-        android:background="@color/colorWhite"
         android:id="@+id/buttonLayout"
-        android:layout_alignParentBottom="true"
-        android:layout_height="46dp"
         android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:gravity="center"
             android:id="@+id/home"
-            android:layout_gravity="bottom"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:onClick="onClick"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/selector_home"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center"
             android:id="@+id/find"
-            android:layout_gravity="bottom"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:onClick="onClick"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/selector_find"/>
 
         </LinearLayout>
 
         <View
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_width="match_parent"/>
+            android:layout_weight="1"/>
 
         <LinearLayout
-            android:gravity="center"
             android:id="@+id/message"
-            android:layout_gravity="bottom"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:onClick="onClick"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/selector_message"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center"
             android:id="@+id/mine"
-            android:layout_gravity="bottom"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:onClick="onClick"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/selector_mine"/>
         </LinearLayout>
     </LinearLayout>
 
     <View
-        android:background="@drawable/shape_line_shadow"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="18dp"
-        android:layout_width="match_parent"/>
+        android:background="@drawable/shape_line_shadow"/>
 
-    <ImageView
-        android:id="@+id/plus"
-        android:layout_alignBottom="@+id/buttonLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:onClick="onClick"
-        android:paddingBottom="6dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:src="@drawable/comui_tab_post"/>
 </RelativeLayout>

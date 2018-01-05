@@ -19,6 +19,7 @@ import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.account.reset.ResetStepOneActivity;
+import com.wjc.parttime.mvp.BaseHomeActivity;
 import com.wjc.parttime.util.LogUtil;
 
 import org.litepal.crud.DataSupport;
@@ -82,6 +83,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.bt_login_submit:
                 //登录
+                //暂时未做处理
+                BaseHomeActivity.show(LoginActivity.this);
                 break;
 
             case R.id.et_login_username:
