@@ -51,6 +51,11 @@
     <color name="white">#FFFFFF</color>
     <color name="green">#47ff00</color>
 
+    <!--BaseHome底部颜色-->
+    <color name="color9">#999999</color>
+    <color name="color2473">#f2473d</color>
+    <color name="colorPet">#f2473d</color>
+
     <!--全局黄色主色调-->
     <color name="app_main_yellow">#FCE13C</color>
     <!--全局背景颜色-->

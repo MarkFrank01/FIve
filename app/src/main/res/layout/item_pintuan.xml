@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="101dp"
+    android:layout_height="157dp"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/item_img"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/item_descript"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="13dp"
+        android:text="【天然健康膳\n食狗粮，提升..."/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp">
+
+        <TextView
+            android:id="@+id/item_mutchOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:text="￥39.9"
+            android:textColor="@color/colorPet"
+            android:textSize="9dp"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:id="@+id/item_mutchTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥99"
+                android:textColor="#989898"
+                android:textSize="9dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:background="#999999"/>
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+
