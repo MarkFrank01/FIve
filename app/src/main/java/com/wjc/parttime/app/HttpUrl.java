@@ -12,6 +12,8 @@ public class HttpUrl {
 
     public final static String REGISTER_URL = BASE_URL + "common/register";
 
-    public final static String Login_URL = BASE_URL + "common/getTokenLogin";
+    public final static String AUTO_LOGIN_URL = BASE_URL + "common/autoLoginByToken";
+
+    public final static String LOGIN_URL = BASE_URL + "common/getTokenLogin";
 
 }

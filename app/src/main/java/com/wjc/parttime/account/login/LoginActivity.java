@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     map.put("password", AESCoder.encryptAES_ECB(userPassWord));
                     map.put("clientType", HttpUrl.CLIENT_TYPE);
                     String json = new Gson().toJson(map);
-                    OkHttpUtils.post(HttpUrl.Login_URL)
+                    OkHttpUtils.post(HttpUrl.LOGIN_URL)
                             .tag(this)
                             .upJson(json)
                             .execute(new StringCallback() {
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Boolean success = user.isSuccess();
                                     //注册成功
                                     if (success) {
-                                        List<UserHelperDB> userList = DataSupport.where("telePhone = ?", "userName").find(UserHelperDB.class);
+                                        List<UserHelperDB> userList = DataSupport.where("telePhone = ?", userName).find(UserHelperDB.class);
                                         if (userList == null) {
                                             //保存用户表数据库
                                             LogUtil.e("LoginActivity", "保存数据库");

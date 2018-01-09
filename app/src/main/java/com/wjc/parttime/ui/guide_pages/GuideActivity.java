@@ -6,21 +6,41 @@ package com.wjc.parttime.ui.guide_pages;
  */
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
+import com.lzy.okhttputils.request.BaseRequest;
+import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
+import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.account.login.LoginActivity;
 import com.wjc.parttime.R;
+import com.wjc.parttime.app.HttpUrl;
+import com.wjc.parttime.bean.RegisterUsersBean;
+import com.wjc.parttime.util.AESCoder;
+import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
 import com.wjc.parttime.util.NetworkUtil;
 import com.wjc.parttime.widget.SplashView;
 
+import org.litepal.crud.DataSupport;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bingoogolapple.bgabanner.BGABanner;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class GuideActivity extends Activity {
     private static final String TAG = GuideActivity.class.getSimpleName();
@@ -30,6 +50,8 @@ public class GuideActivity extends Activity {
     BGABanner mForegroundBanner;
 
     private SharedPreferences preferences;
+
+    private Boolean isAutoLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +71,9 @@ public class GuideActivity extends Activity {
         Boolean firstOpen = preferences.getBoolean("firstOpen", false);
         if (firstOpen) {
             showSplashView();
+            //自动登录请求
+            autoLogin();
+
         } else {
             processLogic();
         }
@@ -90,9 +115,12 @@ public class GuideActivity extends Activity {
             @Override
             public void onSplashViewDismiss(boolean initiativeDismiss) {
                 LogUtil.e("SplashView", "dismissed, initiativeDismiss: " + initiativeDismiss);
-                startActivity(new Intent(GuideActivity.this, LoginActivity.class));
-                GuideActivity.this.overridePendingTransition(R.anim.main_fade_in, R.anim.main_fade_out);
-                finish();
+                if (isAutoLogin) {
+                    LogUtil.e("GuideActivity", "自动登录 ");
+                } else {
+                    finishGuide(LoginActivity.class);
+                }
+
             }
         });
 
@@ -107,6 +135,71 @@ public class GuideActivity extends Activity {
         mBackgroundBanner.setData(R.mipmap.uoko_guide_background_1, R.mipmap.uoko_guide_background_2, R.mipmap.uoko_guide_background_3);
 
         mForegroundBanner.setData(R.mipmap.uoko_guide_foreground_1, R.mipmap.uoko_guide_foreground_2, R.mipmap.uoko_guide_foreground_3);
+    }
+
+    /*
+    * 数据库登录表中没有数据禁止自动登录，有数据请求后台校验
+    * */
+    private void autoLogin() {
+        LoginHelperDB userDB = DataSupport.findFirst(LoginHelperDB.class);
+        if (userDB != null) {
+            String token = userDB.getToken();
+            AutoLogin(token);
+        } else {
+            isAutoLogin = false;
+        }
+    }
+
+    /*
+    * 请求后台校验token
+    *
+    * */
+    private void AutoLogin(String token) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("tokenID", token);
+        map.put("clientType", HttpUrl.CLIENT_TYPE);
+        String json = new Gson().toJson(map);
+        OkHttpUtils.post(HttpUrl.AUTO_LOGIN_URL)
+                .tag(this)
+                .upJson(json)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        LogUtil.e("GuideActivity", s);
+
+                        Gson gson = new Gson();
+                        RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
+                        Boolean success = user.isSuccess();
+                        if (success) {
+                            isAutoLogin = true;
+                        } else {
+                            isAutoLogin = false;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        isAutoLogin = false;
+                    }
+
+                    @Override
+                    public void onAfter(@Nullable String s, @Nullable Exception e) {
+                    }
+                });
+
+    }
+
+    private void finishGuide(Class newClass) {
+        startActivity(new Intent(GuideActivity.this, newClass));
+        GuideActivity.this.overridePendingTransition(R.anim.main_fade_in, R.anim.main_fade_out);
+        finish();
+
     }
 
     @Override
