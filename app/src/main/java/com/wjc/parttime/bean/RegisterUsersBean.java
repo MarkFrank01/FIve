@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by y_hui on 2018/1/4.
  */
 
-public class UsersBean {
+public class RegisterUsersBean {
 
 
     /**

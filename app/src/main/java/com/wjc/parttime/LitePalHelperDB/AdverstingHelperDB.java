@@ -3,6 +3,7 @@ package com.wjc.parttime.LitePalHelperDB;
 import org.litepal.crud.DataSupport;
 
 /**
+ * 广告表
  * Created by y_hui on 2018/1/3.
  */
 

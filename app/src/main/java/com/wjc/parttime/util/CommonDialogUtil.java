@@ -48,6 +48,14 @@ public class CommonDialogUtil extends Dialog implements View.OnClickListener {
             this.listener = listener;
         }
 
+    public CommonDialogUtil(Context context, int themeResId, String content,String positiveName, OnListener listener) {
+        super(context, themeResId);
+        this.mContext = context;
+        this.content = content;
+        this.positiveName=positiveName;
+        this.listener = listener;
+    }
+
         protected CommonDialogUtil(Context context, boolean cancelable, OnCancelListener cancelListener) {
             super(context, cancelable, cancelListener);
             this.mContext = context;
@@ -91,6 +99,8 @@ public class CommonDialogUtil extends Dialog implements View.OnClickListener {
 
             if(!TextUtils.isEmpty(negativeName)){
                 cancelTxt.setText(negativeName);
+            }else{
+                cancelTxt.setVisibility(View.GONE);
             }
 
             if(!TextUtils.isEmpty(title)){

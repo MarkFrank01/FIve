@@ -19,16 +19,17 @@ import java.io.IOException;
 
 public class App extends LitePalApplication {
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         OKGOinit();
 
-
-
         //ShareSDK初始化
         MobSDK.init(this);
 
+        //LitePal数据库创建
         SQLiteDatabase db = Connector.getDatabase();
 
     }

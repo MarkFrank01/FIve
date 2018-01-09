@@ -52,6 +52,13 @@ dependencies {
     compile 'com.lzy.net:okhttpserver:+' //版本号使用 + 可以自动引用最新版
     //数据库
     compile 'org.litepal.android:core:1.5.0'
+
+    //eventbus 总线库
+    compile 'org.greenrobot:eventbus:3.1.1'
+    //json 解析库
+    compile 'com.alibaba:fastjson:1.1.55.android'
+
+
 }
 /*ShareSDK接入平台账号*/
 MobSDK {

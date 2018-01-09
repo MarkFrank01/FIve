@@ -2,29 +2,42 @@ package com.wjc.parttime.account.login;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
+import com.lzy.okhttputils.request.BaseRequest;
 import com.mob.tools.utils.UIHandler;
+import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.account.reset.ResetStepOneActivity;
+import com.wjc.parttime.app.HttpUrl;
+import com.wjc.parttime.bean.RegisterUsersBean;
+import com.wjc.parttime.util.AESCoder;
+import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +49,12 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
+import okhttp3.Call;
+import okhttp3.Response;
 
 import static android.R.attr.action;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, PlatformActionListener, Handler.Callback{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, PlatformActionListener, Handler.Callback {
 
     @BindView(R.id.et_login_username)
     EditText mLoginUsername;
@@ -51,27 +66,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog progressDialog;
     private static final int MSG_ACTION_CCALLBACK = 0;
 
+    CommonDialogUtil dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-       // showSplashView();
-
-        List<UserHelperDB> user= DataSupport.findAll(UserHelperDB.class);
-        for (UserHelperDB userHelperDB :user){
-            LogUtil.e("Login",userHelperDB.getUserId()+"");
-        }
+        // showSplashView();
 
     }
 
     @Override
-    public boolean onKeyDown(int keyCode,KeyEvent event){
-      //  if(keyCode== KeyEvent.KEYCODE_BACK){
-            return false;//不执行父类点击事件
-    //    }
-       // return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //  if(keyCode== KeyEvent.KEYCODE_BACK){
+        return false;//不执行父类点击事件
+        //    }
+        // return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
     }
 
 
@@ -82,6 +94,93 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.bt_login_submit:
                 //登录
+                final String userName = mLoginUsername.getText().toString().trim();
+                final String userPassWord = mLoginPassword.getText().toString().trim();
+                if (TextUtils.isEmpty(userName)) {
+                    Toast.makeText(LoginActivity.this, R.string.input_username, Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(userPassWord)) {
+                    Toast.makeText(LoginActivity.this, R.string.input_password, Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("telephone", userName);
+                    map.put("password", AESCoder.encryptAES_ECB(userPassWord));
+                    map.put("clientType", HttpUrl.CLIENT_TYPE);
+                    String json = new Gson().toJson(map);
+                    OkHttpUtils.post(HttpUrl.Login_URL)
+                            .tag(this)
+                            .upJson(json)
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onBefore(BaseRequest request) {
+
+                                }
+
+                                @Override
+                                public void onSuccess(String s, Call call, Response response) {
+                                    LogUtil.e("LoginActivity", s);
+
+                                    Gson gson = new Gson();
+                                    RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
+                                    Boolean success = user.isSuccess();
+                                    //注册成功
+                                    if (success) {
+                                        List<UserHelperDB> userList = DataSupport.where("telePhone = ?", "userName").find(UserHelperDB.class);
+                                        if (userList == null) {
+                                            //保存用户表数据库
+                                            LogUtil.e("LoginActivity", "保存数据库");
+                                            UserHelperDB person = new UserHelperDB();
+                                            person.setcreateDate(user.getResult().getUser().getcreateDate());
+                                            person.setToken(user.getResult().getToken());
+                                            person.setUserId(user.getResult().getUser().getUserid());
+                                            person.setTelePhone(user.getResult().getUser().getTelephone());
+                                            person.setPassWord(user.getResult().getUser().getPassword());
+                                            person.setUserType(user.getResult().getUser().getUsertype());
+                                            person.setStudentId(user.getResult().getUser().getStudentid());
+                                            person.save();
+                                        } else {
+                                            //更新用户表数据库
+                                            LogUtil.e("LoginActivity", "更新数据库");
+                                            ContentValues values = new ContentValues();
+                                            values.put("token", user.getResult().getToken());
+                                            DataSupport.updateAll(UserHelperDB.class, values, "telePhone = ?", userName);
+                                        }
+                                        //删除用户登录表
+                                        DataSupport.deleteAll(LoginHelperDB.class);
+                                        LoginHelperDB loginHelperDB = new LoginHelperDB();
+                                        loginHelperDB.setUserName(user.getResult().getUser().getTelephone());
+                                        loginHelperDB.setToken(user.getResult().getToken());
+                                        loginHelperDB.save();
+                                        LogUtil.e("LoginActivity", "登录成功");
+
+                                    } else {
+                                        String errorMessage = user.getErrorMessage();
+                                        //登录失败
+                                        dialog = new CommonDialogUtil(LoginActivity.this, R.style.dialog, errorMessage, "确定", new CommonDialogUtil.OnListener() {
+                                            @Override
+                                            public void onCancelclick() {
+                                            }
+
+                                            @Override
+                                            public void onConfirmClick() {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        dialog.show();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Call call, Response response, Exception e) {
+                                    super.onError(call, response, e);
+                                }
+
+                                @Override
+                                public void onAfter(@Nullable String s, @Nullable Exception e) {
+                                }
+                            });
+                }
+
+
                 break;
 
             case R.id.et_login_username:
@@ -263,7 +362,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //隐藏dialog
     public void hideProgressDialog() {
-        if (progressDialog != null){
+        if (progressDialog != null) {
             progressDialog.dismiss();
         }
 

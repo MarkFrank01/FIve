@@ -5,6 +5,7 @@ import org.litepal.crud.DataSupport;
 import java.util.Date;
 
 /**
+ * 用户表
  * Created by y_hui on 2018/1/4.
  */
 
