@@ -1,37 +1,58 @@
 package com.wjc.parttime.ui.guide_pages;
 
 /**
+ * 引导页及广告页
  * Created by WJC on 2017/12/24 16:17
  * Describe : TODO
  */
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
 import com.lzy.okhttputils.request.BaseRequest;
+import com.mukesh.permissions.AppPermissions;
+import com.wjc.parttime.LitePalHelperDB.AdverstingHelperDB;
 import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.account.login.LoginActivity;
 import com.wjc.parttime.R;
+import com.wjc.parttime.account.reset.ResetStepTwoActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.bean.RegisterUsersBean;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
+import com.wjc.parttime.util.GoToMarketUtil;
 import com.wjc.parttime.util.LogUtil;
 import com.wjc.parttime.util.NetworkUtil;
+import com.wjc.parttime.util.VersionMessageUtils;
 import com.wjc.parttime.widget.SplashView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +72,18 @@ public class GuideActivity extends Activity {
 
     private SharedPreferences preferences;
 
-    private Boolean isAutoLogin = false;
+    private Boolean success=false;//返回结果是否成功
+
+    private Boolean isAutoLogin = false; //是否自动登录临时数据
+
+    ArrayList<AdverstingHelperDB> adList = new ArrayList(); //广告列表临时数据
+
+    private CommonDialogUtil dialog;
+
+    String[] allPermissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+    public static final int READ_EXTERNAL_STORAGES = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +95,110 @@ public class GuideActivity extends Activity {
 
     }
 
+    private void checkVersion(){
+
+        OkHttpUtils.post(HttpUrl.RESET_PASSWD_URL)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        LogUtil.e("RegisterActivity", s);
+                        JSONObject mObj = null;
+                        try {
+                            mObj = new JSONObject(s);
+                            success = mObj.optBoolean("success");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        //重置密码成功
+                        if (success) {
+                            dialog = new CommonDialogUtil(GuideActivity.this, R.style.dialog, "密码重置成功！", "重新登录", "确定", new CommonDialogUtil.OnListener() {
+                                @Override
+                                public void onCancelclick() {
+                                    LoginActivity.show(GuideActivity.this);
+                                    dialog.dismiss();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onConfirmClick() {
+                                    LoginActivity.show(GuideActivity.this);
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            dialog.show();
+                        } else {
+                            //检测版本失败，直接进入广告
+                            init();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                    }
+
+                    @Override
+                    public void onAfter(@Nullable String s, @Nullable Exception e) {
+                    }
+                });
+    }
+
+    private void update(long version,Boolean isMust){
+
+       int currentVersion= VersionMessageUtils.getVersionCode(GuideActivity.this);
+       String confirm="";
+        String cancel="";
+        String message="";
+
+        if (currentVersion==version){
+            //没有版本更新，直接进入广告
+            init();
+        }else{
+            if (currentVersion > version){
+                message="检测到新的软件版本";
+                if (isMust){
+                    cancel="";
+                    confirm="去升级";
+                }else {
+                    confirm="去升级";
+                    cancel="取消";
+                }
+            }else{
+                confirm="确定";
+                message="版本出错";
+            }
+        }
+
+        final String finalConfirm = confirm;
+        dialog = new CommonDialogUtil(GuideActivity.this, R.style.dialog, message, confirm, cancel, new CommonDialogUtil.OnListener() {
+            @Override
+            public void onCancelclick() {
+                if ("确定".equals(finalConfirm)){
+                    init();
+                }else if ("去升级".equals(finalConfirm)){
+                    //跳转到应用市场，跳转应用宝
+                    GoToMarketUtil.goToMarket(GuideActivity.this,getPackageName());
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onConfirmClick() {
+                //不更新，直接进入广告
+                init();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
     /*
     * 检测是否是第一次打开，如果是第一次false则到引导页，否则true到显示广告
     * */
@@ -70,12 +206,86 @@ public class GuideActivity extends Activity {
         preferences = getSharedPreferences("CreateApp", Context.MODE_PRIVATE);
         Boolean firstOpen = preferences.getBoolean("firstOpen", false);
         if (firstOpen) {
-            showSplashView();
+            adverstingSelect();
             //自动登录请求
             autoLogin();
-
         } else {
+            //跳转引导页
             processLogic();
+        }
+    }
+
+    private void adverstingSelect() {
+        int numDisplay = 0;
+
+        List<AdverstingHelperDB> ads = DataSupport.findAll(AdverstingHelperDB.class);
+        if (ads.size() > 0) {
+            for (int i = 0; i < ads.size(); i++) {
+                AdverstingHelperDB adverstingHelper = new AdverstingHelperDB();
+                adverstingHelper.setStartTime(ads.get(i).getStartTime());
+                adverstingHelper.setEndTime(ads.get(i).getEndTime());
+                adverstingHelper.setAdType(ads.get(i).getAdType());
+                adverstingHelper.setDisplayType(ads.get(i).getDisplayType());
+                adverstingHelper.setAdUrl(ads.get(i).getAdUrl());
+                adverstingHelper.setActionUrl(ads.get(i).getActionUrl());
+                adList.add(adverstingHelper);
+            }
+            AppPermissions runtimePermission = new AppPermissions(this);
+            if (!runtimePermission.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                runtimePermission.requestPermission(allPermissions, READ_EXTERNAL_STORAGES);
+                return;
+            } else {
+                //获取当前系统时间
+                Date currentDate = new Date();
+                //定义时间的格式
+                DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+                String currentTime = fmt.format(currentDate);
+
+                SharedPreferences preferences = getSharedPreferences("adHoliday", Context.MODE_PRIVATE);
+                Boolean holidayDisplay = preferences.getBoolean("holidayDisplay", false);
+                String holidaytime = preferences.getString("holidaytime", currentTime);
+
+                if (adList.size() == 1) {
+                    numDisplay = 0;
+                } else if (adList.size() == 2 && !inTime(holidaytime, holidaytime)) {
+                    //类型为H且时间不是今天
+                    LogUtil.e("adversiting", "方法1");
+                    numDisplay = selectAdNumber("H", adList);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("holidayDisplay", true);
+                    editor.putString("holidaytime", currentTime);
+                    editor.commit();
+                } else if (adList.size() == 2 && inTime(holidaytime, holidaytime) && !holidayDisplay) {
+                    LogUtil.e("adversiting", "方法2");
+                    numDisplay = selectAdNumber("H", adList);
+                    SharedPreferences.Editor editor1 = preferences.edit();
+                    editor1.putBoolean("holidayDisplay", true);
+                    editor1.putString("holidaytime", currentTime);
+                    editor1.commit();
+                } else {
+                    LogUtil.e("adversiting", "方法3");
+                    numDisplay = selectAdNumber("A", adList);
+                }
+                final String actUrl = adList.get(numDisplay).getActionUrl();
+               // String imgPath = adList.get(numDisplay).getPath();
+              //  Boolean isiImgExist = SplashView.isFileExist(imgPath);
+                String beginTime = adList.get(numDisplay).getStartTime();
+                String endTime = adList.get(numDisplay).getEndTime();
+                String type = adList.get(numDisplay).getAdType();
+                String actionUrl=adList.get(numDisplay).getActionUrl();
+                //文件是否存在
+               // if (isiImgExist && inTime(beginTime, endTime)) {
+                if (inTime(beginTime, endTime)) {
+                    showSplashView(actUrl,actionUrl);
+                } else {
+                    LogUtil.e("adversitingFile:", "文件不存在");
+                    finish();
+                }
+            }
+        } else {
+            //没有读取权限
+           // SplashView.updateSplashData(this, "http://ww2.sinaimg.cn/large/72f96cbagw1f5mxjtl6htj20g00sg0vn.jpg", "http://bbc.com");
+            SplashView.updateSplashData(this, adList.get(numDisplay).getAdUrl(), adList.get(numDisplay).getActionUrl());
         }
     }
 
@@ -94,7 +304,8 @@ public class GuideActivity extends Activity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("firstOpen", true);
                 editor.commit();
-                showSplashView();
+                //进入广告
+                adverstingSelect();
             }
         });
     }
@@ -103,13 +314,13 @@ public class GuideActivity extends Activity {
     /**
      * show the SplashView
      */
-    private void showSplashView() {
+    private void showSplashView(String url,String actionUrl) {
         // call after setContentView(R.layout.activity_login);
         SplashView.showSplashView(this, 3, R.mipmap.five, new SplashView.OnSplashViewActionListener() {
             @Override
             public void onSplashImageClick(String actionUrl) {
                 LogUtil.e("SplashView", "img clicked. actionUrl: " + actionUrl);
-                Toast.makeText(GuideActivity.this, "img clicked.", Toast.LENGTH_SHORT).show();
+              //跳转商家广告
             }
 
             @Override
@@ -117,6 +328,10 @@ public class GuideActivity extends Activity {
                 LogUtil.e("SplashView", "dismissed, initiativeDismiss: " + initiativeDismiss);
                 if (isAutoLogin) {
                     LogUtil.e("GuideActivity", "自动登录 ");
+                    //跳转主页面
+
+
+
                 } else {
                     finishGuide(LoginActivity.class);
                 }
@@ -126,7 +341,7 @@ public class GuideActivity extends Activity {
 
         if (NetworkUtil.networkConnected(this)) {
             // call this method anywhere to update splash view data
-            SplashView.updateSplashData(this, "http://ww2.sinaimg.cn/large/72f96cbagw1f5mxjtl6htj20g00sg0vn.jpg", "http://bbc.com");
+            SplashView.updateSplashData(this, url, actionUrl);
         }
     }
 
@@ -199,6 +414,66 @@ public class GuideActivity extends Activity {
         GuideActivity.this.overridePendingTransition(R.anim.main_fade_in, R.anim.main_fade_out);
         finish();
 
+    }
+
+    /**
+     * @param begintime:开始时间
+     * @param endtime:结束时间
+     * @function:判断当前时间是否处于特定的时间内
+     * @return:当前时间是否处于特定的时间内，true为处于
+     */
+    public static Boolean inTime(String begintime, String endtime) {
+        if (TextUtils.isEmpty(begintime) || TextUtils.isEmpty(endtime)) {
+            return false;
+        } else {
+            //结束时间加一天
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_MONTH, 1);
+            //获取当前系统时间
+            Date currentTime = new Date();
+            //定义时间的格式
+            DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+            //起始时间
+            Date strBeginDate = null;
+            //结束时间
+            Date strEndDate = null;
+            //结束时间加一天
+            Date strEndDates = null;
+            try {
+                //将时间转化成相同格式的Date类型
+                strBeginDate = fmt.parse(begintime);
+                strEndDate = fmt.parse(endtime);
+                c.setTime(strEndDate);
+                c.add(Calendar.DAY_OF_MONTH, 1);
+                String endtimes = fmt.format(c.getTime());
+                strEndDates = fmt.parse(endtimes);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            LogUtil.e("adversitingFile:", "当前时间戳:" + currentTime.getTime());
+            LogUtil.e("adversitingFile:", "开始时间戳:" + strBeginDate.getTime());
+            LogUtil.e("adversitingFile:", "结束时间戳:" + strEndDates.getTime());
+            //使用getTime方法把时间转化成毫秒数,然后进行比较
+            if ((currentTime.getTime() >= strBeginDate.getTime()) && (strEndDates.getTime() >= currentTime.getTime())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /*
+    * 广告返回类型为A或者为H时的当前序列位置
+    * */
+    private int selectAdNumber(String ad, ArrayList<AdverstingHelperDB> list) {
+        int num = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (ad.equals(list.get(i).getAdType())) {
+                LogUtil.e("adversitingFile", i + list.get(i).getAdType());
+                num = i;
+            }
+        }
+        return num;
     }
 
     @Override

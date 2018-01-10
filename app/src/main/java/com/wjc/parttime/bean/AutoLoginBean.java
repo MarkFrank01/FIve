@@ -1,6 +1,7 @@
 package com.wjc.parttime.bean;
 
 /**
+ * 自动登录Bean
  * Created by y_hui on 2018-01-09.
  */
 

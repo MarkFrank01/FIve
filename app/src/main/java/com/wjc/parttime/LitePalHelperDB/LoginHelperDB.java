@@ -3,7 +3,7 @@ package com.wjc.parttime.LitePalHelperDB;
 import org.litepal.crud.DataSupport;
 
 /**
- * 用户当前登录表
+ * 当前登录用户表
  * Created by y_hui on 2018/1/8.
  */
 

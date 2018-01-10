@@ -26,7 +26,6 @@ import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
-import com.wjc.parttime.account.reset.ResetStepOneActivity;
 import com.wjc.parttime.account.reset.ResetStepTwoActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.bean.RegisterUsersBean;
@@ -54,6 +53,11 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 import static android.R.attr.action;
+/**
+ * 账号登录
+ * Created by WJC on 2017/12/22 11:03
+ * Describe : TODO
+ */
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, PlatformActionListener, Handler.Callback {
 

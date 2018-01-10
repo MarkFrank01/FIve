@@ -16,20 +16,15 @@ import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
 import com.lzy.okhttputils.request.BaseRequest;
-import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
-import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.login.LoginActivity;
-import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.app.HttpUrl;
-import com.wjc.parttime.bean.RegisterUsersBean;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +36,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 /**
+ * 重置密码
  * Created by WJC on 2017/12/30 11:17
  * Describe : TODO
  */

@@ -10,31 +10,18 @@ import org.litepal.crud.DataSupport;
 public class AdverstingHelperDB extends DataSupport {
 
 
-    private String imgUrl;
-
-    private String Type;
-
+    //开始时间
     private String startTime;
-
+    //结束时间
     private String endTime;
-
-    private String AdverstingUrl;
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public String getType() {
-        return Type;
-    }
-
-    public void setType(String type) {
-        Type = type;
-    }
+    //广告类型：A或H;   A代表正常商家广告，H代表节假日广告
+    private String adType;
+    //广告展示类型：P或V;  P代表图片，H代表视频
+    private String displayType;
+    //展示的图片或者视频链接
+    private String adUrl;
+    //跳转商家地址链接
+    private String actionUrl;
 
     public String getStartTime() {
         return startTime;
@@ -52,11 +39,35 @@ public class AdverstingHelperDB extends DataSupport {
         this.endTime = endTime;
     }
 
-    public String getAdverstingUrl() {
-        return AdverstingUrl;
+    public String getAdType() {
+        return adType;
     }
 
-    public void setAdverstingUrl(String adverstingUrl) {
-        AdverstingUrl = adverstingUrl;
+    public void setAdType(String adType) {
+        this.adType = adType;
+    }
+
+    public String getDisplayType() {
+        return displayType;
+    }
+
+    public void setDisplayType(String displayType) {
+        this.displayType = displayType;
+    }
+
+    public String getAdUrl() {
+        return adUrl;
+    }
+
+    public void setAdUrl(String adUrl) {
+        this.adUrl = adUrl;
+    }
+
+    public String getActionUrl() {
+        return actionUrl;
+    }
+
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl;
     }
 }

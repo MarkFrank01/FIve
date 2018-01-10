@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.wjc.parttime.R;
 
 /**
- * 仿IOS风格dialog
+ * 仿IOS风格dialog工具类
  * Created by y_hui on 2018/1/4.
  */
 

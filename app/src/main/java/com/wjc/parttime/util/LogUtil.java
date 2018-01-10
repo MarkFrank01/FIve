@@ -3,6 +3,7 @@ package com.wjc.parttime.util;
 import android.util.Log;
 
 /**
+ * Log工具类
  * Created by WJC on 2017/12/24 16:17
  * Describe : TODO
  */

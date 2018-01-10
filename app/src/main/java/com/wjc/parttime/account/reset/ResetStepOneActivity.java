@@ -13,6 +13,7 @@ import com.wjc.parttime.R;
 import butterknife.BindView;
 
 /**
+ * 短信验证
  * Created by WJC on 2017/12/30 11:16
  * Describe : TODO
  */

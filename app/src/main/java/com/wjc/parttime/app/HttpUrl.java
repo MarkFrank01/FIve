@@ -1,6 +1,7 @@
 package com.wjc.parttime.app;
 
 /**
+ * Http请求地址
  * Created by y_hui on 2018/1/8.
  */
 

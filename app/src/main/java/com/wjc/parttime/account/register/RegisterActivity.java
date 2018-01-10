@@ -38,6 +38,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 /**
+ * 注册账号
  * Created by WJC on 2017/12/22 11:03
  * Describe : TODO
  */

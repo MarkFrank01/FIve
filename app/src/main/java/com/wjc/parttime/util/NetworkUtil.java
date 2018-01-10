@@ -4,6 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * 网络连接是否可以工具类
+ * Created by WJC on 2017/12/24 16:17
+ * Describe : TODO
+ */
 public class NetworkUtil {
 
     // whether connect to internet

@@ -3,6 +3,7 @@ package com.wjc.parttime.bean;
 import java.util.Date;
 
 /**
+ * 账号注册Bean
  * Created by y_hui on 2018/1/4.
  */
 

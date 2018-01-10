@@ -11,7 +11,8 @@ import android.util.Base64;
 
 
 /**
- * Created by huyh on 2017/6/7 0007.
+ * AES加密工具类
+ * Created by yhui on 2018/1/2
  */
 public class AESCoder {
 
