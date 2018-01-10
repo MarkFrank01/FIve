@@ -137,90 +137,94 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.bt_register_submit:
+                //向后台发送请求
+                String password = mUserPassWord.getText().toString().trim();
+                String username = mUserName.getText().toString().trim();
+                RegisterRequest(username, password);
 
-                    //向后台发送请求
-                    String password = mUserPassWord.getText().toString().trim();
-                    String username = mUserName.getText().toString().trim();
-
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("telephone", username);
-                    map.put("password", AESCoder.encryptAES_ECB(password));
-                    map.put("userType", userType + "");
-                    map.put("clientType", HttpUrl.CLIENT_TYPE);
-                    String json = new Gson().toJson(map);
-
-                    OkHttpUtils.post(HttpUrl.REGISTER_URL)
-                            .tag(this)
-                            .upJson(json)
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onBefore(BaseRequest request) {
-
-                                }
-
-                                @Override
-                                public void onSuccess(String s, Call call, Response response) {
-                                    LogUtil.e("RegisterActivity", s);
-
-                                    Gson gson = new Gson();
-                                    RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
-                                    LogUtil.e("orderuser", user + "");
-                                    Boolean success = user.isSuccess();
-                                    //注册成功
-                                    if (success) {
-                                        //保存数据库
-                                        UserHelperDB person = new UserHelperDB();
-                                        person.setcreateDate(user.getResult().getUser().getcreateDate());
-                                        person.setToken(user.getResult().getToken());
-                                        person.setUserId(user.getResult().getUser().getUserid());
-                                        person.setTelePhone(user.getResult().getUser().getTelephone());
-                                        person.setPassWord(user.getResult().getUser().getPassword());
-                                        person.setUserType(user.getResult().getUser().getUsertype());
-                                        person.setStudentId(user.getResult().getUser().getStudentid());
-                                        person.save();
-                                        dialog = new CommonDialogUtil(RegisterActivity.this, R.style.dialog, "恭喜您注册成功！", "设置实名认证", "登录账号", new CommonDialogUtil.OnListener() {
-                                            @Override
-                                            public void onCancelclick() {
-                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-
-                                            @Override
-                                            public void onConfirmClick() {
-
-                                            }
-                                        });
-                                        dialog.show();
-                                    } else {
-                                        String errorMessage = user.getErrorMessage();
-                                        //注册失败
-                                        dialog = new CommonDialogUtil(RegisterActivity.this, R.style.dialog, errorMessage, "确定", "取消", new CommonDialogUtil.OnListener() {
-                                            @Override
-                                            public void onCancelclick() {
-                                                dialog.dismiss();
-                                            }
-
-                                            @Override
-                                            public void onConfirmClick() {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                        dialog.show();
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Call call, Response response, Exception e) {
-                                    super.onError(call, response, e);
-                                }
-
-                                @Override
-                                public void onAfter(@Nullable String s, @Nullable Exception e) {
-                                }
-                            });
                 break;
         }
+    }
 
+    /*
+    * 注册请求
+    * */
+    private void RegisterRequest(String username, String password) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("telephone", username);
+        map.put("password", AESCoder.encryptAES_ECB(password));
+        map.put("userType", userType + "");
+        map.put("clientType", HttpUrl.CLIENT_TYPE);
+        String json = new Gson().toJson(map);
+
+        OkHttpUtils.post(HttpUrl.REGISTER_URL)
+                .upJson(json)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        LogUtil.e("RegisterActivity", s);
+
+                        Gson gson = new Gson();
+                        RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
+                        LogUtil.e("orderuser", user + "");
+                        Boolean success = user.isSuccess();
+                        //注册成功
+                        if (success) {
+                            //保存数据库
+                            UserHelperDB person = new UserHelperDB();
+                            person.setcreateDate(user.getResult().getUser().getcreateDate());
+                            person.setToken(user.getResult().getToken());
+                            person.setUserId(user.getResult().getUser().getUserid());
+                            person.setTelePhone(user.getResult().getUser().getTelephone());
+                            person.setPassWord(user.getResult().getUser().getPassword());
+                            person.setUserType(user.getResult().getUser().getUsertype());
+                            person.setStudentId(user.getResult().getUser().getStudentid());
+                            person.save();
+                            dialog = new CommonDialogUtil(RegisterActivity.this, R.style.dialog, "恭喜您注册成功！", "设置实名认证", "登录账号", new CommonDialogUtil.OnListener() {
+                                @Override
+                                public void onCancelclick() {
+                                    LoginActivity.show(RegisterActivity.this);
+                                    dialog.dismiss();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onConfirmClick() {
+
+                                }
+                            });
+                            dialog.show();
+                        } else {
+                            String errorMessage = user.getErrorMessage();
+                            //注册失败
+                            dialog = new CommonDialogUtil(RegisterActivity.this, R.style.dialog, errorMessage, "确定", "取消", new CommonDialogUtil.OnListener() {
+                                @Override
+                                public void onCancelclick() {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onConfirmClick() {
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                    }
+
+                    @Override
+                    public void onAfter(@Nullable String s, @Nullable Exception e) {
+                    }
+                });
     }
 }

@@ -27,6 +27,7 @@ import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.account.reset.ResetStepOneActivity;
+import com.wjc.parttime.account.reset.ResetStepTwoActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.bean.RegisterUsersBean;
 import com.wjc.parttime.util.AESCoder;
@@ -101,86 +102,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else if (TextUtils.isEmpty(userPassWord)) {
                     Toast.makeText(LoginActivity.this, R.string.input_password, Toast.LENGTH_SHORT).show();
                 } else {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("telephone", userName);
-                    map.put("password", AESCoder.encryptAES_ECB(userPassWord));
-                    map.put("clientType", HttpUrl.CLIENT_TYPE);
-                    String json = new Gson().toJson(map);
-                    OkHttpUtils.post(HttpUrl.LOGIN_URL)
-                            .tag(this)
-                            .upJson(json)
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onBefore(BaseRequest request) {
-
-                                }
-
-                                @Override
-                                public void onSuccess(String s, Call call, Response response) {
-                                    LogUtil.e("LoginActivity", s);
-
-                                    Gson gson = new Gson();
-                                    RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
-                                    Boolean success = user.isSuccess();
-                                    //注册成功
-                                    if (success) {
-                                        List<UserHelperDB> userList = DataSupport.where("telePhone = ?", userName).find(UserHelperDB.class);
-                                        if (userList == null) {
-                                            //保存用户表数据库
-                                            LogUtil.e("LoginActivity", "保存数据库");
-                                            UserHelperDB person = new UserHelperDB();
-                                            person.setcreateDate(user.getResult().getUser().getcreateDate());
-                                            person.setToken(user.getResult().getToken());
-                                            person.setUserId(user.getResult().getUser().getUserid());
-                                            person.setTelePhone(user.getResult().getUser().getTelephone());
-                                            person.setPassWord(user.getResult().getUser().getPassword());
-                                            person.setUserType(user.getResult().getUser().getUsertype());
-                                            person.setStudentId(user.getResult().getUser().getStudentid());
-                                            person.save();
-                                        } else {
-                                            //更新用户表数据库
-                                            LogUtil.e("LoginActivity", "更新数据库");
-                                            ContentValues values = new ContentValues();
-                                            values.put("token", user.getResult().getToken());
-                                            DataSupport.updateAll(UserHelperDB.class, values, "telePhone = ?", userName);
-                                        }
-                                        //删除用户登录表
-                                        DataSupport.deleteAll(LoginHelperDB.class);
-                                        LoginHelperDB loginHelperDB = new LoginHelperDB();
-                                        loginHelperDB.setUserName(user.getResult().getUser().getTelephone());
-                                        loginHelperDB.setToken(user.getResult().getToken());
-                                        loginHelperDB.save();
-                                        LogUtil.e("LoginActivity", "登录成功");
-
-                                    } else {
-                                        String errorMessage = user.getErrorMessage();
-                                        //登录失败
-                                        dialog = new CommonDialogUtil(LoginActivity.this, R.style.dialog, errorMessage, "确定", new CommonDialogUtil.OnListener() {
-                                            @Override
-                                            public void onCancelclick() {
-                                            }
-
-                                            @Override
-                                            public void onConfirmClick() {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                        dialog.show();
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Call call, Response response, Exception e) {
-                                    super.onError(call, response, e);
-                                }
-
-                                @Override
-                                public void onAfter(@Nullable String s, @Nullable Exception e) {
-                                }
-                            });
+                    LoginRequest(userName,userPassWord);
                 }
-
-
                 break;
 
             case R.id.et_login_username:
@@ -204,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_login_forget_pwd:
                 //忘记密码和重置密码共用
                 Toast.makeText(this, "忘记密码", Toast.LENGTH_SHORT).show();
-                ResetStepOneActivity.show(LoginActivity.this);
+                ResetStepTwoActivity.show(LoginActivity.this);
                 break;
 
             case R.id.tv_login_other_way:
@@ -233,6 +156,89 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
         }
+    }
+
+    /*
+    * 登录请求
+    * */
+    private void LoginRequest(final String userName,final String userPassWord){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("telephone", userName);
+        map.put("password", AESCoder.encryptAES_ECB(userPassWord));
+        map.put("clientType", HttpUrl.CLIENT_TYPE);
+        String json = new Gson().toJson(map);
+        OkHttpUtils.post(HttpUrl.LOGIN_URL)
+                .upJson(json)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        LogUtil.e("LoginActivity", s);
+
+                        Gson gson = new Gson();
+                        RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
+                        Boolean success = user.isSuccess();
+                        //注册成功
+                        if (success) {
+                            List<UserHelperDB> userList = DataSupport.where("telePhone = ?", userName).find(UserHelperDB.class);
+                            if (userList == null) {
+                                //保存用户表数据库
+                                LogUtil.e("LoginActivity", "保存数据库");
+                                UserHelperDB person = new UserHelperDB();
+                                person.setcreateDate(user.getResult().getUser().getcreateDate());
+                                person.setToken(user.getResult().getToken());
+                                person.setUserId(user.getResult().getUser().getUserid());
+                                person.setTelePhone(user.getResult().getUser().getTelephone());
+                                person.setPassWord(user.getResult().getUser().getPassword());
+                                person.setUserType(user.getResult().getUser().getUsertype());
+                                person.setStudentId(user.getResult().getUser().getStudentid());
+                                person.save();
+                            } else {
+                                //更新用户表数据库
+                                LogUtil.e("LoginActivity", "更新数据库");
+                                ContentValues values = new ContentValues();
+                                values.put("token", user.getResult().getToken());
+                                DataSupport.updateAll(UserHelperDB.class, values, "telePhone = ?", userName);
+                            }
+                            //删除用户登录表
+                            DataSupport.deleteAll(LoginHelperDB.class);
+                            LoginHelperDB loginHelperDB = new LoginHelperDB();
+                            loginHelperDB.setUserName(user.getResult().getUser().getTelephone());
+                            loginHelperDB.setToken(user.getResult().getToken());
+                            loginHelperDB.save();
+                            LogUtil.e("LoginActivity", "登录成功");
+
+                        } else {
+                            String errorMessage = user.getErrorMessage();
+                            //登录失败
+                            dialog = new CommonDialogUtil(LoginActivity.this, R.style.dialog, errorMessage, "确定", new CommonDialogUtil.OnListener() {
+                                @Override
+                                public void onCancelclick() {
+                                }
+
+                                @Override
+                                public void onConfirmClick() {
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                    }
+
+                    @Override
+                    public void onAfter(@Nullable String s, @Nullable Exception e) {
+                    }
+                });
+
     }
 
 

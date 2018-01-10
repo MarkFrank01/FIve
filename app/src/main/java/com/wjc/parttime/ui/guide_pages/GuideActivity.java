@@ -160,7 +160,6 @@ public class GuideActivity extends Activity {
         map.put("clientType", HttpUrl.CLIENT_TYPE);
         String json = new Gson().toJson(map);
         OkHttpUtils.post(HttpUrl.AUTO_LOGIN_URL)
-                .tag(this)
                 .upJson(json)
                 .execute(new StringCallback() {
                     @Override
