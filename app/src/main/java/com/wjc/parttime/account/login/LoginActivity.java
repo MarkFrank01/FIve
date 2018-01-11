@@ -26,6 +26,7 @@ import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
+import com.wjc.parttime.account.reset.ResetStepOneActivity;
 import com.wjc.parttime.account.reset.ResetStepTwoActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.bean.RegisterUsersBean;
@@ -131,7 +132,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_login_forget_pwd:
                 //忘记密码和重置密码共用
                 Toast.makeText(this, "忘记密码", Toast.LENGTH_SHORT).show();
-                ResetStepTwoActivity.show(LoginActivity.this);
+                Intent resetPassWdIntent=new Intent(LoginActivity.this,ResetStepOneActivity.class);
+                resetPassWdIntent.putExtra(ResetStepOneActivity.INTENT_PASSWD_KEY,1);
+                startActivity(resetPassWdIntent);
                 break;
 
             case R.id.tv_login_other_way:

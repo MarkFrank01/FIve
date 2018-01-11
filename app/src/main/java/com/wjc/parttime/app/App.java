@@ -26,7 +26,7 @@ public class App extends LitePalApplication {
         super.onCreate();
         OKGOinit();
 
-        //ShareSDK初始化
+        //ShareSDK初始化，功能包括一键登录、分享、短信
         MobSDK.init(this);
 
         //LitePal数据库创建

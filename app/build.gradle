@@ -9,7 +9,7 @@ android {
         minSdkVersion setup.minSdk
         targetSdkVersion setup.targetSdk
         multiDexEnabled true
-        versionCode 1
+        versionCode 2018011101
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -68,6 +68,7 @@ MobSDK {
     appKey "237c75fc1363f"
     appSecret "fff6bd671b9a3dd2db043776413826c4"
 
+     //分享和一键登录
     ShareSDK {
         //平台配置信息
         devInfo {
@@ -92,6 +93,8 @@ MobSDK {
             }
         }
     }
+    //短信业务
+    SMSSDK {}
 
 }
 

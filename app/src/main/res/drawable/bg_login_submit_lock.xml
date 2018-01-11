@@ -4,6 +4,12 @@
     <item android:state_pressed="false">
         <shape>
             <corners android:radius="26dp"/>
+            <solid android:color="@color/black_alpha_128"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="26dp"/>
             <solid android:color="@color/account_pressed_true"/>
         </shape>
     </item>

@@ -59,7 +59,9 @@
     <color name="app_hint_gray">#CCCCCC</color>
     <!--全局蓝色字体-->
     <color name="app_text_blue">#0066FF</color>
-    <!--全局线条颜色-->
+    <!--全局白底线条颜色-->
     <color name="app_line_gray">#F2F2F2</color>
+    <!--全局白底线条颜色-->
+    <color name="app_line_gray_bg">#797979</color>
 
 </resources>

@@ -91,9 +91,9 @@ public class GuideActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
-        checkVersion();
+       // checkVersion();
         setListener();
-     //   init();
+        init();
 
     }
 

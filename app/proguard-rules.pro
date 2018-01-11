@@ -30,3 +30,5 @@
 -keep class **.R$* {*;}
 -keep class **.R{*;}
 -keep class com.mob.**{*;}
+#短信业务
+-keep class cn.smssdk.**{*;}

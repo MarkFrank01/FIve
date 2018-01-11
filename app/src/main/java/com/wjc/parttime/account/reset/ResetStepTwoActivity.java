@@ -55,6 +55,10 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
 
     private Boolean success;
 
+    public static String INTENT_RESET_PASSWD="RESETPASSWD";
+
+    private String userName="";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,9 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
         back = bar_ll.findViewById(R.id.ib_navigation_back);
         back.setOnClickListener(this);
         ButterKnife.bind(this);
+
+        userName=getIntent().getStringExtra(INTENT_RESET_PASSWD);
+
     }
 
     /**
@@ -87,7 +94,6 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
            case R.id.bt_reset_submit:
                //提交
                String newPasswd=newPwd.getText().toString().trim();
-               String username ="";
                String passwdConfirm=newPwdConfirm.getText().toString().trim();
                if (TextUtils.isEmpty(newPasswd)) {
                    Toast.makeText(ResetStepTwoActivity.this, R.string.reset_password_hint, Toast.LENGTH_SHORT).show();
@@ -96,7 +102,7 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
                }else if (!newPasswd.equals(passwdConfirm)){
                    Toast.makeText(ResetStepTwoActivity.this, R.string.reset_password_check, Toast.LENGTH_SHORT).show();
                }else{
-                       ResetPassWdRequest(passwdConfirm);
+                       ResetPassWdRequest(passwdConfirm,userName);
                }
                break;
        }
@@ -104,9 +110,9 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
     /*
    * 重置密码请求
    * */
-    private void ResetPassWdRequest(String password) {
+    private void ResetPassWdRequest(String password,String userName) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("telephone", "18250154818");
+        map.put("telephone", userName);
         map.put("newPassword", AESCoder.encryptAES_ECB(password));
         String json = new Gson().toJson(map);
         OkHttpUtils.post(HttpUrl.RESET_PASSWD_URL)
