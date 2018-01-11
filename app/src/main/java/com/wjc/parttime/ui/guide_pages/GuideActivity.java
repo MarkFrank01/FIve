@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -90,11 +91,15 @@ public class GuideActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
+        checkVersion();
         setListener();
-        init();
+     //   init();
 
     }
 
+    /*
+    * 版本升级检测
+    * */
     private void checkVersion(){
 
         OkHttpUtils.post(HttpUrl.RESET_PASSWD_URL)
@@ -106,7 +111,7 @@ public class GuideActivity extends Activity {
 
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        LogUtil.e("RegisterActivity", s);
+                        LogUtil.e("update", s);
                         JSONObject mObj = null;
                         try {
                             mObj = new JSONObject(s);
@@ -114,24 +119,14 @@ public class GuideActivity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        //重置密码成功
+                        //版本请求成功
                         if (success) {
-                            dialog = new CommonDialogUtil(GuideActivity.this, R.style.dialog, "密码重置成功！", "重新登录", "确定", new CommonDialogUtil.OnListener() {
-                                @Override
-                                public void onCancelclick() {
-                                    LoginActivity.show(GuideActivity.this);
-                                    dialog.dismiss();
-                                    finish();
-                                }
 
-                                @Override
-                                public void onConfirmClick() {
-                                    LoginActivity.show(GuideActivity.this);
-                                    dialog.dismiss();
-                                    finish();
-                                }
-                            });
-                            dialog.show();
+                            long version=mObj.optLong("version");
+                            Boolean must=mObj.optBoolean("isMust");
+
+                            update(version,must);
+
                         } else {
                             //检测版本失败，直接进入广告
                             init();
@@ -149,6 +144,9 @@ public class GuideActivity extends Activity {
                 });
     }
 
+    /*
+    * 版本升级操作
+    * */
     private void update(long version,Boolean isMust){
 
        int currentVersion= VersionMessageUtils.getVersionCode(GuideActivity.this);
@@ -206,15 +204,19 @@ public class GuideActivity extends Activity {
         preferences = getSharedPreferences("CreateApp", Context.MODE_PRIVATE);
         Boolean firstOpen = preferences.getBoolean("firstOpen", false);
         if (firstOpen) {
-            adverstingSelect();
             //自动登录请求
             autoLogin();
+            //广告数据请求
+            adverstingSelect();
         } else {
             //跳转引导页
             processLogic();
         }
     }
 
+    /*
+    * 广告数据查询
+    * */
     private void adverstingSelect() {
         int numDisplay = 0;
 
@@ -279,17 +281,20 @@ public class GuideActivity extends Activity {
                     showSplashView(actUrl,actionUrl);
                 } else {
                     LogUtil.e("adversitingFile:", "文件不存在");
-                    finish();
+                    gotoLogin();
                 }
             }
         } else {
+            gotoLogin();
             //没有读取权限
            // SplashView.updateSplashData(this, "http://ww2.sinaimg.cn/large/72f96cbagw1f5mxjtl6htj20g00sg0vn.jpg", "http://bbc.com");
-            SplashView.updateSplashData(this, adList.get(numDisplay).getAdUrl(), adList.get(numDisplay).getActionUrl());
+      //      SplashView.updateSplashData(this, adList.get(numDisplay).getAdUrl(), adList.get(numDisplay).getActionUrl());
         }
     }
 
-
+/*
+* 引导页跳过和开启体验按钮监听
+* */
     private void setListener() {
         /**
          * 设置进入按钮和跳过按钮控件资源 id 及其点击事件
@@ -312,6 +317,7 @@ public class GuideActivity extends Activity {
 
 
     /**
+     * 广告页展示，第一个参数上下文，第二个参数为倒计时时间，第三个为加载不出来时默认图片
      * show the SplashView
      */
     private void showSplashView(String url,String actionUrl) {
@@ -326,16 +332,7 @@ public class GuideActivity extends Activity {
             @Override
             public void onSplashViewDismiss(boolean initiativeDismiss) {
                 LogUtil.e("SplashView", "dismissed, initiativeDismiss: " + initiativeDismiss);
-                if (isAutoLogin) {
-                    LogUtil.e("GuideActivity", "自动登录 ");
-                    //跳转主页面
-
-
-
-                } else {
-                    finishGuide(LoginActivity.class);
-                }
-
+                gotoLogin();
             }
         });
 
@@ -345,6 +342,22 @@ public class GuideActivity extends Activity {
         }
     }
 
+    /*
+    * 自动登录是否通过，如果通过跳转主页面，如果不通过跳转登录页
+    * */
+    private void gotoLogin(){
+        if (isAutoLogin) {
+            LogUtil.e("GuideActivity", "自动登录 ");
+            //跳转主页面
+        //    finishGuide(MainActivity.class);
+        } else {
+            finishGuide(LoginActivity.class);
+        }
+    }
+
+    /*
+    * 设置引导页数据来源
+    * */
     private void processLogic() {
         // 设置数据源
         mBackgroundBanner.setData(R.mipmap.uoko_guide_background_1, R.mipmap.uoko_guide_background_2, R.mipmap.uoko_guide_background_3);
@@ -409,6 +422,9 @@ public class GuideActivity extends Activity {
 
     }
 
+    /*
+    * 结束当前页面跳转添加动画
+    * */
     private void finishGuide(Class newClass) {
         startActivity(new Intent(GuideActivity.this, newClass));
         GuideActivity.this.overridePendingTransition(R.anim.main_fade_in, R.anim.main_fade_out);
@@ -488,5 +504,18 @@ public class GuideActivity extends Activity {
     protected void onDestroy() {
         GuideActivity.this.overridePendingTransition(R.anim.main_fade_finish_in, R.anim.main_fade_finish_out);
         super.onDestroy();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case READ_EXTERNAL_STORAGES:
+                gotoLogin();
+                break;
+            default:
+                break;
+        }
+
     }
 }
