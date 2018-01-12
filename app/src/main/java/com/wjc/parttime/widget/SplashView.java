@@ -378,8 +378,9 @@ public class SplashView extends FrameLayout {
 
     //删除文件夹和文件夹里面的文件
     public static void deleteDir(String path) {
+        LogUtil.e("adversitingFile:", "本地文件路径"+path);
         File dir = new File(path);
-        if (dir == null || !dir.exists() || !dir.isDirectory()) {
+        if (dir == null || !dir.exists() || !dir.isDirectory() ){
             return;
         }
 

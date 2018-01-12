@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,7 @@ import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.R.attr.action;
 
@@ -97,6 +99,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //图片保存名称
     private String IMG_URL;
 
+    private AdversitingBean temporaryAdversiting;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,12 +113,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /*
+    * 返回到桌面
+    * */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //  if(keyCode== KeyEvent.KEYCODE_BACK){
-        return false;//不执行父类点击事件
-        //    }
-        // return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
+
+      //  return false;//不执行父类点击事件
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent home = new Intent(Intent.ACTION_MAIN);
+            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            home.addCategory(Intent.CATEGORY_HOME);
+            startActivity(home);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
@@ -421,6 +434,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         LogUtil.e("advertising", s);
                         Gson gson =new Gson();
                         AdversitingBean adversitingBean=gson.fromJson(s,AdversitingBean.class);
+                        temporaryAdversiting=adversitingBean;
                         chackValue="";
                         if (adversitingBean.isSuccess()){
                             for (int i=0;i<adversitingBean.getResult().size();i++){
@@ -482,18 +496,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //广告数据为空,删除广告表
         LogUtil.e("adversitingFile:","deleteAdversitingDB删除数据库");
         DataSupport.deleteAll(LoginHelperDB.class);
-
-        if (!runtimePermission.hasPermission(WRITE_EXTERNAL_STORAGE)) {
-            runtimePermission.requestPermission(allPermissions, READ_EXTERNAL_STORAGES);
+        if (!runtimePermission.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            runtimePermission.requestPermission(allPermissions, WRITE_EXTERNAL_STORAGES);
             return;
         } else {
             //删除广告文件
-            LogUtil.e("adversitingFile:","deleteAdversitingDB删除数据库有权限");
-            SplashView.deleteDir(HttpUrl.ADVERTISING_URL);
-            LogUtil.e("adversitingFile:","deleteAdversitingDB保存图片");
+            LogUtil.e("adversitingFile:", "deleteAdversitingDB删除数据库有权限");
+            SplashView.deleteDir(HttpUrl.ADVERTISING_URL + "/");
+            LogUtil.e("adversitingFile:", "deleteAdversitingDB保存图片");
             saveAdvertisingFile(adversitingBean);
-
         }
+
     }
 
     //删除广告后重新保存数据库和下载图片
@@ -534,6 +547,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }else{
             LogUtil.e("adversitingFile:", "没有图片下载");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case WRITE_EXTERNAL_STORAGES:
+                //删除广告文件
+                LogUtil.e("adversitingFile:", "deleteAdversitingDB删除数据库有权限");
+                SplashView.deleteDir(HttpUrl.ADVERTISING_URL + "/");
+                LogUtil.e("adversitingFile:", "deleteAdversitingDB保存图片");
+                saveAdvertisingFile(temporaryAdversiting);
+                break;
+            default:
+                break;
         }
     }
 

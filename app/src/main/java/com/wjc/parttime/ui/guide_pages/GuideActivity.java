@@ -77,6 +77,8 @@ public class GuideActivity extends Activity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
     public static final int READ_EXTERNAL_STORAGES = 1;
+    public static final int WRITE_EXTERNAL_STORAGES = 2;
+    public static final int GROUP_EXTERNAL_STORAGES = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,8 +236,8 @@ public class GuideActivity extends Activity {
                 adList.add(adverstingHelper);
             }
             AppPermissions runtimePermission = new AppPermissions(this);
-            if (!runtimePermission.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                runtimePermission.requestPermission(allPermissions, READ_EXTERNAL_STORAGES);
+            if (!runtimePermission.hasPermission(Manifest.permission_group.STORAGE)) {
+                runtimePermission.requestPermission(allPermissions,GROUP_EXTERNAL_STORAGES);
                 return;
             } else {
                 //获取当前系统时间
@@ -277,10 +279,14 @@ public class GuideActivity extends Activity {
                 String type = adList.get(numDisplay).getAdType();
                 String displayType = adList.get(numDisplay).getDisplayType();
                 String actionUrl = adList.get(numDisplay).getActionUrl();
+                LogUtil.e("adversiting", imgPath);
+                LogUtil.e("adversiting", adUrl);
+                LogUtil.e("adversiting", actionUrl);
                 //文件是否存在
                 if (isiImgExist && inTime(beginTime, endTime)) {
                     if ("P".equalsIgnoreCase(displayType)) {
                         //广告类型为图片
+                        LogUtil.e("adversiting", "文件是否存在显示");
                         showSplashView(imgPath, actionUrl,imgPath);
                     } else if ("V".equalsIgnoreCase(displayType)) {
                         //广告类型为视频
@@ -523,7 +529,7 @@ public class GuideActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case READ_EXTERNAL_STORAGES:
+            case GROUP_EXTERNAL_STORAGES:
                 gotoLogin();
                 break;
             default:
