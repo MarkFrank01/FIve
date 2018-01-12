@@ -22,6 +22,36 @@ public class AdverstingHelperDB extends DataSupport {
     private String adUrl;
     //跳转商家地址链接
     private String actionUrl;
+    //图片保存路径
+    private String imgPath;
+    //图片id
+    private int advManageID;
+    //校验值
+    private String adCheckValue;
+
+    public String getAdCheckValue() {
+        return adCheckValue;
+    }
+
+    public void setAdCheckValue(String adCheckValue) {
+        this.adCheckValue = adCheckValue;
+    }
+
+    public int getAdvManageID() {
+        return advManageID;
+    }
+
+    public void setAdvManageID(int advManageID) {
+        this.advManageID = advManageID;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
 
     public String getStartTime() {
         return startTime;

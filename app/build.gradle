@@ -51,7 +51,7 @@ dependencies {
     compile 'com.lzy.net:okhttputils:+' //版本号使用 + 可以自动引用最新版
     compile 'com.lzy.net:okhttpserver:+' //版本号使用 + 可以自动引用最新版
     //数据库
-    compile 'org.litepal.android:core:1.6.1'
+    compile 'org.litepal.android:core:1.5.0'
 
     //动态权限
     compile 'com.mukesh:permissions:1.0.3'

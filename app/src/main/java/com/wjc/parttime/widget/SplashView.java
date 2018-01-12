@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +31,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.wjc.parttime.app.HttpUrl;
+import com.wjc.parttime.util.LogUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -37,6 +44,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -183,13 +192,14 @@ public class SplashView extends FrameLayout {
     public static void showSplashView(@NonNull Activity activity,
                                       @Nullable Integer durationTime,
                                       @Nullable Integer defaultBitmapRes,
+                                      @Nullable String imgPath,
                                       @Nullable OnSplashViewActionListener listener) {
 
         ViewGroup contentView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         if (null == contentView || 0 == contentView.getChildCount()) {
             throw new IllegalStateException("You should call showSplashView() after setContentView() in Activity instance");
         }
-        IMG_PATH = activity.getFilesDir().getAbsolutePath().toString() + "/splash_img.jpg";
+        IMG_PATH = imgPath;
         SplashView splashView = new SplashView(activity);
         RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         splashView.setOnSplashImageClickListener(listener);
@@ -230,7 +240,7 @@ public class SplashView extends FrameLayout {
      * @param activity
      */
     public static void simpleShowSplashView(@NonNull Activity activity) {
-        showSplashView(activity, null, null, null);
+        showSplashView(activity, null, null, null,null);
     }
 
     private void dismissSplashView(boolean initiativeDismiss) {
@@ -304,14 +314,14 @@ public class SplashView extends FrameLayout {
      * @param actionUrl - related action url, such as webView etc.
      */
     public static void updateSplashData(@NonNull Activity activity, @NonNull String imgUrl, @Nullable String actionUrl) {
-        IMG_PATH = activity.getFilesDir().getAbsolutePath().toString() + "/splash_img.jpg";
+        IMG_PATH = imgUrl;
 
         SharedPreferences.Editor editor = activity.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE).edit();
         editor.putString(IMG_URL, imgUrl);
         editor.putString(ACT_URL, actionUrl);
         editor.apply();
 
-        getAndSaveNetWorkBitmap(imgUrl);
+    //    getAndSaveNetWorkBitmap(imgUrl);
     }
 
     public interface OnSplashViewActionListener {
@@ -344,6 +354,8 @@ public class SplashView extends FrameLayout {
         new Thread(getAndSaveImageRunnable).start();
     }
 
+
+
     private static void saveBitmapFile(Bitmap bm, String filePath) throws IOException {
         File myCaptureFile = new File(filePath);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
@@ -352,6 +364,9 @@ public class SplashView extends FrameLayout {
         bos.close();
     }
 
+    /*
+    * 判断图片文件是否存在
+    * */
     public static boolean isFileExist(String filePath) {
         if(TextUtils.isEmpty(filePath)) {
             return false;
@@ -359,5 +374,108 @@ public class SplashView extends FrameLayout {
             File file = new File(filePath);
             return file.exists() && file.isFile();
         }
+    }
+
+    //删除文件夹和文件夹里面的文件
+    public static void deleteDir(String path) {
+        File dir = new File(path);
+        if (dir == null || !dir.exists() || !dir.isDirectory()) {
+            return;
+        }
+
+        for (File file : dir.listFiles()) {
+            if (file.isFile()) {
+                // 删除所有文件
+                file.delete();
+            } else if (file.isDirectory()) {
+                // 递规的方式删除文件夹
+                deleteDir(path);
+            }
+            LogUtil.e("adversitingFile:", "本地文件删除");
+        }
+
+        dir.delete();// 删除目录本身
+    }
+
+    /**
+     * @param urlString:要下载图片的url
+     * @param name:图片下载后保存名称
+     * @param dir:图片下载后文件夹（路径）
+     * @param activity:上下文
+     * @function:获取网络图片并保存
+     * @return:
+     */
+    public static void getAndSaveNetWorkBitmap(final String urlString, final String name, final String dir, final Activity activity) {
+        Runnable getAndSaveImageRunnable = new Runnable() {
+            @Override
+            public void run() {
+                URL imgUrl = null;
+                Bitmap bitmap = null;
+                try {
+                    LogUtil.i("下载", urlString);
+                    imgUrl = new URL(urlString);
+                    HttpURLConnection urlConn = (HttpURLConnection) imgUrl.openConnection();
+                    urlConn.setDoInput(true);
+                    urlConn.connect();
+                    InputStream is = urlConn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                    LogUtil.e("adversitingFile", "图片下载成功");
+                    saveBitmapFile(bitmap, name, dir, activity, false);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(getAndSaveImageRunnable).start();
+    }
+
+    /*
+    * 保存图片文件
+    * */
+    public static void saveBitmapFile(Bitmap bm, String name, String dir, Activity activity, Boolean isShow) {
+        try {
+            File dirFile = new File(dir + "/");
+            LogUtil.e("adversitingFile", dirFile + "");
+            if (!dirFile.exists()) {
+                dirFile.mkdir();
+            }
+            File myCaptureFile = new File(name);
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
+            bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+            LogUtil.e("adversitingFile", "保存成功");
+            //是否显示保存成功弹窗
+            if (isShow) {
+           //     Toast.makeText(activity, "图片已保存到相册", Toast.LENGTH_SHORT).show();
+            }
+            updateLite(activity, name);
+            bos.flush();
+            bos.close();
+        } catch (Exception e) {
+            LogUtil.e("adversitingFile", e.toString());
+       //     Toast.makeText(activity, "图片保存失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /*
+    * 刷新相册数据库
+    * */
+    public static void updateLite(Activity activity, String filePath) {
+
+        List<String> list = new ArrayList<String>();
+        list.add(filePath);
+        String[] imgpaths = list.toArray(new String[0]);
+
+         /*更新数据库*/
+        MediaScannerConnection.scanFile(activity, imgpaths, null, new MediaScannerConnection.OnScanCompletedListener() {
+            @Override
+            public void onScanCompleted(String path, Uri uri) {
+                LogUtil.e("adversitingFile","onScanCompleted");
+                LogUtil.i("adversitingFile", "Scanned " + path + ":");
+                LogUtil.i("adversitingFile", "-> uri=" + uri);
+            }
+        });
     }
 }

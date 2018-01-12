@@ -8,20 +8,13 @@ package com.wjc.parttime.ui.guide_pages;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
@@ -30,13 +23,10 @@ import com.lzy.okhttputils.request.BaseRequest;
 import com.mukesh.permissions.AppPermissions;
 import com.wjc.parttime.LitePalHelperDB.AdverstingHelperDB;
 import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
-import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.account.login.LoginActivity;
 import com.wjc.parttime.R;
-import com.wjc.parttime.account.reset.ResetStepTwoActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.bean.RegisterUsersBean;
-import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.GoToMarketUtil;
 import com.wjc.parttime.util.LogUtil;
@@ -73,9 +63,11 @@ public class GuideActivity extends Activity {
 
     private SharedPreferences preferences;
 
-    private Boolean success=false;//返回结果是否成功
+    private Boolean success = false;//返回结果是否成功
 
     private Boolean isAutoLogin = false; //是否自动登录临时数据
+
+    private String imgPath="";
 
     ArrayList<AdverstingHelperDB> adList = new ArrayList(); //广告列表临时数据
 
@@ -91,16 +83,20 @@ public class GuideActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
+        //自动登录请求
+        autoLogin();
+        //版本检测
         checkVersion();
+        //引导页
         setListener();
-      //  init();
+        //  init();
 
     }
 
     /*
     * 版本升级检测
     * */
-    private void checkVersion(){
+    private void checkVersion() {
 
         OkHttpUtils.post(HttpUrl.UPDATE_VERSION_URL)
                 .execute(new StringCallback() {
@@ -119,10 +115,10 @@ public class GuideActivity extends Activity {
 
                             //版本请求成功
                             if (success) {
-                                long version =Long.parseLong(mObj.getJSONObject("result").optString("mostNewVersion")) ;
+                                long version = Long.parseLong(mObj.getJSONObject("result").optString("mostNewVersion"));
                                 Boolean must = mObj.getJSONObject("result").optBoolean("update");
-                                LogUtil.e(TAG, version+"");
-                                update(version,must);
+                                LogUtil.e(TAG, version + "");
+                                update(version, must);
 
                             } else {
                                 //检测版本失败，直接进入广告
@@ -147,56 +143,56 @@ public class GuideActivity extends Activity {
     /*
     * 版本升级操作
     * */
-    private void update(long version,Boolean isMust){
+    private void update(long version, Boolean isMust) {
 
-       long currentVersion= VersionMessageUtils.getVersionCode(GuideActivity.this);
-        LogUtil.e(TAG,currentVersion+"");
-        LogUtil.e(TAG,version+"");
-       String confirm="";
-        String cancel="";
-        String message="";
+        long currentVersion = VersionMessageUtils.getVersionCode(GuideActivity.this);
+        LogUtil.e(TAG, currentVersion + "");
+        LogUtil.e(TAG, version + "");
+        String confirm = "";
+        String cancel = "";
+        String message = "";
 
-        if (currentVersion==version){
+        if (currentVersion == version) {
             //没有版本更新，直接进入广告
             init();
-        }else{
-            if (currentVersion < version){
-                message="检测到新的软件版本";
-                if (isMust){
-                    cancel="";
-                    confirm="去升级";
-                }else {
-                    confirm="去升级";
-                    cancel="取消";
+        } else {
+            if (currentVersion < version) {
+                message = "检测到新的软件版本";
+                if (isMust) {
+                    cancel = "";
+                    confirm = "去升级";
+                } else {
+                    confirm = "去升级";
+                    cancel = "取消";
                 }
-            }else{
-                confirm="确定";
-                message="版本出错";
+            } else {
+                confirm = "确定";
+                message = "版本出错";
             }
 
 
-        final String finalConfirm = confirm;
-        dialog = new CommonDialogUtil(GuideActivity.this, R.style.dialog, message, confirm, cancel, new CommonDialogUtil.OnListener() {
-            @Override
-            public void onCancelclick() {
-                //不更新，直接进入广告
-                init();
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onConfirmClick() {
-                if ("确定".equals(finalConfirm)){
+            final String finalConfirm = confirm;
+            dialog = new CommonDialogUtil(GuideActivity.this, R.style.dialog, message, confirm, cancel, new CommonDialogUtil.OnListener() {
+                @Override
+                public void onCancelclick() {
+                    //不更新，直接进入广告
                     init();
-                }else if ("去升级".equals(finalConfirm)){
-                    //跳转到应用市场，跳转应用宝
-                    GoToMarketUtil.goToMarket(GuideActivity.this,getPackageName());
+                    dialog.dismiss();
                 }
 
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+                @Override
+                public void onConfirmClick() {
+                    if ("确定".equals(finalConfirm)) {
+                        init();
+                    } else if ("去升级".equals(finalConfirm)) {
+                        //跳转到应用市场，跳转应用宝
+                        GoToMarketUtil.goToMarket(GuideActivity.this, getPackageName());
+                    }
+
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
 
     }
@@ -209,7 +205,7 @@ public class GuideActivity extends Activity {
         Boolean firstOpen = preferences.getBoolean("firstOpen", false);
         if (firstOpen) {
             //自动登录请求
-            autoLogin();
+            // autoLogin();
             //广告数据请求
             adverstingSelect();
         } else {
@@ -234,6 +230,7 @@ public class GuideActivity extends Activity {
                 adverstingHelper.setDisplayType(ads.get(i).getDisplayType());
                 adverstingHelper.setAdUrl(ads.get(i).getAdUrl());
                 adverstingHelper.setActionUrl(ads.get(i).getActionUrl());
+                adverstingHelper.setImgPath(ads.get(i).getImgPath());
                 adList.add(adverstingHelper);
             }
             AppPermissions runtimePermission = new AppPermissions(this);
@@ -272,17 +269,24 @@ public class GuideActivity extends Activity {
                     LogUtil.e("adversiting", "方法3");
                     numDisplay = selectAdNumber("A", adList);
                 }
-                final String actUrl = adList.get(numDisplay).getActionUrl();
-               // String imgPath = adList.get(numDisplay).getPath();
-              //  Boolean isiImgExist = SplashView.isFileExist(imgPath);
+                final String adUrl = adList.get(numDisplay).getAdUrl();
+                imgPath = adList.get(numDisplay).getImgPath();
+                Boolean isiImgExist = SplashView.isFileExist(imgPath);
                 String beginTime = adList.get(numDisplay).getStartTime();
                 String endTime = adList.get(numDisplay).getEndTime();
                 String type = adList.get(numDisplay).getAdType();
-                String actionUrl=adList.get(numDisplay).getActionUrl();
+                String displayType = adList.get(numDisplay).getDisplayType();
+                String actionUrl = adList.get(numDisplay).getActionUrl();
                 //文件是否存在
-               // if (isiImgExist && inTime(beginTime, endTime)) {
-                if (inTime(beginTime, endTime)) {
-                    showSplashView(actUrl,actionUrl);
+                if (isiImgExist && inTime(beginTime, endTime)) {
+                    if ("P".equalsIgnoreCase(displayType)) {
+                        //广告类型为图片
+                        showSplashView(imgPath, actionUrl,imgPath);
+                    } else if ("V".equalsIgnoreCase(displayType)) {
+                        //广告类型为视频
+
+
+                    }
                 } else {
                     LogUtil.e("adversitingFile:", "文件不存在");
                     gotoLogin();
@@ -291,14 +295,14 @@ public class GuideActivity extends Activity {
         } else {
             gotoLogin();
             //没有读取权限
-           // SplashView.updateSplashData(this, "http://ww2.sinaimg.cn/large/72f96cbagw1f5mxjtl6htj20g00sg0vn.jpg", "http://bbc.com");
-      //      SplashView.updateSplashData(this, adList.get(numDisplay).getAdUrl(), adList.get(numDisplay).getActionUrl());
+            // SplashView.updateSplashData(this, "http://ww2.sinaimg.cn/large/72f96cbagw1f5mxjtl6htj20g00sg0vn.jpg", "http://bbc.com");
+            //      SplashView.updateSplashData(this, adList.get(numDisplay).getAdUrl(), adList.get(numDisplay).getActionUrl());
         }
     }
 
-/*
-* 引导页跳过和开启体验按钮监听
-* */
+    /*
+    * 引导页跳过和开启体验按钮监听
+    * */
     private void setListener() {
         /**
          * 设置进入按钮和跳过按钮控件资源 id 及其点击事件
@@ -324,13 +328,13 @@ public class GuideActivity extends Activity {
      * 广告页展示，第一个参数上下文，第二个参数为倒计时时间，第三个为加载不出来时默认图片
      * show the SplashView
      */
-    private void showSplashView(String url,String actionUrl) {
+    private void showSplashView(String url, String actionUrl,String imgPath) {
         // call after setContentView(R.layout.activity_login);
-        SplashView.showSplashView(this, 3, R.mipmap.five, new SplashView.OnSplashViewActionListener() {
+        SplashView.showSplashView(this, 3, R.mipmap.five,imgPath, new SplashView.OnSplashViewActionListener() {
             @Override
             public void onSplashImageClick(String actionUrl) {
                 LogUtil.e("SplashView", "img clicked. actionUrl: " + actionUrl);
-              //跳转商家广告
+                //跳转商家广告
             }
 
             @Override
@@ -349,11 +353,16 @@ public class GuideActivity extends Activity {
     /*
     * 自动登录是否通过，如果通过跳转主页面，如果不通过跳转登录页
     * */
-    private void gotoLogin(){
+    private void gotoLogin() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (isAutoLogin) {
             LogUtil.e("GuideActivity", "自动登录 ");
             //跳转主页面
-        //    finishGuide(MainActivity.class);
+            //    finishGuide(MainActivity.class);
         } else {
             finishGuide(LoginActivity.class);
         }

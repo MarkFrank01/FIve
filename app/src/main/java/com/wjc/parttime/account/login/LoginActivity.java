@@ -1,5 +1,6 @@
 package com.wjc.parttime.account.login;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -22,17 +23,20 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
 import com.lzy.okhttputils.request.BaseRequest;
 import com.mob.tools.utils.UIHandler;
+import com.mukesh.permissions.AppPermissions;
+import com.wjc.parttime.LitePalHelperDB.AdverstingHelperDB;
 import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.account.reset.ResetStepOneActivity;
-import com.wjc.parttime.account.reset.ResetStepTwoActivity;
 import com.wjc.parttime.app.HttpUrl;
+import com.wjc.parttime.bean.AdversitingBean;
 import com.wjc.parttime.bean.RegisterUsersBean;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
+import com.wjc.parttime.widget.SplashView;
 
 import org.litepal.crud.DataSupport;
 
@@ -53,7 +57,9 @@ import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.R.attr.action;
+
 /**
  * 账号登录
  * Created by WJC on 2017/12/22 11:03
@@ -74,6 +80,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     CommonDialogUtil dialog;
 
+    AppPermissions runtimePermission = new AppPermissions(LoginActivity.this);
+    String[] allPermissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    public static final int READ_EXTERNAL_STORAGES = 1;
+    public static final int WRITE_EXTERNAL_STORAGES = 2;
+
+    //广告图片查询数据库校验值
+    private String chackValue = "";
+    //广告图片是否存在手机图库里
+    private Boolean isImgExist;
+    //图片保存名称
+    private String IMG_NAME;
+    //图片保存名称
+    private String IMG_URL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +104,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         // showSplashView();
+        //广告获取(临时)
+        getAdversiting();
 
     }
 
@@ -191,7 +216,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Boolean success = user.isSuccess();
                         //注册成功
                         if (success) {
-                            List<UserHelperDB> userList = DataSupport.where("telePhone = ?", userName).find(UserHelperDB.class);
+                            List<UserHelperDB> userList = DataSupport.where("telephone = ?", userName).find(UserHelperDB.class);
                             if (userList == null) {
                                 //保存用户表数据库
                                 LogUtil.e("LoginActivity", "保存数据库");
@@ -213,6 +238,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                             //删除用户登录表
                             DataSupport.deleteAll(LoginHelperDB.class);
+                            //重新保存用户登录表
                             LoginHelperDB loginHelperDB = new LoginHelperDB();
                             loginHelperDB.setUserName(user.getResult().getUser().getTelephone());
                             loginHelperDB.setToken(user.getResult().getToken());
@@ -380,4 +406,137 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+    //临时获取开屏广告
+    private void getAdversiting(){
+        OkHttpUtils.post(HttpUrl.ADVERSITING_URL)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        LogUtil.e("advertising", s);
+                        Gson gson =new Gson();
+                        AdversitingBean adversitingBean=gson.fromJson(s,AdversitingBean.class);
+                        chackValue="";
+                        if (adversitingBean.isSuccess()){
+                            for (int i=0;i<adversitingBean.getResult().size();i++){
+                                chackValue=chackValue+adversitingBean.getResult().get(i).getAdvManageID();
+                            }
+                            //根据校验值查询数据库中图片id进行比对
+                            LogUtil.e("adversitingFile:","getAdversiting"+chackValue);
+                            findAdversitngDB(chackValue,adversitingBean);
+                        }else{
+                            LogUtil.e("adversitingFile:", "getAdversiting删除数据库");
+                            deleteAdversitingDB(adversitingBean);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                    }
+
+                    @Override
+                    public void onAfter(@Nullable String s, @Nullable Exception e) {
+                    }
+                });
+    }
+
+    /*
+    * 根据校验值查询数据库中图片id进行比对
+    * */
+    private void findAdversitngDB(String chackValue,AdversitingBean adversitingBean){
+        LogUtil.e("adversitingFile:","findAdversitngDB查询到数据"+chackValue);
+        List<AdverstingHelperDB> adList = DataSupport.where("adCheckValue = ?",chackValue).find(AdverstingHelperDB.class);
+        if (adList.size()>0){
+            LogUtil.e("adversitingFile:","findAdversitngDB查询到数据");
+            for (int i = 0; i < adList.size(); i++) {
+                if (SplashView.isFileExist(adList.get(i).getImgPath())) {
+                    isImgExist = true;
+                } else {
+                    isImgExist = false;
+                }
+            }
+            if (!isImgExist) {//没有匹配数据
+                LogUtil.e("adversitingFile:","findAdversitngDB删除数据库false");
+                deleteAdversitingDB(adversitingBean); //删除本地数据库和图片重新下载
+            } else {
+                LogUtil.e("adversitingFile", "本地匹配到数据");
+            }
+        }else{
+            //没有查询到数据，删除广告表和广告图片
+            LogUtil.e("adversitingFile:","findAdversitngDB删除数据库");
+            deleteAdversitingDB(adversitingBean);
+        }
+    }
+
+    /*
+    * 删除广告表及广告图片
+    * */
+    private void deleteAdversitingDB(AdversitingBean adversitingBean){
+        //广告数据为空,删除广告表
+        LogUtil.e("adversitingFile:","deleteAdversitingDB删除数据库");
+        DataSupport.deleteAll(LoginHelperDB.class);
+
+        if (!runtimePermission.hasPermission(WRITE_EXTERNAL_STORAGE)) {
+            runtimePermission.requestPermission(allPermissions, READ_EXTERNAL_STORAGES);
+            return;
+        } else {
+            //删除广告文件
+            LogUtil.e("adversitingFile:","deleteAdversitingDB删除数据库有权限");
+            SplashView.deleteDir(HttpUrl.ADVERTISING_URL);
+            LogUtil.e("adversitingFile:","deleteAdversitingDB保存图片");
+            saveAdvertisingFile(adversitingBean);
+
+        }
+    }
+
+    //删除广告后重新保存数据库和下载图片
+    public void saveAdvertisingFile(AdversitingBean adversitingBean) {
+        LogUtil.e("adversitingFile:", "saveAdvertisingFile保存图片");
+        if (adversitingBean != null && adversitingBean.getResult().size() > 0) {
+            //查询到后，把查询到的数据存储到MyApp内存中
+            chackValue = "";
+            for (int i=0;i<adversitingBean.getResult().size();i++) {
+                chackValue = chackValue + adversitingBean.getResult().get(i).getAdvManageID();
+            }
+            LogUtil.e("adversitingFile:", "saveAdvertisingFile校验值"+chackValue);
+            for (int i=0;i<adversitingBean.getResult().size();i++) {
+                IMG_NAME = HttpUrl.ADVERTISING_URL + "/" + adversitingBean.getResult().get(i).getAdvManageID() + ".jpg";
+                IMG_URL = adversitingBean.getResult().get(i).getAdUrl();
+                LogUtil.e("adversitingFile:", "saveAdvertisingFile图片名称"+IMG_NAME);
+                //重新保存保存表
+                AdverstingHelperDB adversting=new AdverstingHelperDB();
+                adversting.setStartTime(adversitingBean.getResult().get(i).getStartTime());
+                adversting.setEndTime(adversitingBean.getResult().get(i).getEndTime());
+                adversting.setAdvManageID(adversitingBean.getResult().get(i).getAdvManageID());
+                adversting.setAdType(adversitingBean.getResult().get(i).getAdType());
+                adversting.setDisplayType(adversitingBean.getResult().get(i).getDisplayType());
+                adversting.setAdUrl(IMG_URL);
+                adversting.setActionUrl(adversitingBean.getResult().get(i).getActionUrl());
+                adversting.setImgPath(IMG_NAME);
+                adversting.setAdCheckValue(chackValue);
+                adversting.save();
+                //获取图片并保存到SD卡
+                if (!runtimePermission.hasPermission(WRITE_EXTERNAL_STORAGE)) {
+                    runtimePermission.requestPermission(allPermissions, WRITE_EXTERNAL_STORAGES);
+                    return;
+                } else {
+                    LogUtil.e("adversitingFile:", "saveAdvertisingFile有权限，下载图片");
+                    //下载并保存图片到相册。要下载图片的url，图片下载后保存名称，图片下载后文件夹（路径），上下文
+                    SplashView.getAndSaveNetWorkBitmap(IMG_URL, IMG_NAME, HttpUrl.ADVERTISING_URL, this);
+                }
+            }
+        }else{
+            LogUtil.e("adversitingFile:", "没有图片下载");
+        }
+    }
+
+
+
 }
