@@ -44,6 +44,7 @@
             android:name=".ui.guide_pages.GuideActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

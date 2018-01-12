@@ -91,9 +91,9 @@ public class GuideActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
-       // checkVersion();
+        checkVersion();
         setListener();
-        init();
+      //  init();
 
     }
 
@@ -102,7 +102,7 @@ public class GuideActivity extends Activity {
     * */
     private void checkVersion(){
 
-        OkHttpUtils.post(HttpUrl.RESET_PASSWD_URL)
+        OkHttpUtils.post(HttpUrl.UPDATE_VERSION_URL)
                 .execute(new StringCallback() {
                     @Override
                     public void onBefore(BaseRequest request) {
@@ -116,20 +116,20 @@ public class GuideActivity extends Activity {
                         try {
                             mObj = new JSONObject(s);
                             success = mObj.optBoolean("success");
+
+                            //版本请求成功
+                            if (success) {
+                                long version =Long.parseLong(mObj.getJSONObject("result").optString("mostNewVersion")) ;
+                                Boolean must = mObj.getJSONObject("result").optBoolean("update");
+                                LogUtil.e(TAG, version+"");
+                                update(version,must);
+
+                            } else {
+                                //检测版本失败，直接进入广告
+                                init();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
-                        //版本请求成功
-                        if (success) {
-
-                            long version=mObj.optLong("version");
-                            Boolean must=mObj.optBoolean("isMust");
-
-                            update(version,must);
-
-                        } else {
-                            //检测版本失败，直接进入广告
-                            init();
                         }
                     }
 
@@ -149,7 +149,9 @@ public class GuideActivity extends Activity {
     * */
     private void update(long version,Boolean isMust){
 
-       int currentVersion= VersionMessageUtils.getVersionCode(GuideActivity.this);
+       long currentVersion= VersionMessageUtils.getVersionCode(GuideActivity.this);
+        LogUtil.e(TAG,currentVersion+"");
+        LogUtil.e(TAG,version+"");
        String confirm="";
         String cancel="";
         String message="";
@@ -158,7 +160,7 @@ public class GuideActivity extends Activity {
             //没有版本更新，直接进入广告
             init();
         }else{
-            if (currentVersion > version){
+            if (currentVersion < version){
                 message="检测到新的软件版本";
                 if (isMust){
                     cancel="";
@@ -171,29 +173,31 @@ public class GuideActivity extends Activity {
                 confirm="确定";
                 message="版本出错";
             }
-        }
+
 
         final String finalConfirm = confirm;
         dialog = new CommonDialogUtil(GuideActivity.this, R.style.dialog, message, confirm, cancel, new CommonDialogUtil.OnListener() {
             @Override
             public void onCancelclick() {
+                //不更新，直接进入广告
+                init();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onConfirmClick() {
                 if ("确定".equals(finalConfirm)){
                     init();
                 }else if ("去升级".equals(finalConfirm)){
                     //跳转到应用市场，跳转应用宝
                     GoToMarketUtil.goToMarket(GuideActivity.this,getPackageName());
                 }
-                dialog.dismiss();
-            }
 
-            @Override
-            public void onConfirmClick() {
-                //不更新，直接进入广告
-                init();
                 dialog.dismiss();
             }
         });
         dialog.show();
+        }
 
     }
 

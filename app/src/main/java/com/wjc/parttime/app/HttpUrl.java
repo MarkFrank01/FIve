@@ -6,7 +6,7 @@ package com.wjc.parttime.app;
  */
 
 public class HttpUrl {
-
+    //客户端使用参数，android为1，ios为2
     public final static int CLIENT_TYPE = 1;
 
     public final static String BASE_URL = "http://120.79.40.105:8080/job-serviceweb/service/mapi/";
@@ -18,5 +18,7 @@ public class HttpUrl {
     public final static String LOGIN_URL = BASE_URL + "common/getTokenLogin";
     //重置密码
     public final static String RESET_PASSWD_URL = BASE_URL + "common/resetPassword";
+    //版本更新检测
+    public final static String UPDATE_VERSION_URL = BASE_URL + "common/getSysVersion";
 
 }
