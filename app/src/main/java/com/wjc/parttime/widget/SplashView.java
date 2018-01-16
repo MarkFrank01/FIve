@@ -44,6 +44,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +137,7 @@ public class SplashView extends FrameLayout {
         skipButton = new TextView(mActivity);
         int skipButtonSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, skipButtonSizeInDip, mActivity.getResources().getDisplayMetrics());
         LayoutParams skipButtonLayoutParams = new LayoutParams(skipButtonSize, skipButtonSize);
-        skipButtonLayoutParams.gravity = Gravity.TOP| Gravity.RIGHT;
+        skipButtonLayoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
         int skipButtonMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, skipButtonMarginInDip, mActivity.getResources().getDisplayMetrics());
         skipButtonLayoutParams.setMargins(0, skipButtonMargin, skipButtonMargin, 0);
         skipButton.setGravity(Gravity.CENTER);
@@ -183,11 +184,12 @@ public class SplashView extends FrameLayout {
     /**
      * static method, show splashView on above of the activity
      * you should called after setContentView()
-     * @param activity  activity instance
-     * @param durationTime  time to countDown
-     * @param defaultBitmapRes  if there's no cached bitmap, show this default bitmap;
-     *                          if null == defaultBitmapRes, then will not show the splashView
-     * @param listener  splash view listener contains onImageClick and onDismiss
+     *
+     * @param activity         activity instance
+     * @param durationTime     time to countDown
+     * @param defaultBitmapRes if there's no cached bitmap, show this default bitmap;
+     *                         if null == defaultBitmapRes, then will not show the splashView
+     * @param listener         splash view listener contains onImageClick and onDismiss
      */
     public static void showSplashView(@NonNull Activity activity,
                                       @Nullable Integer durationTime,
@@ -237,14 +239,16 @@ public class SplashView extends FrameLayout {
 
     /**
      * simple way to show splash view, set all non-able param as non
+     *
      * @param activity
      */
     public static void simpleShowSplashView(@NonNull Activity activity) {
-        showSplashView(activity, null, null, null,null);
+        showSplashView(activity, null, null, null, null);
     }
 
     private void dismissSplashView(boolean initiativeDismiss) {
-        if (null != mOnSplashViewActionListener) mOnSplashViewActionListener.onSplashViewDismiss(initiativeDismiss);
+        if (null != mOnSplashViewActionListener)
+            mOnSplashViewActionListener.onSplashViewDismiss(initiativeDismiss);
 
 
         handler.removeCallbacks(timerRunnable);
@@ -310,7 +314,8 @@ public class SplashView extends FrameLayout {
 
     /**
      * static method, update splash view data
-     * @param imgUrl - url of image which you want to set as splash image
+     *
+     * @param imgUrl    - url of image which you want to set as splash image
      * @param actionUrl - related action url, such as webView etc.
      */
     public static void updateSplashData(@NonNull Activity activity, @NonNull String imgUrl, @Nullable String actionUrl) {
@@ -321,11 +326,12 @@ public class SplashView extends FrameLayout {
         editor.putString(ACT_URL, actionUrl);
         editor.apply();
 
-    //    getAndSaveNetWorkBitmap(imgUrl);
+        //    getAndSaveNetWorkBitmap(imgUrl);
     }
 
     public interface OnSplashViewActionListener {
         void onSplashImageClick(String actionUrl);
+
         void onSplashViewDismiss(boolean initiativeDismiss);
     }
 
@@ -355,7 +361,6 @@ public class SplashView extends FrameLayout {
     }
 
 
-
     private static void saveBitmapFile(Bitmap bm, String filePath) throws IOException {
         File myCaptureFile = new File(filePath);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
@@ -368,7 +373,7 @@ public class SplashView extends FrameLayout {
     * 判断图片文件是否存在
     * */
     public static boolean isFileExist(String filePath) {
-        if(TextUtils.isEmpty(filePath)) {
+        if (TextUtils.isEmpty(filePath)) {
             return false;
         } else {
             File file = new File(filePath);
@@ -378,9 +383,9 @@ public class SplashView extends FrameLayout {
 
     //删除文件夹和文件夹里面的文件
     public static void deleteDir(String path) {
-        LogUtil.e("adversitingFile:", "本地文件路径"+path);
+        LogUtil.e("adversitingFile:", "本地文件路径" + path);
         File dir = new File(path);
-        if (dir == null || !dir.exists() || !dir.isDirectory() ){
+        if (dir == null || !dir.exists() || !dir.isDirectory()) {
             return;
         }
 
@@ -449,15 +454,59 @@ public class SplashView extends FrameLayout {
             LogUtil.e("adversitingFile", "保存成功");
             //是否显示保存成功弹窗
             if (isShow) {
-           //     Toast.makeText(activity, "图片已保存到相册", Toast.LENGTH_SHORT).show();
+                //     Toast.makeText(activity, "图片已保存到相册", Toast.LENGTH_SHORT).show();
             }
             updateLite(activity, name);
             bos.flush();
             bos.close();
         } catch (Exception e) {
             LogUtil.e("adversitingFile", e.toString());
-       //     Toast.makeText(activity, "图片保存失败", Toast.LENGTH_SHORT).show();
+            //     Toast.makeText(activity, "图片保存失败", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void saveVedioFile(final String url,final String path,final String photosName) {
+
+        Runnable getAndSaveVedioRunnable = new Runnable(){
+
+            @Override
+            public void run() {
+                final long fileSize;
+                File dirFile = new File(path + "/");
+                LogUtil.e("adversitingFile", dirFile + "");
+                if (!dirFile.exists()) {
+                    dirFile.mkdir();
+                }
+                File out = new File(photosName);
+                URL myURL = null;
+                try {
+                    myURL = new URL(url);
+
+                    URLConnection conn = myURL.openConnection();
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    fileSize = conn.getContentLength();
+                    if (fileSize <= 0)
+                        throw new RuntimeException("can not know the file`s size");
+                    if (is == null)
+                        throw new RuntimeException("stream is null");
+                    FileOutputStream fos = new FileOutputStream(out);
+                    byte buf[] = new byte[1024];
+                    do {
+                        // 循环读取
+                        int numread = is.read(buf);
+                        if (numread == -1) {
+                            break;
+                        }
+                        fos.write(buf, 0, numread);
+                    } while (true);
+                    is.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        };
+        new Thread(getAndSaveVedioRunnable).start();
     }
 
     /*
@@ -473,7 +522,7 @@ public class SplashView extends FrameLayout {
         MediaScannerConnection.scanFile(activity, imgpaths, null, new MediaScannerConnection.OnScanCompletedListener() {
             @Override
             public void onScanCompleted(String path, Uri uri) {
-                LogUtil.e("adversitingFile","onScanCompleted");
+                LogUtil.e("adversitingFile", "onScanCompleted");
                 LogUtil.i("adversitingFile", "Scanned " + path + ":");
                 LogUtil.i("adversitingFile", "-> uri=" + uri);
             }

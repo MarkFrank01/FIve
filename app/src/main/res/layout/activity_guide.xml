@@ -10,12 +10,11 @@
         android:id="@+id/adversting_video_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="@color/colorBlack"
         android:visibility="gone">
 
         <VideoView
             android:id="@+id/video"
-            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -39,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/gif"
@@ -64,7 +63,7 @@
         android:id="@+id/adversting_img_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <cn.bingoogolapple.bgabanner.BGAGuideLinkageLayout
             android:layout_width="match_parent"

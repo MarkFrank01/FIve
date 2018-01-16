@@ -520,7 +520,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             LogUtil.e("adversitingFile:", "saveAdvertisingFile校验值"+chackValue);
             for (int i=0;i<adversitingBean.getResult().size();i++) {
-                IMG_NAME = HttpUrl.ADVERTISING_URL + "/" + adversitingBean.getResult().get(i).getAdvManageID() + ".jpg";
+                if ("V".equalsIgnoreCase(adversitingBean.getResult().get(i).getDisplayType())){
+                    IMG_NAME = HttpUrl.ADVERTISING_URL + "/" + adversitingBean.getResult().get(i).getAdvManageID() + ".mp4";
+                }else if ("G".equalsIgnoreCase(adversitingBean.getResult().get(i).getDisplayType())){
+                    IMG_NAME = HttpUrl.ADVERTISING_URL + "/" + adversitingBean.getResult().get(i).getAdvManageID() + ".gif";
+                }else if("P".equalsIgnoreCase(adversitingBean.getResult().get(i).getDisplayType())){
+                    IMG_NAME = HttpUrl.ADVERTISING_URL + "/" + adversitingBean.getResult().get(i).getAdvManageID() + ".jpg";
+                }
+
                 IMG_URL = adversitingBean.getResult().get(i).getAdUrl();
                 LogUtil.e("adversitingFile:", "saveAdvertisingFile图片名称"+IMG_NAME);
                 //重新保存保存表
@@ -541,8 +548,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 } else {
                     LogUtil.e("adversitingFile:", "saveAdvertisingFile有权限，下载图片");
-                    //下载并保存图片到相册。要下载图片的url，图片下载后保存名称，图片下载后文件夹（路径），上下文
-                    SplashView.getAndSaveNetWorkBitmap(IMG_URL, IMG_NAME, HttpUrl.ADVERTISING_URL, this);
+
+                    if ("V".equalsIgnoreCase(adversitingBean.getResult().get(i).getDisplayType())){
+                        SplashView.saveVedioFile(IMG_URL,HttpUrl.ADVERTISING_URL,IMG_NAME);
+                    }else{
+                        //下载并保存图片到相册。要下载图片的url，图片下载后保存名称，图片下载后文件夹（路径），上下文
+                        SplashView.getAndSaveNetWorkBitmap(IMG_URL, IMG_NAME, HttpUrl.ADVERTISING_URL, this);
+                    }
+
+
+
                 }
             }
         }else{

@@ -11,16 +11,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
@@ -97,7 +103,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
     private String imgPath = ""; //商家图片存储路径
 
-    private String adActionUrl="";//商家广告url
+    private String adActionUrl = "";//商家广告url
 
     ArrayList<AdverstingHelperDB> adList = new ArrayList(); //广告列表临时数据
 
@@ -113,7 +119,12 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_guide);
+
         ButterKnife.bind(this);
         //自动登录请求
         autoLogin();
@@ -266,8 +277,8 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                 adList.add(adverstingHelper);
             }
             AppPermissions runtimePermission = new AppPermissions(this);
-            if (!runtimePermission.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                runtimePermission.requestPermission(allPermissions, WRITE_EXTERNAL_STORAGES);
+            if (!runtimePermission.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                runtimePermission.requestPermission(allPermissions, READ_EXTERNAL_STORAGES);
                 return;
             } else {
                 //获取当前系统时间
@@ -327,18 +338,40 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                         video_rl.setVisibility(View.VISIBLE);
                         gif_rl.setVisibility(View.GONE);
 
-                       // Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/Test_Movie.m4v");
-                        Uri uri=Uri.parse(adUrl);
-                        videoView.setMediaController(new MediaController(this));
+                        // Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/Test_Movie.m4v");
+                        Uri uri = Uri.parse("file://" + imgPath);
+                        MediaController mc = new MediaController(this);
+                        mc.setVisibility(View.INVISIBLE);
+                        videoView.setMediaController(mc);
                         videoView.setVideoURI(uri);
-                        videoView.start();
+                        //用来设置起始播放位置，为0表示从开始播放
+                        videoView.seekTo(0);
+                        //用来设置mp4播放器是否可以聚焦
                         videoView.requestFocus();
+                        //播放完成回调
+                        videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
+                        videoView.start();
+                        videoView.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+
+                                if (videoView.isPlaying()) {
+                                    LogUtil.e("adversitingFile:", "dianji");
+                                    videoView.stopPlayback();
+                                    WebViewActivity.show(GuideActivity.this, "", adActionUrl);
+                                }
+                                return true;
+                            }
+                        });
+
+                        //      videoView.requestFocus();
 
                     } else if ("G".equalsIgnoreCase(displayType)) {
                         //广告类型为gif
                         img_rl.setVisibility(View.GONE);
                         video_rl.setVisibility(View.GONE);
                         gif_rl.setVisibility(View.VISIBLE);
+                        gif.setOnClickListener(this);
 
                         Glide.with(GuideActivity.this).load(adUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gif);
                     }
@@ -378,6 +411,19 @@ public class GuideActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    /*
+    * 视频广告播放完成回调
+    * */
+    class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
+
+
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            Toast.makeText(GuideActivity.this, "播放完成了", Toast.LENGTH_SHORT).show();
+            finishGuide(LoginActivity.class);
+        }
+    }
+
 
     /**
      * 广告页展示，第一个参数上下文，第二个参数为倒计时时间，第三个为加载不出来时默认图片
@@ -390,7 +436,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             public void onSplashImageClick(String actionUrl) {
                 LogUtil.e("SplashView", "img clicked. actionUrl: " + actionUrl);
                 //跳转商家广告，上下文，标题，广告url
-                WebViewActivity.show(GuideActivity.this,"",actionUrl);
+                WebViewActivity.show(GuideActivity.this, "", actionUrl);
             }
 
             @Override
@@ -590,7 +636,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
     }
 
-    @OnClick({R.id.tv_guide_skip_video, R.id.tv_guide_skip_gif,R.id.video,R.id.gif})
+    @OnClick({R.id.tv_guide_skip_video, R.id.tv_guide_skip_gif, R.id.video, R.id.gif})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -602,8 +648,9 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             //点击视频或者gif图直接跳转广告
             case R.id.video:
             case R.id.gif:
+                LogUtil.e("adversitingFile", "跳转");
                 //跳转商家广告，上下文，标题（可为空从JS网页中获取），商家广告url
-                WebViewActivity.show(GuideActivity.this,"",adActionUrl);
+                WebViewActivity.show(GuideActivity.this, "", adActionUrl);
                 break;
 
 
