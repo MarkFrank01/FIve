@@ -61,6 +61,9 @@ dependencies {
     //json 解析库
     compile 'com.alibaba:fastjson:1.1.55.android'
 
+    //glide  图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
 
 }
 /*ShareSDK接入平台账号*/

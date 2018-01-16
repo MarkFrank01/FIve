@@ -11,11 +11,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
@@ -32,6 +41,7 @@ import com.wjc.parttime.util.GoToMarketUtil;
 import com.wjc.parttime.util.LogUtil;
 import com.wjc.parttime.util.NetworkUtil;
 import com.wjc.parttime.util.VersionMessageUtils;
+import com.wjc.parttime.webView.WebViewActivity;
 import com.wjc.parttime.widget.SplashView;
 
 import org.json.JSONException;
@@ -50,16 +60,34 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class GuideActivity extends Activity {
+public class GuideActivity extends Activity implements View.OnClickListener {
     private static final String TAG = GuideActivity.class.getSimpleName();
     @BindView(R.id.banner_guide_background)
     BGABanner mBackgroundBanner;
     @BindView(R.id.banner_guide_foreground)
     BGABanner mForegroundBanner;
+    @BindView(R.id.adversting_img_rl)
+    RelativeLayout img_rl;
+
+    @BindView(R.id.adversting_video_rl)
+    RelativeLayout video_rl;
+    @BindView(R.id.video)
+    VideoView videoView;
+    @BindView(R.id.tv_guide_skip_video)
+    TextView skip_video;
+
+    @BindView(R.id.adversting_gif_rl)
+    RelativeLayout gif_rl;
+    @BindView(R.id.tv_guide_skip_gif)
+    TextView skip_gif;
+    @BindView(R.id.gif)
+    ImageView gif;
+
 
     private SharedPreferences preferences;
 
@@ -67,7 +95,9 @@ public class GuideActivity extends Activity {
 
     private Boolean isAutoLogin = false; //是否自动登录临时数据
 
-    private String imgPath="";
+    private String imgPath = ""; //商家图片存储路径
+
+    private String adActionUrl="";//商家广告url
 
     ArrayList<AdverstingHelperDB> adList = new ArrayList(); //广告列表临时数据
 
@@ -236,8 +266,8 @@ public class GuideActivity extends Activity {
                 adList.add(adverstingHelper);
             }
             AppPermissions runtimePermission = new AppPermissions(this);
-            if (!runtimePermission.hasPermission(Manifest.permission_group.STORAGE)) {
-                runtimePermission.requestPermission(allPermissions,GROUP_EXTERNAL_STORAGES);
+            if (!runtimePermission.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                runtimePermission.requestPermission(allPermissions, WRITE_EXTERNAL_STORAGES);
                 return;
             } else {
                 //获取当前系统时间
@@ -278,20 +308,39 @@ public class GuideActivity extends Activity {
                 String endTime = adList.get(numDisplay).getEndTime();
                 String type = adList.get(numDisplay).getAdType();
                 String displayType = adList.get(numDisplay).getDisplayType();
-                String actionUrl = adList.get(numDisplay).getActionUrl();
+                adActionUrl = adList.get(numDisplay).getActionUrl();
                 LogUtil.e("adversiting", imgPath);
                 LogUtil.e("adversiting", adUrl);
-                LogUtil.e("adversiting", actionUrl);
+                LogUtil.e("adversiting", adActionUrl);
                 //文件是否存在
                 if (isiImgExist && inTime(beginTime, endTime)) {
                     if ("P".equalsIgnoreCase(displayType)) {
                         //广告类型为图片
                         LogUtil.e("adversiting", "文件是否存在显示");
-                        showSplashView(imgPath, actionUrl,imgPath);
+                        img_rl.setVisibility(View.VISIBLE);
+                        video_rl.setVisibility(View.GONE);
+                        gif_rl.setVisibility(View.GONE);
+                        showSplashView(imgPath, adActionUrl, imgPath);
                     } else if ("V".equalsIgnoreCase(displayType)) {
                         //广告类型为视频
+                        img_rl.setVisibility(View.GONE);
+                        video_rl.setVisibility(View.VISIBLE);
+                        gif_rl.setVisibility(View.GONE);
 
+                       // Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/Test_Movie.m4v");
+                        Uri uri=Uri.parse(adUrl);
+                        videoView.setMediaController(new MediaController(this));
+                        videoView.setVideoURI(uri);
+                        videoView.start();
+                        videoView.requestFocus();
 
+                    } else if ("G".equalsIgnoreCase(displayType)) {
+                        //广告类型为gif
+                        img_rl.setVisibility(View.GONE);
+                        video_rl.setVisibility(View.GONE);
+                        gif_rl.setVisibility(View.VISIBLE);
+
+                        Glide.with(GuideActivity.this).load(adUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gif);
                     }
                 } else {
                     LogUtil.e("adversitingFile:", "文件不存在");
@@ -334,13 +383,14 @@ public class GuideActivity extends Activity {
      * 广告页展示，第一个参数上下文，第二个参数为倒计时时间，第三个为加载不出来时默认图片
      * show the SplashView
      */
-    private void showSplashView(String url, String actionUrl,String imgPath) {
+    private void showSplashView(String url, String actionUrl, String imgPath) {
         // call after setContentView(R.layout.activity_login);
-        SplashView.showSplashView(this, 3, R.mipmap.five,imgPath, new SplashView.OnSplashViewActionListener() {
+        SplashView.showSplashView(this, 3, R.mipmap.five, imgPath, new SplashView.OnSplashViewActionListener() {
             @Override
             public void onSplashImageClick(String actionUrl) {
                 LogUtil.e("SplashView", "img clicked. actionUrl: " + actionUrl);
-                //跳转商家广告
+                //跳转商家广告，上下文，标题，广告url
+                WebViewActivity.show(GuideActivity.this,"",actionUrl);
             }
 
             @Override
@@ -511,6 +561,7 @@ public class GuideActivity extends Activity {
         return num;
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -529,12 +580,35 @@ public class GuideActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case GROUP_EXTERNAL_STORAGES:
+            case READ_EXTERNAL_STORAGES:
+            case WRITE_EXTERNAL_STORAGES:
                 gotoLogin();
                 break;
             default:
                 break;
         }
+
+    }
+
+    @OnClick({R.id.tv_guide_skip_video, R.id.tv_guide_skip_gif,R.id.video,R.id.gif})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //点击跳过
+            case R.id.tv_guide_skip_gif:
+            case R.id.tv_guide_skip_video:
+                finishGuide(LoginActivity.class);
+                break;
+            //点击视频或者gif图直接跳转广告
+            case R.id.video:
+            case R.id.gif:
+                //跳转商家广告，上下文，标题（可为空从JS网页中获取），商家广告url
+                WebViewActivity.show(GuideActivity.this,"",adActionUrl);
+                break;
+
+
+        }
+
 
     }
 }

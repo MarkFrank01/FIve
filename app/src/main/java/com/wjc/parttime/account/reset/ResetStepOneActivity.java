@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wjc.parttime.R;
@@ -47,6 +49,11 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
     private String userAccount;
     //用户短信验证码
     private String userAuthCode;
+
+    ImageButton back;
+
+    TextView title;
+
 
     private CommonDialogUtil dialog;
 
@@ -110,6 +117,11 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
         ButterKnife.bind(this);
         //将提交按钮置为不可用
         changeBtnState(false);
+        View bar_ll = findViewById(R.id.ly_reset_bar);
+        title = bar_ll.findViewById(R.id.tv_navigation_label);
+        title.setText(R.string.reset_msg_hint);
+        back = bar_ll.findViewById(R.id.ib_navigation_back);
+        back.setOnClickListener(this);
     }
 
     /**
@@ -182,6 +194,10 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
                 } else {
                     submitCode("86", userAccount, userAuthCode);
                 }
+                break;
+
+            case R.id.ib_navigation_back:
+                finish();
                 break;
         }
 

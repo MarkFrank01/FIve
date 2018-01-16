@@ -555,6 +555,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case WRITE_EXTERNAL_STORAGES:
+            case READ_EXTERNAL_STORAGES:
                 //删除广告文件
                 LogUtil.e("adversitingFile:", "deleteAdversitingDB删除数据库有权限");
                 SplashView.deleteDir(HttpUrl.ADVERTISING_URL + "/");
