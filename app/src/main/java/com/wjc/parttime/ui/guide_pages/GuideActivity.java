@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
@@ -104,6 +105,8 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     private String imgPath = ""; //商家图片存储路径
 
     private String adActionUrl = "";//商家广告url
+
+    private Boolean turnWebView = false;
 
     ArrayList<AdverstingHelperDB> adList = new ArrayList(); //广告列表临时数据
 
@@ -372,8 +375,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                         video_rl.setVisibility(View.GONE);
                         gif_rl.setVisibility(View.VISIBLE);
                         gif.setOnClickListener(this);
-
-                        Glide.with(GuideActivity.this).load(adUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gif);
+                        Glide.with(GuideActivity.this).load(imgPath).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gif);
                     }
                 } else {
                     LogUtil.e("adversitingFile:", "文件不存在");
@@ -541,10 +543,14 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     * 结束当前页面跳转添加动画
     * */
     private void finishGuide(Class newClass) {
-        startActivity(new Intent(GuideActivity.this, newClass));
-        GuideActivity.this.overridePendingTransition(R.anim.main_fade_in, R.anim.main_fade_out);
-        finish();
+        LogUtil.e("GuideActivity", turnWebView + "");
+        if (turnWebView) {
 
+        } else {
+            startActivity(new Intent(GuideActivity.this, newClass));
+            GuideActivity.this.overridePendingTransition(R.anim.main_fade_in, R.anim.main_fade_out);
+            finish();
+        }
     }
 
     /**
@@ -643,17 +649,23 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             //点击跳过
             case R.id.tv_guide_skip_gif:
             case R.id.tv_guide_skip_video:
+                turnWebView = false;
                 finishGuide(LoginActivity.class);
                 break;
             //点击视频或者gif图直接跳转广告
             case R.id.video:
             case R.id.gif:
                 LogUtil.e("adversitingFile", "跳转");
+                LogUtil.e("adversitingFile", adActionUrl);
+                turnWebView = true;
                 //跳转商家广告，上下文，标题（可为空从JS网页中获取），商家广告url
-                WebViewActivity.show(GuideActivity.this, "", adActionUrl);
+                // WebViewActivity.show(GuideActivity.this, "123", adActionUrl);
+                //finish();
+                Intent intent = new Intent(GuideActivity.this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.TITLE_KEY, "");
+                intent.putExtra(WebViewActivity.CONTENT_KEY, adActionUrl);
+                startActivity(intent);
                 break;
-
-
         }
 
 

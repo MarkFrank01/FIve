@@ -60,6 +60,7 @@
         <activity android:name=".account.register.RegisterActivity" />
         <activity android:name=".account.reset.ResetStepOneActivity" />
         <activity android:name=".account.reset.ResetStepTwoActivity" />
+        <activity android:name=".webView.WebViewActivity" />
 
         <!--ShareSDK-->
         <activity

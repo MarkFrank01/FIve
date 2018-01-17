@@ -4,9 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/ly_reset_bar"
-        layout="@layout/activity_main_login_navigation_bar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/app_main_yellow"
+        android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ib_navigation_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_login_navigation_bar"
+        android:contentDescription="@null"
+        />
+
+    <TextView
+        android:id="@+id/tv_navigation_label"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        />
+    </LinearLayout>
                 <WebView
                     android:id="@+id/wv_view"
                     android:layout_width="match_parent"

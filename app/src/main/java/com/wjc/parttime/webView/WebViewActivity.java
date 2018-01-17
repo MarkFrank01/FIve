@@ -55,10 +55,12 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         contentUrl = getIntent().getStringExtra(CONTENT_KEY);
 
         setContentView(R.layout.activity_webview);
-        View bar_ll = findViewById(R.id.ly_reset_bar);
-        webTitle = bar_ll.findViewById(R.id.tv_navigation_label);
-        webTitle.setText(titleName);
-        back = bar_ll.findViewById(R.id.ib_navigation_back);
+
+        webTitle = findViewById(R.id.tv_navigation_label);
+        if (!TextUtils.isEmpty(contentUrl)) {
+            webTitle.setText(titleName);
+        }
+        back = findViewById(R.id.ib_navigation_back);
         back.setOnClickListener(this);
         init();
 
@@ -69,10 +71,10 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
      *
      * @param context context
      */
-    public static void show(Context context,String title,String contentUrl) {
+    public static void show(Context context, String title, String contentUrl) {
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.putExtra(TITLE_KEY,title);
-        intent.putExtra(CONTENT_KEY,contentUrl);
+        intent.putExtra(TITLE_KEY, title);
+        intent.putExtra(CONTENT_KEY, contentUrl);
         context.startActivity(intent);
     }
 
@@ -94,6 +96,8 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         settings.setGeolocationEnabled(true);
 
         settings.setDatabaseEnabled(true);
+
+        mWebView.loadUrl(contentUrl);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //两者都可以
@@ -140,7 +144,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
             }
         });
 
-       //加载过程中操作
+        //加载过程中操作
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
