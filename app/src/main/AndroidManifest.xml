@@ -42,8 +42,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Account_Base.App.Theme.NoTitle"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".ui.guide_pages.GuideActivity"
             android:label="@string/app_name"
@@ -62,7 +61,7 @@
         <activity android:name=".account.reset.ResetStepTwoActivity" />
         <activity android:name=".webView.WebViewActivity" />
 
-        <!--ShareSDK-->
+        <!-- ShareSDK -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -93,7 +92,8 @@
              android:screenOrientation="portrait"
              android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
 
-
+        <activity android:name=".mvp.home.BaseHomeActivity">
+        </activity>
     </application>
 
 </manifest>

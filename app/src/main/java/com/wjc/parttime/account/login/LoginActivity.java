@@ -36,6 +36,7 @@ import com.wjc.parttime.bean.AdversitingBean;
 import com.wjc.parttime.bean.RegisterUsersBean;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
+import com.wjc.parttime.mvp.home.BaseHomeActivity;
 import com.wjc.parttime.util.LogUtil;
 import com.wjc.parttime.widget.SplashView;
 
@@ -147,6 +148,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     LoginRequest(userName,userPassWord);
                 }
+                //暂时未做处理
+                BaseHomeActivity.show(LoginActivity.this);
                 break;
 
             case R.id.et_login_username:
