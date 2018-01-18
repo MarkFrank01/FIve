@@ -43,6 +43,7 @@ import com.wjc.parttime.account.login.LoginActivity;
 import com.wjc.parttime.R;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.bean.RegisterUsersBean;
+import com.wjc.parttime.mvp.home.BaseHomeActivity;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.GoToMarketUtil;
 import com.wjc.parttime.util.LogUtil;
@@ -458,15 +459,11 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     * 自动登录是否通过，如果通过跳转主页面，如果不通过跳转登录页
     * */
     private void gotoLogin() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        LogUtil.e("GuideActivity", isAutoLogin+"");
         if (isAutoLogin) {
             LogUtil.e("GuideActivity", "自动登录 ");
             //跳转主页面
-            //    finishGuide(MainActivity.class);
+            BaseHomeActivity.show(GuideActivity.this);
         } else {
             finishGuide(LoginActivity.class);
         }
@@ -524,6 +521,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                         } else {
                             isAutoLogin = false;
                         }
+                        LogUtil.e("GuideActivity", isAutoLogin+"");
                     }
 
                     @Override
@@ -650,7 +648,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             case R.id.tv_guide_skip_gif:
             case R.id.tv_guide_skip_video:
                 turnWebView = false;
-                finishGuide(LoginActivity.class);
+                gotoLogin();
                 break;
             //点击视频或者gif图直接跳转广告
             case R.id.video:

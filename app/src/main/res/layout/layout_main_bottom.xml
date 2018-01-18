@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="@dimen/DIMEN_192PX"
     android:layout_gravity="bottom">
 
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="@dimen/DIMEN_180PX"
         android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/DIMEN_12PX"
         android:background="@color/colorWhite"
         android:orientation="horizontal">
 
@@ -23,18 +23,28 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <View
+                android:id="@+id/line_home"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_line_gray_bg"
+                android:visibility="visible" />
+
             <ImageView
                 android:id="@+id/img_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_home"/>
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:src="@drawable/selector_home" />
+
             <TextView
                 android:id="@+id/tv_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="社区"
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:text="首页"
                 android:textColor="#999999"
-                android:textSize="30px"/>
+                android:textSize="@dimen/text_size_60" />
 
         </LinearLayout>
 
@@ -47,25 +57,35 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <View
+                android:id="@+id/line_part_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_line_gray_bg"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/img_part_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_find"/>
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:src="@drawable/selector_find" />
+
             <TextView
                 android:id="@+id/tv_part_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="社区"
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:text="我的兼职"
                 android:textColor="#999999"
-                android:textSize="30px"/>
+                android:textSize="@dimen/text_size_54" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/parent_discovery"
@@ -76,18 +96,28 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <View
+                android:id="@+id/line_discovery"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_line_gray_bg"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/img_discovery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_message"/>
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:src="@drawable/selector_message" />
+
             <TextView
                 android:id="@+id/tv_discovery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="社区"
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:text="发现"
                 android:textColor="#999999"
-                android:textSize="30px"/>
+                android:textSize="@dimen/text_size_54" />
 
         </LinearLayout>
 
@@ -100,25 +130,37 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <View
+                android:id="@+id/line_mine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_line_gray_bg"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/img_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_mine"/>
+                android:layout_marginTop="@dimen/DIMEN_16PX"
+                android:src="@drawable/selector_mine" />
+
             <TextView
                 android:id="@+id/tv_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="社区"
+                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:text="个人中心"
                 android:textColor="#999999"
-                android:textSize="30px"/>
+                android:textSize="@dimen/text_size_54" />
         </LinearLayout>
     </LinearLayout>
 
+    <!--
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="18dp"
+        android:layout_height="@dimen/DIMEN_6PX"
+        android:layout_marginTop="@dimen/DIMEN_54PX"
         android:background="@drawable/shape_line_shadow"/>
+        -->
 
 </RelativeLayout>

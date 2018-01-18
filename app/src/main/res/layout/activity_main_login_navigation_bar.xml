@@ -10,8 +10,8 @@
 
     <ImageButton
         android:id="@+id/ib_navigation_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/DIMEN_144PX"
+        android:layout_height="@dimen/DIMEN_144PX"
         android:background="@drawable/bg_login_navigation_bar"
         android:contentDescription="@null"
         app:srcCompat="@mipmap/btn_back_normal"/>
@@ -24,10 +24,10 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_54"
         tools:text="@string/app_name"/>
 
     <Space
-        android:layout_width="48dp"
-        android:layout_height="48dp"/>
+        android:layout_width="@dimen/DIMEN_144PX"
+        android:layout_height="@dimen/DIMEN_144PX"/>
 </LinearLayout>
