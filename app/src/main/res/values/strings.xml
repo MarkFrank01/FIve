@@ -12,8 +12,8 @@
     <string name="login_other_way">通过第三方账号登录</string>
     <string name="login_by_wx">微信</string>
     <string name="login_by_xl">新浪微博</string>
-    <string name="login_no_account">没有账号?注册</string>
-    <string name="login_forget_pwd">忘记密码?重置</string>
+    <string name="login_no_account">没有账号? 注册  > </string>
+    <string name="login_forget_pwd">忘记密码? 重置  > </string>
     <string name="input_username">请输入您的账号</string>
     <string name="input_password">请输入您的密码</string>
 
@@ -39,5 +39,9 @@
     <string name="reset_password_hint">请输入您的新密码</string>
     <string name="reset_password_again_hint">请再次输入新密码</string>
     <string name="reset_password_check">两次输入的密码不一样</string>
+
+    <!--modify-->
+    <string name="modify_title">修改密码</string>
+    <string name="modify_password_hint">请输入您的旧密码</string>
 
 </resources>

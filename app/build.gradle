@@ -9,7 +9,7 @@ android {
         minSdkVersion setup.minSdk
         targetSdkVersion setup.targetSdk
         multiDexEnabled true
-        versionCode 2018011601
+        versionCode 2018011801
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

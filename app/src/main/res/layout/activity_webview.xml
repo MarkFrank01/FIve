@@ -2,20 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_main_background"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/DIMEN_144PX"
         android:background="@color/app_main_yellow"
         android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/ib_navigation_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/DIMEN_144PX"
+        android:layout_height="@dimen/DIMEN_144PX"
         android:background="@drawable/bg_login_navigation_bar"
         android:contentDescription="@null"
+        app:srcCompat="@mipmap/btn_back_normal"
         />
 
     <TextView
@@ -25,7 +28,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorBlack"
         android:textSize="18sp"
         />
     </LinearLayout>

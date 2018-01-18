@@ -36,5 +36,7 @@ public class HttpUrl {
     public final static String UPDATE_VERSION_URL = BASE_URL + "common/getSysVersion";
     //开屏广告
     public final static String ADVERSITING_URL = BASE_URL + "common/getAppAdvInfo";
+    //修改密码
+    public final static String MODIFY_PASSWD_URL = BASE_URL + "acc/sysuser/modifyPassword";
 
 }

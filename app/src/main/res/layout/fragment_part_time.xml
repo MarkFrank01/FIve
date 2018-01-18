@@ -3,5 +3,20 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/app_main_yellow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_144PX">
+        <TextView
+            android:id="@+id/fragment_part_time_title"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_54"
+            android:text="part"/>
+    </RelativeLayout>
 
 </LinearLayout>

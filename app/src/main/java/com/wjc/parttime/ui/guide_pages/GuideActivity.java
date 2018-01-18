@@ -376,7 +376,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                         video_rl.setVisibility(View.GONE);
                         gif_rl.setVisibility(View.VISIBLE);
                         gif.setOnClickListener(this);
-                        Glide.with(GuideActivity.this).load(imgPath).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gif);
+                        Glide.with(GuideActivity.this).load(imgPath).asGif().diskCacheStrategy(DiskCacheStrategy.NONE).into(gif);
                     }
                 } else {
                     LogUtil.e("adversitingFile:", "文件不存在");
@@ -661,6 +661,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                 //finish();
                 Intent intent = new Intent(GuideActivity.this, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.TITLE_KEY, "");
+                intent.putExtra(WebViewActivity.AUTO_KEY, isAutoLogin);
                 intent.putExtra(WebViewActivity.CONTENT_KEY, adActionUrl);
                 startActivity(intent);
                 break;

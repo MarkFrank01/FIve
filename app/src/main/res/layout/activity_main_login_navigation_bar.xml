@@ -3,7 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="@dimen/DIMEN_144PX"
               android:background="@color/app_main_yellow"
               android:gravity="center_horizontal"
               android:orientation="horizontal">
@@ -23,7 +23,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_size_54"
         tools:text="@string/app_name"/>
 

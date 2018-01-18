@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/lay_reset_container"
+              android:id="@+id/lay_modify_container"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:fitsSystemWindows="true"
@@ -10,11 +10,11 @@
               android:orientation="vertical">
 
     <include
-        android:id="@+id/ly_reset_bar"
+        android:id="@+id/ly_modify_bar"
         layout="@layout/activity_main_login_navigation_bar"/>
 
     <LinearLayout
-        android:id="@+id/ll_reset_pwd"
+        android:id="@+id/ll_modify_old_pwd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_168PX"
         android:layout_marginLeft="@dimen/DIMEN_72PX"
@@ -25,7 +25,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/iv_reset_pwd_icon"
+            android:id="@+id/iv_modify_pwd_old_icon"
             android:layout_width="@dimen/DIMEN_72PX"
             android:layout_height="@dimen/DIMEN_72PX"
             android:layout_marginLeft="@dimen/DIMEN_42PX"
@@ -41,7 +41,7 @@
             tools:ignore="RtlHardcoded"/>
 
         <EditText
-            android:id="@+id/et_reset_pwd"
+            android:id="@+id/et_modify_old_pwd"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
             android:textSize="16sp"/>
 
         <ImageView
-            android:id="@+id/iv_reset_pwd_del"
+            android:id="@+id/iv_modify_old_pwd_del"
             android:layout_width="@dimen/DIMEN_60PX"
             android:layout_height="@dimen/DIMEN_60PX"
             android:layout_marginRight="16dp"
@@ -70,7 +70,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_reset_pwd2"
+        android:id="@+id/ll_modify_pwd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_168PX"
         android:layout_marginLeft="@dimen/DIMEN_72PX"
@@ -81,7 +81,63 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/iv_reset_pwd_icon2"
+            android:id="@+id/iv_modify_pwd_icon"
+            android:layout_width="@dimen/DIMEN_72PX"
+            android:layout_height="@dimen/DIMEN_72PX"
+            android:layout_marginLeft="@dimen/DIMEN_42PX"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_login_password"
+            tools:ignore="RtlHardcoded"/>
+
+        <View
+            android:layout_width="@dimen/DIMEN_1PX"
+            android:layout_height="@dimen/DIMEN_42PX"
+            android:layout_marginLeft="@dimen/DIMEN_42PX"
+            android:background="@color/login_line_color"
+            tools:ignore="RtlHardcoded"/>
+
+        <EditText
+            android:id="@+id/et_modify_pwd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/reset_password_hint"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:minLines="1"
+            android:paddingLeft="@dimen/DIMEN_12PX"
+            android:paddingRight="@dimen/DIMEN_12PX"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/app_hint_gray"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/iv_modify_pwd_del"
+            android:layout_width="@dimen/DIMEN_60PX"
+            android:layout_height="@dimen/DIMEN_60PX"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/ic_clear"
+            tools:ignore="RtlHardcoded"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_modify_pwd2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_168PX"
+        android:layout_marginLeft="@dimen/DIMEN_72PX"
+        android:layout_marginRight="@dimen/DIMEN_72PX"
+        android:layout_marginTop="@dimen/DIMEN_168PX"
+        android:background="@drawable/bg_login_input_ok"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_modify_pwd_icon2"
             android:layout_width="@dimen/DIMEN_72PX"
             android:layout_height="@dimen/DIMEN_72PX"
             android:layout_marginLeft="@dimen/DIMEN_42PX"
@@ -97,7 +153,7 @@
             tools:ignore="RtlHardcoded"/>
 
         <EditText
-            android:id="@+id/et_reset_pwd_confirm"
+            android:id="@+id/et_modify_pwd_confirm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -114,7 +170,7 @@
             android:textSize="16sp"/>
 
         <ImageView
-            android:id="@+id/iv_reset_pwd_del2"
+            android:id="@+id/iv_modify_pwd_del2"
             android:layout_width="@dimen/DIMEN_60PX"
             android:layout_height="@dimen/DIMEN_60PX"
             android:layout_marginRight="16dp"
@@ -126,7 +182,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/bt_reset_submit"
+        android:id="@+id/bt_modify_submit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_158PX"
         android:layout_marginLeft="@dimen/DIMEN_72PX"
@@ -139,5 +195,29 @@
         android:textSize="18sp"
         android:translationZ="0dp"
         tools:targetApi="lollipop"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="@dimen/DIMEN_30PX"
+        android:gravity="center|bottom">
+
+        <TextView
+            android:id="@+id/tv_modify_forget_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/DIMEN_20PX"
+            android:layout_alignParentBottom="true"
+            android:text="@string/login_forget_pwd"
+            android:textColor="@color/app_text_blue"
+            android:textSize="@dimen/text_size_48"
+            tools:ignore="RtlSymmetry"/>
+
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>

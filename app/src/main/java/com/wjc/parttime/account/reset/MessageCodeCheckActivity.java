@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wjc.parttime.R;
+import com.wjc.parttime.account.modify.ModifyPassWordActivity;
 import com.wjc.parttime.util.CheckPhoneNumberUtil;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
@@ -32,7 +33,7 @@ import cn.smssdk.SMSSDK;
  * Describe : TODO
  */
 
-public class ResetStepOneActivity extends AppCompatActivity implements View.OnClickListener {
+public class MessageCodeCheckActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.et_reset_account)
     EditText account;
@@ -43,7 +44,7 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
 
     //跳转KEY
     public static String INTENT_PASSWD_KEY = "PASSWORD";
-    //密码value
+    //密码value,1为重置密码（忘记密码），2为修改密码
     public static int INTENT_PASSWD_VALUE = 0;
     //用户账号
     private String userAccount;
@@ -57,7 +58,7 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
 
     private CommonDialogUtil dialog;
 
-    private String TAG="ResetStepOneActivity";
+    private String TAG="MessageCodeCheckActivity";
 
     Handler handler = new Handler() {
         @Override
@@ -70,7 +71,7 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
                 case 2:
                     //短信发送失败，what值设置为2提交handler处理，将提交按钮置为不可用
                     changeBtnState(false);
-                    dialog = new CommonDialogUtil(ResetStepOneActivity.this, R.style.dialog, "短信获取失败，请重试", "确定", "取消", new CommonDialogUtil.OnListener() {
+                    dialog = new CommonDialogUtil(MessageCodeCheckActivity.this, R.style.dialog, "短信获取失败，请重试", "确定", "取消", new CommonDialogUtil.OnListener() {
                         @Override
                         public void onCancelclick() {
                             dialog.dismiss();
@@ -85,7 +86,7 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
                     break;
                 case 3:
                     //验证码错误，清除验证码输入框内容
-                    dialog = new CommonDialogUtil(ResetStepOneActivity.this, R.style.dialog, "验证码错误，请重新输入", "确定", "取消", new CommonDialogUtil.OnListener() {
+                    dialog = new CommonDialogUtil(MessageCodeCheckActivity.this, R.style.dialog, "验证码错误，请重新输入", "确定", "取消", new CommonDialogUtil.OnListener() {
                         @Override
                         public void onCancelclick() {
                             //清除验证码输入框内容
@@ -130,7 +131,7 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
      * @param context context
      */
     public static void show(Context context) {
-        Intent intent = new Intent(context, ResetStepOneActivity.class);
+        Intent intent = new Intent(context, MessageCodeCheckActivity.class);
         context.startActivity(intent);
     }
 
@@ -156,12 +157,12 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
                 //发送短信验证码
                 userAccount = account.getText().toString().trim();
                 if (TextUtils.isEmpty(userAccount)) {
-                    Toast.makeText(ResetStepOneActivity.this, R.string.reset_account, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MessageCodeCheckActivity.this, R.string.reset_account, Toast.LENGTH_SHORT).show();
                     //将提交按钮置为不可用
                     changeBtnState(false);
                 } else if (!CheckPhoneNumberUtil.FormatCheckForPhone(userAccount)) {
                     LogUtil.e(TAG, "手机号码验证不通过");
-                    dialog = new CommonDialogUtil(ResetStepOneActivity.this, R.style.dialog, "手机号码格式错误，请重新输入", "确定", new CommonDialogUtil.OnListener() {
+                    dialog = new CommonDialogUtil(MessageCodeCheckActivity.this, R.style.dialog, "手机号码格式错误，请重新输入", "确定", new CommonDialogUtil.OnListener() {
                         @Override
                         public void onCancelclick() {
                             //清除账号输入框内容
@@ -188,7 +189,7 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
                 //提交Mob凭条验证
                 userAuthCode = authCode.getText().toString().trim();
                 if (TextUtils.isEmpty(userAuthCode)) {
-                    Toast.makeText(ResetStepOneActivity.this, R.string.reset_auth_code, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MessageCodeCheckActivity.this, R.string.reset_auth_code, Toast.LENGTH_SHORT).show();
                     //将提交按钮置为不可用
                     changeBtnState(false);
                 } else {
@@ -243,15 +244,19 @@ public class ResetStepOneActivity extends AppCompatActivity implements View.OnCl
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // TODO 处理验证成功的结果
                     LogUtil.e(TAG, "验证成功");
-                    Intent intent = new Intent(ResetStepOneActivity.this, ResetStepTwoActivity.class);
+
                     if (INTENT_PASSWD_VALUE == 1) {
                         //重置密码
-                        intent.putExtra(ResetStepTwoActivity.INTENT_RESET_PASSWD, userAccount);
-                    } else {
+                        Intent intent = new Intent(MessageCodeCheckActivity.this, ResetPassWordActivity.class);
+                        intent.putExtra(ResetPassWordActivity.INTENT_RESET_PASSWD, userAccount);
+                        startActivity(intent);
+                    } else if (INTENT_PASSWD_VALUE == 2){
                         //修改密码
-                        //   intent.putExtra(ResetStepTwoActivity.INTENT_RESET_PASSWD,userAccount);
+                        Intent intent = new Intent(MessageCodeCheckActivity.this, ModifyPassWordActivity.class);
+                        intent.putExtra(ModifyPassWordActivity.INTENT_MODIFY_PASSWD, userAccount);
+                        startActivity(intent);
                     }
-                    startActivity(intent);
+
 
                 } else {
                     // TODO 处理错误的结果

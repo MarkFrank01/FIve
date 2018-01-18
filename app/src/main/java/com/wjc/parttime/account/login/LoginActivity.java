@@ -1,6 +1,5 @@
 package com.wjc.parttime.account.login;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -8,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -24,22 +22,18 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
 import com.lzy.okhttputils.request.BaseRequest;
 import com.mob.tools.utils.UIHandler;
-import com.mukesh.permissions.AppPermissions;
-import com.wjc.parttime.LitePalHelperDB.AdverstingHelperDB;
 import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.LitePalHelperDB.UserHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.register.RegisterActivity;
-import com.wjc.parttime.account.reset.ResetStepOneActivity;
+import com.wjc.parttime.account.reset.MessageCodeCheckActivity;
 import com.wjc.parttime.app.HttpUrl;
-import com.wjc.parttime.bean.AdversitingBean;
 import com.wjc.parttime.bean.RegisterUsersBean;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CheckPhoneNumberUtil;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.mvp.home.BaseHomeActivity;
 import com.wjc.parttime.util.LogUtil;
-import com.wjc.parttime.widget.SplashView;
 
 import org.litepal.crud.DataSupport;
 
@@ -60,8 +54,6 @@ import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
 import okhttp3.Response;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.R.attr.action;
 
 /**
@@ -152,8 +144,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_login_forget_pwd:
                 //忘记密码和重置密码共用
                 Toast.makeText(this, "忘记密码", Toast.LENGTH_SHORT).show();
-                Intent resetPassWdIntent=new Intent(LoginActivity.this,ResetStepOneActivity.class);
-                resetPassWdIntent.putExtra(ResetStepOneActivity.INTENT_PASSWD_KEY,1);
+                Intent resetPassWdIntent=new Intent(LoginActivity.this,MessageCodeCheckActivity.class);
+                resetPassWdIntent.putExtra(MessageCodeCheckActivity.INTENT_PASSWD_KEY,1);
                 startActivity(resetPassWdIntent);
                 break;
 
@@ -209,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Gson gson = new Gson();
                         RegisterUsersBean user = gson.fromJson(s, RegisterUsersBean.class);
                         Boolean success = user.isSuccess();
-                        //注册成功
+                        //登录成功
                         if (success) {
                             List<UserHelperDB> userList = DataSupport.where("telephone = ?", userName).find(UserHelperDB.class);
                             if (userList == null) {

@@ -57,7 +57,8 @@
     <color name="colorPet">#f2473d</color>
 
     <!--全局黄色主色调-->
-    <color name="app_main_yellow">#FCE13C</color>
+    <color name="app_main_yellow">#FFD200</color>
+    <color name="app_main_gold">#CA9F75</color>
     <!--全局背景颜色-->
     <color name="app_main_background">#F2F2F2</color>
     <!--全局editText hint字体颜色-->

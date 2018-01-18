@@ -178,10 +178,10 @@
             android:textCursorDrawable="@null"
             android:textSize="@dimen/text_size_48" />
 
-        <View
+   <!--     <View
             android:layout_width="@dimen/DIMEN_1PX"
             android:layout_height="@dimen/DIMEN_66PX"
-            android:background="@color/colorBlack" />
+            android:background="@color/colorBlack" />-->
 
         <TextView
             android:id="@+id/tv_register_sms_call"
@@ -289,10 +289,10 @@
         android:layout_marginLeft="@dimen/DIMEN_72PX"
         android:layout_marginRight="@dimen/DIMEN_72PX"
         android:layout_marginTop="@dimen/DIMEN_120PX"
-        android:background="@drawable/bg_login_submit_lock"
+        android:background="@drawable/bg_login_submit"
         android:elevation="0dp"
         android:text="@string/register_submit"
-        android:textColor="@color/account_lock_font_color"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_54"
         tools:targetApi="lollipop" />
 

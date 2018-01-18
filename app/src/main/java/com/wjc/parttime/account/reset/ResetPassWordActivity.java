@@ -41,7 +41,7 @@ import okhttp3.Response;
  * Describe : TODO
  */
 
-public class ResetStepTwoActivity extends AppCompatActivity implements View.OnClickListener{
+public class ResetPassWordActivity extends AppCompatActivity implements View.OnClickListener{
      @BindView(R.id.et_reset_pwd)
     EditText newPwd;
     @BindView(R.id.et_reset_pwd_confirm)
@@ -80,7 +80,7 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
      * @param context context
      */
     public static void show(Context context) {
-        Intent intent = new Intent(context, ResetStepTwoActivity.class);
+        Intent intent = new Intent(context, ResetPassWordActivity.class);
         context.startActivity(intent);
     }
 
@@ -96,11 +96,11 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
                String newPasswd=newPwd.getText().toString().trim();
                String passwdConfirm=newPwdConfirm.getText().toString().trim();
                if (TextUtils.isEmpty(newPasswd)) {
-                   Toast.makeText(ResetStepTwoActivity.this, R.string.reset_password_hint, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(ResetPassWordActivity.this, R.string.reset_password_hint, Toast.LENGTH_SHORT).show();
                } else if (TextUtils.isEmpty(passwdConfirm)) {
-                   Toast.makeText(ResetStepTwoActivity.this, R.string.reset_password_again_hint, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(ResetPassWordActivity.this, R.string.reset_password_again_hint, Toast.LENGTH_SHORT).show();
                }else if (!newPasswd.equals(passwdConfirm)){
-                   Toast.makeText(ResetStepTwoActivity.this, R.string.reset_password_check, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(ResetPassWordActivity.this, R.string.reset_password_check, Toast.LENGTH_SHORT).show();
                }else{
                        ResetPassWdRequest(passwdConfirm,userName);
                }
@@ -135,17 +135,17 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
                         }
                         //重置密码成功
                         if (success) {
-                            dialog = new CommonDialogUtil(ResetStepTwoActivity.this, R.style.dialog, "密码重置成功！", "重新登录", "确定", new CommonDialogUtil.OnListener() {
+                            dialog = new CommonDialogUtil(ResetPassWordActivity.this, R.style.dialog, "密码重置成功！", "重新登录", "确定", new CommonDialogUtil.OnListener() {
                                 @Override
                                 public void onCancelclick() {
-                                    LoginActivity.show(ResetStepTwoActivity.this);
+                                    LoginActivity.show(ResetPassWordActivity.this);
                                     dialog.dismiss();
                                     finish();
                                 }
 
                                 @Override
                                 public void onConfirmClick() {
-                                    LoginActivity.show(ResetStepTwoActivity.this);
+                                    LoginActivity.show(ResetPassWordActivity.this);
                                     dialog.dismiss();
                                     finish();
                                 }
@@ -153,7 +153,7 @@ public class ResetStepTwoActivity extends AppCompatActivity implements View.OnCl
                             dialog.show();
                         } else {
                             //重置密码失败
-                            dialog = new CommonDialogUtil(ResetStepTwoActivity.this, R.style.dialog, "重置密码失败，请重试", "确定", "取消", new CommonDialogUtil.OnListener() {
+                            dialog = new CommonDialogUtil(ResetPassWordActivity.this, R.style.dialog, "重置密码失败，请重试", "确定", "取消", new CommonDialogUtil.OnListener() {
                                 @Override
                                 public void onCancelclick() {
                                     dialog.dismiss();

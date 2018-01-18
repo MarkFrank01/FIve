@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.login.LoginActivity;
+import com.wjc.parttime.mvp.home.BaseHomeActivity;
 
 
 /**
@@ -38,13 +39,17 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
 
     private ImageButton back;
 
-    public static String TITLE_KEY = "web_title";
+    public static String TITLE_KEY = "web_title"; //标题
 
     private String titleName;
 
-    public static String CONTENT_KEY = "web_content";
+    public static String CONTENT_KEY = "web_content"; //web Url
+
+    public static String AUTO_KEY="web_auto_login";//是否自动登录
 
     private String contentUrl = "";
+
+    private Boolean autoLogin=false;
 
 
     @Override
@@ -53,7 +58,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
 
         titleName = getIntent().getStringExtra(TITLE_KEY);
         contentUrl = getIntent().getStringExtra(CONTENT_KEY);
-
+        autoLogin=getIntent().getBooleanExtra(AUTO_KEY,false);
         setContentView(R.layout.activity_webview);
 
         webTitle = findViewById(R.id.tv_navigation_label);
@@ -174,7 +179,16 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
                 return true;
             } else {
                 // System.exit(0);//退出程序
-                finish();
+                if (autoLogin){
+                    //允许自动登录，跳转主页面
+                    BaseHomeActivity.show(WebViewActivity.this);
+                    finish();
+                }else{
+                    //自动登录失败，跳转登录页
+                    LoginActivity.show(WebViewActivity.this);
+                    finish();
+                }
+
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -185,7 +199,15 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_navigation_back:
-                finish();
+                if (autoLogin){
+                    //允许自动登录，跳转主页面
+                    BaseHomeActivity.show(WebViewActivity.this);
+                    finish();
+                }else{
+                    //自动登录失败，跳转登录页
+                    LoginActivity.show(WebViewActivity.this);
+                    finish();
+                }
                 break;
         }
     }

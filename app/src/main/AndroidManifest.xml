@@ -57,8 +57,9 @@
         </activity>
 
         <activity android:name=".account.register.RegisterActivity" />
-        <activity android:name=".account.reset.ResetStepOneActivity" />
-        <activity android:name=".account.reset.ResetStepTwoActivity" />
+        <activity android:name=".account.reset.MessageCodeCheckActivity" />
+        <activity android:name=".account.reset.ResetPassWordActivity" />
+        <activity android:name=".account.modify.ModifyPassWordActivity" />
         <activity android:name=".webView.WebViewActivity" />
 
         <!-- ShareSDK -->
