@@ -439,7 +439,13 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             public void onSplashImageClick(String actionUrl) {
                 LogUtil.e("SplashView", "img clicked. actionUrl: " + actionUrl);
                 //跳转商家广告，上下文，标题，广告url
-                WebViewActivity.show(GuideActivity.this, "", actionUrl);
+               // WebViewActivity.show(GuideActivity.this, "", actionUrl);
+                Intent intent = new Intent(GuideActivity.this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.TITLE_KEY, "");
+                intent.putExtra(WebViewActivity.AUTO_KEY, isAutoLogin);
+                intent.putExtra(WebViewActivity.CONTENT_KEY, adActionUrl);
+                intent.putExtra(WebViewActivity.CLASS_KEY, "GuideActivity");
+                startActivity(intent);
             }
 
             @Override
@@ -663,6 +669,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                 intent.putExtra(WebViewActivity.TITLE_KEY, "");
                 intent.putExtra(WebViewActivity.AUTO_KEY, isAutoLogin);
                 intent.putExtra(WebViewActivity.CONTENT_KEY, adActionUrl);
+                intent.putExtra(WebViewActivity.CLASS_KEY, "GUIDE");
                 startActivity(intent);
                 break;
         }

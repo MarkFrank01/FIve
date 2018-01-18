@@ -26,10 +26,10 @@ import com.wjc.parttime.mvp.home.BaseHomeActivity;
 
 
 /**
- * @类名: FAQActivity
- * @描述: 信包箱帮助详情
- * @作者 CHENHUI
- * @创建日期 2017/6/8 16:15
+ * @类名: WebViewActivity
+ * @描述:
+ * @作者 yhui
+ * @创建日期 2018/1/18 16:15
  */
 public class WebViewActivity extends Activity implements View.OnClickListener {
 
@@ -41,13 +41,17 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
 
     public static String TITLE_KEY = "web_title"; //标题
 
+
     private String titleName;
 
     public static String CONTENT_KEY = "web_content"; //web Url
 
     public static String AUTO_KEY="web_auto_login";//是否自动登录
 
+    public static String CLASS_KEY = "class"; //跳转的类
+
     private String contentUrl = "";
+    private String className = "";
 
     private Boolean autoLogin=false;
 
@@ -58,6 +62,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
 
         titleName = getIntent().getStringExtra(TITLE_KEY);
         contentUrl = getIntent().getStringExtra(CONTENT_KEY);
+        className = getIntent().getStringExtra(CLASS_KEY);
         autoLogin=getIntent().getBooleanExtra(AUTO_KEY,false);
         setContentView(R.layout.activity_webview);
 
@@ -179,16 +184,17 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
                 return true;
             } else {
                 // System.exit(0);//退出程序
-                if (autoLogin){
+                if (autoLogin && "GuideActivity".equals(className)){
                     //允许自动登录，跳转主页面
                     BaseHomeActivity.show(WebViewActivity.this);
                     finish();
-                }else{
+                }else if (!autoLogin && "GuideActivity".equals(className)){
                     //自动登录失败，跳转登录页
                     LoginActivity.show(WebViewActivity.this);
                     finish();
+                }else{
+                    finish();
                 }
-
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -199,13 +205,15 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_navigation_back:
-                if (autoLogin){
+                if (autoLogin && "GuideActivity".equals(className)){
                     //允许自动登录，跳转主页面
                     BaseHomeActivity.show(WebViewActivity.this);
                     finish();
-                }else{
+                }else if (!autoLogin && "GuideActivity".equals(className)){
                     //自动登录失败，跳转登录页
                     LoginActivity.show(WebViewActivity.this);
+                    finish();
+                }else{
                     finish();
                 }
                 break;
