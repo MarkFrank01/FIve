@@ -160,7 +160,9 @@
             android:text="@string/login_submit"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_54"
-            tools:targetApi="lollipop"/>
+            tools:targetApi="lollipop"
+            android:enabled="false"
+            android:clickable="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"

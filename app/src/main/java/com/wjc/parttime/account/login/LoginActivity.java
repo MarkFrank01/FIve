@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -70,6 +71,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.et_login_pwd)
     EditText mLoginPassword;
 
+    @BindView(R.id.bt_login_submit)
+    Button submit;
+
     private PlatformDb platDB;
     private ProgressDialog progressDialog;
     private static final int MSG_ACTION_CCALLBACK = 0;
@@ -81,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        changeBtnState(true);
         // showSplashView();
     }
 
@@ -397,6 +402,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-
+    private void changeBtnState(Boolean isEnable) {
+        if (isEnable) {
+            //将提交按钮置为可用
+            submit.setEnabled(true);
+            submit.setClickable(true);
+            submit.setBackground(getResources().getDrawable(R.drawable.bg_btn_pressed));
+        } else {
+            //将提交按钮置为不可用
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            submit.setBackground(getResources().getDrawable(R.drawable.bg_btn_normal));
+        }
+    }
 
 }

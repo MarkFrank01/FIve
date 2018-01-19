@@ -156,33 +156,7 @@ public class MessageCodeCheckActivity extends AppCompatActivity implements View.
             case R.id.tv_reset_sms_call:
                 //发送短信验证码
                 userAccount = account.getText().toString().trim();
-                if (TextUtils.isEmpty(userAccount)) {
-                    Toast.makeText(MessageCodeCheckActivity.this, R.string.reset_account, Toast.LENGTH_SHORT).show();
-                    //将提交按钮置为不可用
-                    changeBtnState(false);
-                } else if (!CheckPhoneNumberUtil.FormatCheckForPhone(userAccount)) {
-                    LogUtil.e(TAG, "手机号码验证不通过");
-                    dialog = new CommonDialogUtil(MessageCodeCheckActivity.this, R.style.dialog, "手机号码格式错误，请重新输入", "确定", new CommonDialogUtil.OnListener() {
-                        @Override
-                        public void onCancelclick() {
-                            //清除账号输入框内容
-                            account.setText("");
-                            dialog.dismiss();
-                        }
-                        @Override
-                        public void onConfirmClick() {
-                            //清除验证码输入框内容
-                            account.setText("");
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
-                    //将提交按钮置为不可用
-                    changeBtnState(false);
-                } else {
-                    LogUtil.e(TAG, "手机号码验证通过");
-                    sendCode("86", userAccount);
-                }
+                sendSMS(userAccount);
                 break;
 
             case R.id.bt_reset_submit:
@@ -204,6 +178,39 @@ public class MessageCodeCheckActivity extends AppCompatActivity implements View.
 
     }
 
+    /*
+    * 发送短信验证码
+    * */
+    private void sendSMS(String userAccount){
+        if (TextUtils.isEmpty(userAccount)) {
+            Toast.makeText(MessageCodeCheckActivity.this, R.string.reset_account, Toast.LENGTH_SHORT).show();
+            //将提交按钮置为不可用
+            changeBtnState(false);
+        } else if (!CheckPhoneNumberUtil.FormatCheckForPhone(userAccount)) {
+            LogUtil.e(TAG, "手机号码验证不通过");
+            dialog = new CommonDialogUtil(MessageCodeCheckActivity.this, R.style.dialog, "手机号码格式错误，请重新输入", "确定", new CommonDialogUtil.OnListener() {
+                @Override
+                public void onCancelclick() {
+                    //清除账号输入框内容
+                    account.setText("");
+                    dialog.dismiss();
+                }
+                @Override
+                public void onConfirmClick() {
+                    //清除验证码输入框内容
+                    account.setText("");
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            //将提交按钮置为不可用
+            changeBtnState(false);
+        } else {
+            LogUtil.e(TAG, "手机号码验证通过");
+            sendCode("86", userAccount);
+        }
+    }
+
 
     // 请求验证码，其中country表示国家代码，如“86”；phone表示手机号码，如“13800138000”
     public void sendCode(String country, String phone) {
@@ -222,7 +229,7 @@ public class MessageCodeCheckActivity extends AppCompatActivity implements View.
                 } else {
                     // TODO 处理错误的结果
                     //短信发送失败，将提交按钮置为不可用
-                    LogUtil.e(TAG, "短信发送成功");
+                    LogUtil.e(TAG, "短信发送失败");
                     Message message = new Message();
                     message.what = 2;
                     handler.sendMessage(message);

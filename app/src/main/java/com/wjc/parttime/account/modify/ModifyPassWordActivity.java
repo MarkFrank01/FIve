@@ -20,6 +20,7 @@ import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.login.LoginActivity;
 import com.wjc.parttime.account.reset.MessageCodeCheckActivity;
+import com.wjc.parttime.account.reset.ResetPassWordActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
@@ -99,6 +100,7 @@ public class ModifyPassWordActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
        switch (v.getId()){
            case R.id.ib_navigation_back:
+               LoginActivity.show(ModifyPassWordActivity.this);
                finish();
                break;
            case R.id.bt_modify_submit:
@@ -207,5 +209,12 @@ public class ModifyPassWordActivity extends AppCompatActivity implements View.On
                     public void onAfter(@Nullable String s, @Nullable Exception e) {
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        LoginActivity.show(ModifyPassWordActivity.this);
+        finish();
+        super.onDestroy();
     }
 }

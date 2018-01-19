@@ -18,6 +18,7 @@ import com.lzy.okhttputils.callback.StringCallback;
 import com.lzy.okhttputils.request.BaseRequest;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.login.LoginActivity;
+import com.wjc.parttime.account.register.RegisterActivity;
 import com.wjc.parttime.app.HttpUrl;
 import com.wjc.parttime.util.AESCoder;
 import com.wjc.parttime.util.CommonDialogUtil;
@@ -89,6 +90,7 @@ public class ResetPassWordActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
        switch (v.getId()){
            case R.id.ib_navigation_back:
+               LoginActivity.show(ResetPassWordActivity.this);
                finish();
                break;
            case R.id.bt_reset_submit:
@@ -177,5 +179,12 @@ public class ResetPassWordActivity extends AppCompatActivity implements View.OnC
                     public void onAfter(@Nullable String s, @Nullable Exception e) {
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        LoginActivity.show(ResetPassWordActivity.this);
+        finish();
+        super.onDestroy();
     }
 }

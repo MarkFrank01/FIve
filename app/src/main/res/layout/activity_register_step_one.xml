@@ -294,6 +294,8 @@
         android:text="@string/register_submit"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_54"
-        tools:targetApi="lollipop" />
+        tools:targetApi="lollipop"
+        android:enabled="false"
+        android:clickable="false"/>
 
 </LinearLayout>
