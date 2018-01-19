@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_person_suggest"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main_background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/ly_setting_bar"
+        layout="@layout/activity_main_login_navigation_bar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_800PX"
+        android:layout_marginLeft="@dimen/DIMEN_30PX"
+        android:layout_marginRight="@dimen/DIMEN_30PX"
+        android:layout_marginTop="@dimen/DIMEN_60PX"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_800PX"
+            android:layout_marginLeft="@dimen/DIMEN_30PX"
+            android:layout_marginTop="@dimen/DIMEN_30PX">
+
+            <EditText
+                android:id="@+id/person_suggest_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_800PX"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="期待您的宝贵意见"
+                android:textColor="@color/color9"
+                android:textColorHint="@color/color9"
+                android:textSize="@dimen/text_size_50" />
+
+            <TextView
+                android:id="@+id/person_suggest_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/DIMEN_10PX"
+                android:layout_marginRight="@dimen/DIMEN_20PX"
+                android:text="500"
+                android:textColor="@color/color9"
+                android:textSize="@dimen/text_size_40" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_suggest_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_156PX"
+        android:layout_marginLeft="@dimen/DIMEN_72PX"
+        android:layout_marginRight="@dimen/DIMEN_72PX"
+        android:layout_marginTop="@dimen/DIMEN_120PX"
+        android:background="@drawable/bg_login_submit"
+        android:clickable="false"
+        android:elevation="0dp"
+        android:enabled="false"
+        android:text="@string/reset_submit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_54"
+        tools:targetApi="lollipop" />
+
+</LinearLayout>

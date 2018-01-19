@@ -15,6 +15,9 @@ import com.wjc.parttime.LitePalHelperDB.LoginHelperDB;
 import com.wjc.parttime.R;
 import com.wjc.parttime.account.login.LoginActivity;
 import com.wjc.parttime.account.reset.MessageCodeCheckActivity;
+import com.wjc.parttime.setting.PersonalSettingAboutUsActivity;
+import com.wjc.parttime.setting.PersonalSettingActivity;
+import com.wjc.parttime.util.CommonDialogUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -27,7 +30,7 @@ import butterknife.OnClick;
  * Describe : TODO
  */
 
-public class PersonalCenterFragment extends Fragment implements View.OnClickListener{
+public class PersonalCenterFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.person_fragment_user_icon)
     ImageView mUserIcon;
@@ -36,26 +39,30 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     @BindView(R.id.person_fragment_user_kyc_status)
     TextView mKycStatus;
 
-    LinearLayout passwd,loginOut;
+    LinearLayout passwd, setting, loginOut;
+
+    CommonDialogUtil dialog;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_center, container, false);
-        passwd=view.findViewById(R.id.person_fragment_passwd);
+        passwd = view.findViewById(R.id.person_fragment_passwd);
         passwd.setOnClickListener(this);
-        loginOut=view.findViewById(R.id.person_fragment_login_out);
+        setting = view.findViewById(R.id.person_fragment_setting);
+        setting.setOnClickListener(this);
+        loginOut = view.findViewById(R.id.person_fragment_login_out);
         loginOut.setOnClickListener(this);
         ButterKnife.bind(getActivity());
         return view;
 
     }
 
-    @OnClick({R.id.person_fragment_money,R.id.person_fragment_info,R.id.person_fragment_love,R.id.person_fragment_passwd,R.id.person_fragment_setting,R.id.person_fragment_login_out})
+    @OnClick({R.id.person_fragment_money, R.id.person_fragment_info, R.id.person_fragment_love, R.id.person_fragment_passwd, R.id.person_fragment_setting, R.id.person_fragment_login_out})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.person_fragment_money:
                 //我的钱包
@@ -74,22 +81,34 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
 
             case R.id.person_fragment_passwd:
                 //修改密码
-                Intent resetPassWdIntent=new Intent(getActivity(),MessageCodeCheckActivity.class);
-                resetPassWdIntent.putExtra(MessageCodeCheckActivity.INTENT_PASSWD_KEY,2);
+                Intent resetPassWdIntent = new Intent(getActivity(), MessageCodeCheckActivity.class);
+                resetPassWdIntent.putExtra(MessageCodeCheckActivity.INTENT_PASSWD_KEY, 2);
                 startActivity(resetPassWdIntent);
                 break;
 
             case R.id.person_fragment_setting:
                 //设置
-
+                Intent settingIntent = new Intent(getActivity(), PersonalSettingActivity.class);
+                startActivity(settingIntent);
                 break;
 
             case R.id.person_fragment_login_out:
                 //退出登录
-                //删除用户登录表
-                DataSupport.deleteAll(LoginHelperDB.class);
-                LoginActivity.show(getActivity());
-                getActivity().finish();
+                dialog = new CommonDialogUtil(getActivity(), R.style.dialog, "是否确定退出登录？", "确定","取消", new CommonDialogUtil.OnListener() {
+                    @Override
+                    public void onCancelclick() {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onConfirmClick() {
+                        //删除用户登录表
+                        DataSupport.deleteAll(LoginHelperDB.class);
+                        LoginActivity.show(getActivity());
+                        getActivity().finish();
+                    }
+                });
+                dialog.show();
                 break;
         }
 

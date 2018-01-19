@@ -39,45 +39,39 @@ dependencies {
     compile "com.jakewharton:butterknife:${versions.butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknifeVersion}"
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //轮播和引导页
     compile 'cn.bingoogolapple:bga-banner:2.1.9@aar'
-
-    //一些第三方控件
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-
     compile 'me.rawnhwang.library:smart-android-widgets:1.0.0'
 
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-
-    compile 'com.google.code.gson:gson:2.8.0'
-
+    //一些第三方控件
     //OKGO
-    compile 'com.lzy.net:okhttputils:+' //版本号使用 + 可以自动引用最新版
-    compile 'com.lzy.net:okhttpserver:+' //版本号使用 + 可以自动引用最新版
+    //版本号使用 + 可以自动引用最新版
+    compile 'com.lzy.net:okhttputils:+'
+    //版本号使用 + 可以自动引用最新版
+    compile 'com.lzy.net:okhttpserver:+'
+
     //数据库
     compile 'org.litepal.android:core:1.5.0'
-
     //动态权限
     compile 'com.mukesh:permissions:1.0.3'
-
     //eventbus 总线库
     compile 'org.greenrobot:eventbus:3.1.1'
     //json 解析库
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.alibaba:fastjson:1.1.55.android'
-
     //glide  图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
-
+    testCompile 'junit:junit:4.12'
 }
 /*ShareSDK接入平台账号*/
 MobSDK {
     appKey "237c75fc1363f"
     appSecret "fff6bd671b9a3dd2db043776413826c4"
 
-     //分享和一键登录
+    //分享和一键登录
     ShareSDK {
         //平台配置信息
         devInfo {

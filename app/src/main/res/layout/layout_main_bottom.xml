@@ -2,15 +2,14 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/DIMEN_192PX"
+    android:layout_height="@dimen/DIMEN_165PX"
     android:layout_gravity="bottom">
 
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_180PX"
+        android:layout_height="@dimen/DIMEN_165PX"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="@dimen/DIMEN_12PX"
         android:background="@color/colorWhite"
         android:orientation="horizontal">
 
@@ -19,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/DIMEN_5PX"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -26,7 +26,7 @@
             <View
                 android:id="@+id/line_home"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/DIMEN_1PX"
+                android:layout_height="@dimen/DIMEN_5PX"
                 android:background="@color/app_line_gray_bg"
                 android:visibility="visible" />
 
@@ -44,7 +44,7 @@
                 android:layout_marginTop="@dimen/DIMEN_15PX"
                 android:text="首页"
                 android:textColor="#999999"
-                android:textSize="@dimen/text_size_60" />
+                android:textSize="@dimen/text_size_36" />
 
         </LinearLayout>
 
@@ -53,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/DIMEN_5PX"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -60,7 +61,7 @@
             <View
                 android:id="@+id/line_part_time"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/DIMEN_1PX"
+                android:layout_height="@dimen/DIMEN_5PX"
                 android:background="@color/app_line_gray_bg"
                 android:visibility="invisible" />
 
@@ -78,7 +79,7 @@
                 android:layout_marginTop="@dimen/DIMEN_15PX"
                 android:text="我的兼职"
                 android:textColor="#999999"
-                android:textSize="@dimen/text_size_54" />
+                android:textSize="@dimen/text_size_36" />
 
         </LinearLayout>
 
@@ -91,6 +92,7 @@
             android:id="@+id/parent_discovery"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/DIMEN_5PX"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:gravity="center"
@@ -99,7 +101,7 @@
             <View
                 android:id="@+id/line_discovery"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/DIMEN_1PX"
+                android:layout_height="@dimen/DIMEN_5PX"
                 android:background="@color/app_line_gray_bg"
                 android:visibility="invisible" />
 
@@ -117,7 +119,7 @@
                 android:layout_marginTop="@dimen/DIMEN_15PX"
                 android:text="发现"
                 android:textColor="#999999"
-                android:textSize="@dimen/text_size_54" />
+                android:textSize="@dimen/text_size_36" />
 
         </LinearLayout>
 
@@ -125,6 +127,7 @@
             android:id="@+id/parent_mine"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/DIMEN_5PX"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:gravity="center"
@@ -133,7 +136,7 @@
             <View
                 android:id="@+id/line_mine"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/DIMEN_1PX"
+                android:layout_height="@dimen/DIMEN_5PX"
                 android:background="@color/app_line_gray_bg"
                 android:visibility="invisible" />
 
@@ -151,7 +154,7 @@
                 android:layout_marginTop="@dimen/DIMEN_15PX"
                 android:text="个人中心"
                 android:textColor="#999999"
-                android:textSize="@dimen/text_size_54" />
+                android:textSize="@dimen/text_size_36" />
         </LinearLayout>
     </LinearLayout>
 

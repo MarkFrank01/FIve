@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/ly_about_us_bar"
+        layout="@layout/activity_main_login_navigation_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/DIMEN_600PX"
+            android:layout_height="@dimen/DIMEN_600PX"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/DIMEN_180PX"
+            android:src="@drawable/person_about_us" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/DIMEN_120PX"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="版本号："
+                android:textColor="@color/color3"
+                android:textSize="@dimen/text_size_54" />
+
+            <TextView
+                android:id="@+id/personal_setting_about_us_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018011901"
+                android:textColor="@color/color3"
+                android:textSize="@dimen/text_size_54" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/bt_check_version"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_158PX"
+            android:layout_marginLeft="@dimen/DIMEN_72PX"
+            android:layout_marginRight="@dimen/DIMEN_72PX"
+            android:layout_marginTop="@dimen/DIMEN_210PX"
+            android:background="@drawable/bg_login_submit"
+            android:elevation="0dp"
+            android:text="检查新版本"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:translationZ="0dp"
+            tools:targetApi="lollipop" />
+    </LinearLayout>
+
+</LinearLayout>

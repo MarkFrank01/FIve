@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/DIMEN_144PX"
-              android:background="@color/app_main_yellow"
-              android:gravity="center_horizontal"
-              android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/DIMEN_144PX"
+    android:background="@color/app_main_yellow"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
 
-    <ImageButton
+    <!--<ImageButton
         android:id="@+id/ib_navigation_back"
         android:layout_width="@dimen/DIMEN_144PX"
         android:layout_height="@dimen/DIMEN_144PX"
         android:background="@drawable/bg_login_navigation_bar"
         android:contentDescription="@null"
-        app:srcCompat="@mipmap/btn_back_normal"/>
+        app:srcCompat="@mipmap/btn_back_normal"/>-->
+    <ImageButton
+        android:id="@+id/ib_navigation_back"
+        android:layout_width="@dimen/DIMEN_88PX"
+        android:layout_height="@dimen/DIMEN_88PX"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/DIMEN_20PX"
+        android:background="@drawable/back"
+        android:contentDescription="@null"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_navigation_label"
@@ -25,9 +34,9 @@
         android:gravity="center"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_size_54"
-        tools:text="@string/app_name"/>
+        tools:text="@string/app_name" />
 
     <Space
         android:layout_width="@dimen/DIMEN_144PX"
-        android:layout_height="@dimen/DIMEN_144PX"/>
+        android:layout_height="@dimen/DIMEN_144PX" />
 </LinearLayout>

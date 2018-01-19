@@ -142,13 +142,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.tv_login_no_account:
                 //注册
-                Toast.makeText(this, "注册", Toast.LENGTH_SHORT).show();
                 RegisterActivity.show(LoginActivity.this);
                 break;
 
             case R.id.tv_login_forget_pwd:
                 //忘记密码和重置密码共用
-                Toast.makeText(this, "忘记密码", Toast.LENGTH_SHORT).show();
                 Intent resetPassWdIntent=new Intent(LoginActivity.this,MessageCodeCheckActivity.class);
                 resetPassWdIntent.putExtra(MessageCodeCheckActivity.INTENT_PASSWD_KEY,1);
                 startActivity(resetPassWdIntent);

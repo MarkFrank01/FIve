@@ -76,9 +76,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     TextView title;
 
-    private String TAG="RegisterActivity";
+    private String TAG = "RegisterActivity";
 
-    private Boolean isCodeCheckTrue=false;//短信验证码是否失效，防止注册攻击
+    private Boolean isCodeCheckTrue = false;//短信验证码是否失效，防止注册攻击
 
     private String username;//用户名
 
@@ -115,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     dialog.show();
                     break;
                 case 3:
-                    isCodeCheckTrue=false;
+                    isCodeCheckTrue = true;
                     //验证码错误，清除验证码输入框内容
                     dialog = new CommonDialogUtil(RegisterActivity.this, R.style.dialog, "验证码错误，请重新输入", "确定", "取消", new CommonDialogUtil.OnListener() {
                         @Override
@@ -184,7 +184,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    @OnClick({R.id.et_register_username, R.id.et_register_password, R.id.register_student, R.id.register_company,R.id.tv_register_sms_call, R.id.bt_register_submit, R.id.ib_navigation_back
+    @OnClick({R.id.et_register_username, R.id.et_register_password, R.id.register_student, R.id.register_company, R.id.tv_register_sms_call, R.id.bt_register_submit, R.id.ib_navigation_back
     })
     @Override
     public void onClick(View v) {
@@ -216,9 +216,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.bt_register_submit:
-                //向后台发送请求
-                username= mUserName.getText().toString().trim();
-                userAuthCode=mAuthCode.getText().toString().trim();
+                //校验短信验证码,通过后向后台发送注册请求
+                username = mUserName.getText().toString().trim();
+                userAuthCode = mAuthCode.getText().toString().trim();
                 submitCode("86", username, userAuthCode);
                 break;
         }
@@ -254,7 +254,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         //注册成功
                         if (success) {
                             //提交成功，短信验证码置为失效，防止攻击
-                            isCodeCheckTrue=false;
+                            isCodeCheckTrue = false;
                             //保存数据库
                             UserHelperDB person = new UserHelperDB();
                             person.setcreateDate(user.getResult().getUser().getcreateDate());
@@ -311,7 +311,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /*
     * 发送短信验证码
     * */
-    private void sendSMS(String userAccount){
+    private void sendSMS(String userAccount) {
         //将提交按钮置为不可用
         changeBtnState(false);
         if (TextUtils.isEmpty(userAccount)) {
@@ -325,6 +325,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     mUserName.setText("");
                     dialog.dismiss();
                 }
+
                 @Override
                 public void onConfirmClick() {
                     //清除验证码输入框内容
@@ -380,14 +381,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // TODO 处理验证成功的结果
                     LogUtil.e(TAG, "验证成功");
-                    isCodeCheckTrue=true;
-                    if (isCodeCheckTrue){
+                    isCodeCheckTrue = true;
+                    if (isCodeCheckTrue) {
                         String password = mUserPassWord.getText().toString().trim();
                         RegisterRequest(username, password);
                     }
                 } else {
                     // TODO 处理错误的结果
-                    isCodeCheckTrue=false;
+                    isCodeCheckTrue = false;
                     Message message = new Message();
                     message.what = 3;
                     handler.sendMessage(message);

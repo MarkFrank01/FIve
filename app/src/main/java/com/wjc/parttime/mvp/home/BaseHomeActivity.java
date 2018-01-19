@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -118,6 +119,8 @@ public class BaseHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_home);
+        //解决软键盘将菜单栏弹起
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         ButterKnife.bind(this);
         fm = getSupportFragmentManager();
 
@@ -402,7 +405,6 @@ public class BaseHomeActivity extends AppCompatActivity {
             LogUtil.e("adversitingFile:", "deleteAdversitingDB保存图片");
             saveAdvertisingFile(adversitingBean);
         }
-
     }
 
     //删除广告后重新保存数据库和下载图片

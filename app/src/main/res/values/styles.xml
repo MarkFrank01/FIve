@@ -55,4 +55,13 @@
         <!--模糊-->
     </style>
 
+<!--TextView stytle-->
+    <style name="textview_16">
+        <item name="android:textSize">@dimen/text_size_48</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">#666</item>
+
+    </style>
+
 </resources>

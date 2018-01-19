@@ -178,20 +178,20 @@
             android:textCursorDrawable="@null"
             android:textSize="@dimen/text_size_48" />
 
-   <!--     <View
-            android:layout_width="@dimen/DIMEN_1PX"
-            android:layout_height="@dimen/DIMEN_66PX"
-            android:background="@color/colorBlack" />-->
+        <!--     <View
+                 android:layout_width="@dimen/DIMEN_1PX"
+                 android:layout_height="@dimen/DIMEN_66PX"
+                 android:background="@color/colorBlack" />-->
 
         <TextView
             android:id="@+id/tv_register_sms_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginRight="@dimen/DIMEN_48PX"
             android:alpha="0.4"
             android:background="@drawable/bg_register_call_sms"
             android:gravity="center_vertical"
-            android:layout_gravity="center"
             android:paddingBottom="@dimen/DIMEN_12PX"
             android:paddingLeft="@dimen/DIMEN_18PX"
             android:paddingRight="@dimen/DIMEN_18PX"
@@ -290,12 +290,12 @@
         android:layout_marginRight="@dimen/DIMEN_72PX"
         android:layout_marginTop="@dimen/DIMEN_120PX"
         android:background="@drawable/bg_login_submit"
+        android:clickable="false"
         android:elevation="0dp"
+        android:enabled="false"
         android:text="@string/register_submit"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_54"
-        tools:targetApi="lollipop"
-        android:enabled="false"
-        android:clickable="false"/>
+        tools:targetApi="lollipop" />
 
 </LinearLayout>

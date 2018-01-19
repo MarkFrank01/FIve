@@ -78,182 +78,182 @@
                 android:layout_marginLeft="@dimen/DIMEN_30PX"
                 android:text="未认证"
                 android:textColor="@color/colorDialogDeep"
-                android:textSize="@dimen/text_size_48" />
+                android:textSize="@dimen/text_size_40" />
         </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/DIMEN_60PX"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
-
-    <!--第一排-->
-    <LinearLayout
-        android:layout_marginTop="@dimen/DIMEN_60PX"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal">
-        <!--我的钱包-->
+        android:orientation="vertical">
+
+        <!--第一排-->
         <LinearLayout
-            android:id="@+id/person_fragment_money"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/DIMEN_120PX"
-                android:layout_height="@dimen/DIMEN_120PX"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/person_fragment_money" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/DIMEN_60PX"
+            android:background="@color/white"
+            android:orientation="horizontal">
+            <!--我的钱包-->
+            <LinearLayout
+                android:id="@+id/person_fragment_money"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/DIMEN_30PX"
-                android:text="我的钱包"
-                android:textColor="@color/colorTextNormal"
-                android:textSize="@dimen/text_size_48" />
-        </LinearLayout>
-        <!--我的信息-->
-        <LinearLayout
-            android:id="@+id/person_fragment_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/DIMEN_120PX"
-                android:layout_height="@dimen/DIMEN_120PX"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/person_fragment_info" />
+                <ImageView
+                    android:layout_width="@dimen/DIMEN_120PX"
+                    android:layout_height="@dimen/DIMEN_120PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/person_fragment_money" />
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/DIMEN_30PX"
+                    android:text="我的钱包"
+                    android:textColor="@color/color3"
+                    android:textSize="@dimen/text_size_40" />
+            </LinearLayout>
+            <!--我的信息-->
+            <LinearLayout
+                android:id="@+id/person_fragment_info"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/DIMEN_30PX"
-                android:text="我的信息"
-                android:textColor="@color/colorTextNormal"
-                android:textSize="@dimen/text_size_48" />
-        </LinearLayout>
-        <!--我的收藏-->
-        <LinearLayout
-            android:id="@+id/person_fragment_love"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/DIMEN_120PX"
-                android:layout_height="@dimen/DIMEN_120PX"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/person_fragment_love" />
+                <ImageView
+                    android:layout_width="@dimen/DIMEN_120PX"
+                    android:layout_height="@dimen/DIMEN_120PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/person_fragment_info" />
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/DIMEN_30PX"
+                    android:text="我的信息"
+                    android:textColor="@color/color3"
+                    android:textSize="@dimen/text_size_40" />
+            </LinearLayout>
+            <!--我的收藏-->
+            <LinearLayout
+                android:id="@+id/person_fragment_love"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/DIMEN_30PX"
-                android:text="我的收藏"
-                android:textColor="@color/colorTextNormal"
-                android:textSize="@dimen/text_size_48" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    <!--第二排-->
-    <LinearLayout
-        android:layout_marginBottom="@dimen/DIMEN_60PX"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/DIMEN_90PX"
-        android:background="@color/white"
-        android:orientation="horizontal">
-        <!--修改密码-->
-        <LinearLayout
-            android:id="@+id/person_fragment_passwd"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/DIMEN_120PX"
+                    android:layout_height="@dimen/DIMEN_120PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/person_fragment_love" />
 
-            <ImageView
-                android:layout_width="@dimen/DIMEN_120PX"
-                android:layout_height="@dimen/DIMEN_120PX"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/person_fragment_passwd" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/DIMEN_30PX"
-                android:text="修改密码"
-                android:textColor="@color/colorTextNormal"
-                android:textSize="@dimen/text_size_48" />
-        </LinearLayout>
-        <!--设置-->
-        <LinearLayout
-            android:id="@+id/person_fragment_setting"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/DIMEN_120PX"
-                android:layout_height="@dimen/DIMEN_120PX"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/person_fragment_setting" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/DIMEN_30PX"
-                android:text="设置"
-                android:textColor="@color/colorTextNormal"
-                android:textSize="@dimen/text_size_48" />
-        </LinearLayout>
-        <!--退出登录-->
-        <LinearLayout
-            android:id="@+id/person_fragment_login_out"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/DIMEN_120PX"
-                android:layout_height="@dimen/DIMEN_120PX"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/person_fragment_login_out" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/DIMEN_30PX"
-                android:text="退出登录"
-                android:textColor="@color/colorTextNormal"
-                android:textSize="@dimen/text_size_48" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/DIMEN_30PX"
+                    android:text="我的收藏"
+                    android:textColor="@color/color3"
+                    android:textSize="@dimen/text_size_40" />
+            </LinearLayout>
         </LinearLayout>
 
+        <!--第二排-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/DIMEN_60PX"
+            android:layout_marginTop="@dimen/DIMEN_90PX"
+            android:background="@color/white"
+            android:orientation="horizontal">
+            <!--修改密码-->
+            <LinearLayout
+                android:id="@+id/person_fragment_passwd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/DIMEN_120PX"
+                    android:layout_height="@dimen/DIMEN_120PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/person_fragment_passwd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/DIMEN_30PX"
+                    android:text="修改密码"
+                    android:textColor="@color/color3"
+                    android:textSize="@dimen/text_size_40" />
+            </LinearLayout>
+            <!--设置-->
+            <LinearLayout
+                android:id="@+id/person_fragment_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/DIMEN_120PX"
+                    android:layout_height="@dimen/DIMEN_120PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/person_fragment_setting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/DIMEN_30PX"
+                    android:text="设置"
+                    android:textColor="@color/color3"
+                    android:textSize="@dimen/text_size_40" />
+            </LinearLayout>
+            <!--退出登录-->
+            <LinearLayout
+                android:id="@+id/person_fragment_login_out"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/DIMEN_120PX"
+                    android:layout_height="@dimen/DIMEN_120PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/person_fragment_login_out" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/DIMEN_30PX"
+                    android:text="退出登录"
+                    android:textColor="@color/color3"
+                    android:textSize="@dimen/text_size_40" />
+            </LinearLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
