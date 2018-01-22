@@ -147,7 +147,7 @@
             </LinearLayout>
             <!--我的收藏-->
             <LinearLayout
-                android:id="@+id/person_fragment_love"
+                android:id="@+id/person_fragment_colloct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

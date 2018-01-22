@@ -39,7 +39,18 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     @BindView(R.id.person_fragment_user_kyc_status)
     TextView mKycStatus;
 
-    LinearLayout passwd, setting, loginOut;
+    @BindView(R.id.person_fragment_money)
+    LinearLayout money;
+    @BindView(R.id.person_fragment_info)
+    LinearLayout info;
+    @BindView(R.id.person_fragment_colloct)
+    LinearLayout colloct;
+    @BindView(R.id.person_fragment_passwd)
+    LinearLayout passwd;
+    @BindView(R.id.person_fragment_setting)
+    LinearLayout setting;
+    @BindView(R.id.person_fragment_login_out)
+    LinearLayout loginOut;
 
     CommonDialogUtil dialog;
 
@@ -48,18 +59,24 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_center, container, false);
-        passwd = view.findViewById(R.id.person_fragment_passwd);
-        passwd.setOnClickListener(this);
-        setting = view.findViewById(R.id.person_fragment_setting);
-        setting.setOnClickListener(this);
-        loginOut = view.findViewById(R.id.person_fragment_login_out);
-        loginOut.setOnClickListener(this);
         ButterKnife.bind(getActivity());
+        money=view.findViewById(R.id.person_fragment_money);
+        info=view.findViewById(R.id.person_fragment_info);
+        colloct=view.findViewById(R.id.person_fragment_colloct);
+        passwd=view.findViewById(R.id.person_fragment_passwd);
+        setting=view.findViewById(R.id.person_fragment_setting);
+        loginOut=view.findViewById(R.id.person_fragment_login_out);
+        money.setOnClickListener(this);
+        info.setOnClickListener(this);
+        colloct.setOnClickListener(this);
+        passwd.setOnClickListener(this);
+        setting.setOnClickListener(this);
+        loginOut.setOnClickListener(this);
         return view;
 
     }
 
-    @OnClick({R.id.person_fragment_money, R.id.person_fragment_info, R.id.person_fragment_love, R.id.person_fragment_passwd, R.id.person_fragment_setting, R.id.person_fragment_login_out})
+    @OnClick({R.id.person_fragment_money, R.id.person_fragment_info, R.id.person_fragment_colloct, R.id.person_fragment_passwd, R.id.person_fragment_setting, R.id.person_fragment_login_out})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -71,10 +88,11 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
 
             case R.id.person_fragment_info:
                 //我的信息
-
+                //根据用户角色跳转学生信息页面或者商家页面。暂时先不判断
+                PersonalInfoActivity.show(getContext());
                 break;
 
-            case R.id.person_fragment_love:
+            case R.id.person_fragment_colloct:
                 //我的收藏
 
                 break;
@@ -88,8 +106,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
 
             case R.id.person_fragment_setting:
                 //设置
-                Intent settingIntent = new Intent(getActivity(), PersonalSettingActivity.class);
-                startActivity(settingIntent);
+                 PersonalSettingActivity.show(getContext());
                 break;
 
             case R.id.person_fragment_login_out:

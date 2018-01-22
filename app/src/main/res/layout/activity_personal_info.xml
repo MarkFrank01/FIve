@@ -17,12 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+            <!--企业名称-->
             <LinearLayout
                 android:layout_width="match_parent"
                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/DIMEN_15PX"
-                android:layout_marginTop="@dimen/DIMEN_15PX"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
                 android:layout_height="@dimen/DIMEN_120PX"
                 android:orientation="horizontal">
                 <TextView
@@ -32,51 +34,401 @@
                     />
 
                 <EditText
+                    android:id="@+id/activity_person_info_enter_name"
                     style="@style/textview_16_333_center"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
                     android:gravity="left|center_vertical"
                     android:layout_marginLeft="@dimen/DIMEN_25PX"
-                    android:textSize="@dimen/text_size_60"
+                    android:textSize="@dimen/text_size_52"
+                    android:focusable="true"
                     android:hint="请输入您的企业名称"
-                    android:textColorHint="@color/color3"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColorHint="@color/color9"
                     android:background="@null"
-                    android:text="qiyemingcheng"/>
+                    />
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                />
 
+            <!--企业行业-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="@dimen/DIMEN_120PX"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="match_parent"
+                    android:text="企业所属行业:"
+                    />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/activity_person_info_enter_industry"
+                    style="@style/textview_16_333_center"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:layout_marginLeft="@dimen/DIMEN_25PX"
+                    android:textSize="@dimen/text_size_52"
+                    android:hint="请选择您的行业"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColorHint="@color/color9"
+                    android:background="@null"
+                    />
+                <TextView
+                    android:id="@+id/activity_person_info_enter_industry_choose"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/DIMEN_48PX"
+                    android:alpha="0.4"
+                    android:background="@drawable/bg_register_call_sms"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/DIMEN_12PX"
+                    android:paddingLeft="@dimen/DIMEN_18PX"
+                    android:paddingRight="@dimen/DIMEN_18PX"
+                    android:paddingTop="@dimen/DIMEN_12PX"
+                    android:text="选 择"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_size_36"
+                    tools:ignore="RtlHardcoded"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                />
+
+            <!--企业地址-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="@dimen/DIMEN_360PX"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="企业地址:"
+                    />
+
+                <EditText
+                    android:id="@+id/activity_person_info_enter_addr"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textview_16_333_center"
+                    android:layout_gravity="left"
+                    android:focusable="true"
+                    android:gravity="left|center_vertical"
+                    android:textSize="@dimen/text_size_52"
+                    android:hint="请输入您的企业地址"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColorHint="@color/color9"
+                    android:background="@null"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                />
+
+            <!--企业简介-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="@dimen/DIMEN_360PX"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="企业简介:"
+                    />
+
+                <EditText
+                    android:id="@+id/activity_person_info_enter_introduce"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:focusable="true"
+                    style="@style/textview_16_333_center"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:textSize="@dimen/text_size_52"
+                    android:hint="请输入您的企业简介"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:textColorHint="@color/color9"
+                    android:background="@null"
+                    />
             </LinearLayout>
 
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                />
 
+            <!--营业执照-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="请上传您的营业执照:"
+                    />
 
+                <ImageView
+                    android:id="@+id/activity_person_info_enter_business_license"
+                    android:layout_width="@dimen/DIMEN_300PX"
+                    android:layout_height="@dimen/DIMEN_300PX"
+                    android:layout_marginTop="@dimen/DIMEN_60PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/activity_person_info_enter_business_license"
+                    />
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_50PX"
+                />
 
+            <!--企业LOGO-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="请选择您的企业LOGO:"
+                    />
 
+                <ImageView
+                    android:id="@+id/activity_person_info_enter_LOGO"
+                    android:layout_width="@dimen/DIMEN_300PX"
+                    android:layout_height="@dimen/DIMEN_300PX"
+                    android:layout_marginTop="@dimen/DIMEN_60PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/activity_person_info_pick_photo"
+                    />
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_50PX"
+                />
 
+            <!--企业背景墙照片-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="请选择您企业详细信息的背景墙照片:"
+                    />
 
+                <ImageView
+                    android:id="@+id/activity_person_info_enter_info_bg"
+                    android:layout_width="@dimen/DIMEN_300PX"
+                    android:layout_height="@dimen/DIMEN_300PX"
+                    android:layout_marginTop="@dimen/DIMEN_60PX"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/activity_person_info_pick_photo"
+                    />
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_50PX"
+                />
 
+            <!--企业联系方式-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="@dimen/DIMEN_240PX"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:text="请留下您的企业联系方式："
+                    />
 
+                <EditText
+                    android:id="@+id/activity_person_info_enter_phone_number"
+                    style="@style/textview_16_333_center"
+                    android:layout_height="0dp"
+                    android:focusable="true"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:inputType="number"
+                    android:textSize="@dimen/text_size_52"
+                    android:hint="请输入您的企业联系方式"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColorHint="@color/color9"
+                    android:background="@null"
+                    />
+            </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_1PX"
+                android:background="@color/app_hint_gray"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginRight="@dimen/DIMEN_25PX"
+                />
 
+            <!--认证状态-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_25PX"
+                android:layout_height="@dimen/DIMEN_120PX"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="match_parent"
+                    android:text="认证状态:"
+                    />
 
+                <TextView
+                    android:id="@+id/activity_person_info_enter_certification_status"
+                    style="@style/textview_16_333_center"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:layout_marginLeft="@dimen/DIMEN_25PX"
+                    android:textSize="@dimen/text_size_52"
+                    android:text="未提交认证"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/app_text_blue"
+                    />
+            </LinearLayout>
 
+            <!--认证未通过原因-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/activity_person_info_enter_certification_case_ll"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/DIMEN_25PX"
+                android:layout_marginTop="@dimen/DIMEN_5PX"
+                android:layout_height="@dimen/DIMEN_120PX"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/textview_16_333_center"
+                    android:layout_height="match_parent"
+                    android:text="认证未通过原因:"
+                    />
+
+                <TextView
+                    android:id="@+id/activity_person_info_enter_certification_case"
+                    style="@style/textview_16_333_center"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:layout_marginLeft="@dimen/DIMEN_25PX"
+                    android:textSize="@dimen/text_size_52"
+                    android:text="企业营业执照错误"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/app_text_blue"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/activity_person_info_enter_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/DIMEN_144PX"
+                android:layout_marginLeft="@dimen/DIMEN_144PX"
+                android:layout_marginRight="@dimen/DIMEN_144PX"
+                android:layout_marginTop="@dimen/DIMEN_120PX"
+                android:layout_marginBottom="@dimen/DIMEN_120PX"
+                android:background="@drawable/bg_login_submit"
+                android:elevation="0dp"
+                android:text="@string/reset_submit"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_54"
+                tools:targetApi="lollipop"
+                android:enabled="false"
+                android:clickable="false"/>
         </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
     </ScrollView>
 
 </LinearLayout>

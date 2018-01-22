@@ -13,7 +13,7 @@
         android:padding="12dp"
         android:layout_marginTop="12dp"
         android:text="提示"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="#000000"/>
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_marginRight="40dp"
         android:layout_marginBottom="30dp"
         android:text="签到成功，获得200积分"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textColor="#424242"/>
     <View
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:layout_weight="1.0"
             android:gravity="center"
             android:text="取消"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#a1a1a1"/>
 
         <View
@@ -64,7 +64,7 @@
             android:gravity="center"
             android:layout_weight="1.0"
             android:text="确定"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#a1a1a1"/>
 
     </LinearLayout>

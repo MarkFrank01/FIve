@@ -54,13 +54,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".account.register.RegisterActivity" />
-        <activity android:name=".account.reset.MessageCodeCheckActivity" />
-        <activity android:name=".account.reset.ResetPassWordActivity" />
-        <activity android:name=".account.modify.ModifyPassWordActivity" />
-        <activity android:name=".webView.WebViewActivity" />
-        <activity android:name=".setting.PersonalSettingActivity" />
-        <activity android:name=".setting.PersonalSettingSuggestActivity" />
 
         <!-- ShareSDK -->
         <activity
@@ -96,9 +89,26 @@
              android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         -->
 
-        <activity android:name=".mvp.home.BaseHomeActivity" />
-        <activity android:name=".setting.PersonalSettingAboutUsActivity" />
-        <activity android:name=".mvp.personal_center.PersonalInfoActivity"></activity>
+        <activity android:name=".account.register.RegisterActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".account.reset.MessageCodeCheckActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".account.reset.ResetPassWordActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".account.modify.ModifyPassWordActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".webView.WebViewActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".setting.PersonalSettingActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".setting.PersonalSettingSuggestActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".mvp.home.BaseHomeActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".setting.PersonalSettingAboutUsActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <activity android:name=".mvp.personal_center.PersonalInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
     </application>
 
 </manifest>

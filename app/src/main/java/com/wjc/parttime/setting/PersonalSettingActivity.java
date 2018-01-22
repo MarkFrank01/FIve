@@ -2,6 +2,7 @@ package com.wjc.parttime.setting;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.mukesh.permissions.AppPermissions;
 import com.wjc.parttime.R;
+import com.wjc.parttime.mvp.personal_center.PersonalInfoActivity;
 import com.wjc.parttime.util.CommonDialogUtil;
 import com.wjc.parttime.util.LogUtil;
 
@@ -164,6 +166,16 @@ public class PersonalSettingActivity extends Activity implements View.OnClickLis
                 break;
         }
 
+    }
+
+    /**
+     * show the PersonalSettingActivity activity
+     *
+     * @param context context
+     */
+    public static void show(Context context) {
+        Intent intent = new Intent(context, PersonalSettingActivity.class);
+        context.startActivity(intent);
     }
 
 
