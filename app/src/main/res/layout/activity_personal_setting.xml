@@ -33,7 +33,7 @@
                 android:src="@drawable/person_setting_clear_cache" />
 
             <TextView
-                style="@style/textview_16"
+                style="@style/textview_16_333"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/DIMEN_24PX"
                 android:layout_toRightOf="@id/person_setting_ibtn_clear_cache"
@@ -72,7 +72,7 @@
                 android:src="@drawable/person_setting_suggest" />
 
             <TextView
-                style="@style/textview_16"
+                style="@style/textview_16_333"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/DIMEN_24PX"
                 android:layout_toRightOf="@id/person_setting_ibtn_suggest"
@@ -111,7 +111,7 @@
                 android:src="@drawable/person_setting_about_us" />
 
             <TextView
-                style="@style/textview_16"
+                style="@style/textview_16_333"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/DIMEN_24PX"
                 android:layout_toRightOf="@id/person_setting_ibtn_about_us"
@@ -150,7 +150,7 @@
                 android:src="@drawable/person_setting_connect_us" />
 
             <TextView
-                style="@style/textview_16"
+                style="@style/textview_16_333"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/DIMEN_24PX"
                 android:layout_toRightOf="@id/person_setting_ibtn_connect_us"
@@ -189,7 +189,7 @@
                 android:src="@drawable/person_setting_shared" />
 
             <TextView
-                style="@style/textview_16"
+                style="@style/textview_16_333"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/DIMEN_24PX"
                 android:layout_toRightOf="@id/person_setting_ibtn_shared"
