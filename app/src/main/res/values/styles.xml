@@ -56,12 +56,33 @@
     </style>
 
 <!--TextView stytle-->
-    <style name="textview_16">
+    <style name="textview_16_666">
         <item name="android:textSize">@dimen/text_size_48</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">#666</item>
-
     </style>
 
+    <style name="textview_16_666_center">
+        <item name="android:textSize">@dimen/text_size_48</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#666</item>
+    </style>
+
+    <style name="textview_16_333">
+        <item name="android:textSize">@dimen/text_size_48</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">#333</item>
+    </style>
+
+    <style name="textview_16_333_center">
+        <item name="android:textSize">@dimen/text_size_48</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#333</item>
+    </style>
 </resources>
